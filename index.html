@@ -3,14 +3,9 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#080b22">
-
-<meta name="description"
-content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
+<meta name="description" content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
 
 <title>NameCraft - Stylish Name Generator</title>
 
@@ -30,12 +25,10 @@ html{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-
     background:
     radial-gradient(circle at 15% 10%,rgba(112,76,255,.20),transparent 30%),
     radial-gradient(circle at 85% 20%,rgba(0,220,255,.12),transparent 30%),
     #080b22;
-
     color:#fff;
     min-height:100vh;
 }
@@ -1265,7 +1258,6 @@ function createDatabaseCard(item){
 
 /* =========================================================
    MAIN GENERATOR
-   CSV NAME KO USER KE NAME SE REPLACE KARTA HAI
 ========================================================= */
 
 function generateName(input){
@@ -1381,7 +1373,7 @@ function generateName(input){
 
 
 /* =========================================================
-   CSV STYLE REPLACER
+   UNIVERSAL CSV STYLE REPLACER
 ========================================================= */
 
 function createNameFromTemplate(
@@ -1390,46 +1382,24 @@ function createNameFromTemplate(
     originalName
 ){
 
-    style =
-    String(style || "").trim();
+    style = String(style || "").trim();
+    input = String(input || "").trim();
+    originalName = String(originalName || "").trim();
 
-    input =
-    String(input || "").trim();
-
-    originalName =
-    String(originalName || "").trim();
-
-
-    if(
-        !style ||
-        !input
-    ){
-
+    if(!style || !input){
         return null;
+    }
 
+    if(!originalName){
+        return input;
     }
 
 
-    if(
-        !originalName
-    ){
+    /* -----------------------------------------------------
+       DIRECT NORMAL TEXT
+    ----------------------------------------------------- */
 
-        return style;
-
-    }
-
-
-    /*
-    ---------------------------------------------------------
-    DIRECT NORMAL TEXT
-    ---------------------------------------------------------
-    */
-
-    if(
-        style.includes(
-            originalName
-        )
-    ){
+    if(style.includes(originalName)){
 
         return style.replaceAll(
             originalName,
@@ -1439,11 +1409,9 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    ---------------------------------------------------------
-    UNICODE STYLE MAPS
-    ---------------------------------------------------------
-    */
+    /* -----------------------------------------------------
+       MAPS
+    ----------------------------------------------------- */
 
     const maps = {
 
@@ -1520,72 +1488,9 @@ function createNameFromTemplate(
     };
 
 
-    function transform(
-        text,
-        map
-    ){
-
-        const upper =
-        Array.from(
-            map.upper
-        );
-
-        const lower =
-        Array.from(
-            map.lower
-        );
-
-        return Array
-        .from(text)
-        .map(
-            function(char){
-
-                const code =
-                char.charCodeAt(0);
-
-
-                if(
-                    code >= 65 &&
-                    code <= 90
-                ){
-
-                    return (
-                        upper[
-                            code - 65
-                        ] || char
-                    );
-
-                }
-
-
-                if(
-                    code >= 97 &&
-                    code <= 122
-                ){
-
-                    return (
-                        lower[
-                            code - 97
-                        ] || char
-                    );
-
-                }
-
-
-                return char;
-
-            }
-        )
-        .join("");
-
-    }
-
-
-    /*
-    ---------------------------------------------------------
-    SQUARED
-    ---------------------------------------------------------
-    */
+    /* -----------------------------------------------------
+       SQUARED
+    ----------------------------------------------------- */
 
     const squared = {
 
@@ -1613,21 +1518,9 @@ function createNameFromTemplate(
     };
 
 
-    /*
-    ---------------------------------------------------------
-    SMALL CAPS
-    ---------------------------------------------------------
-    */
-
     const smallCaps =
     "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
 
-
-    /*
-    ---------------------------------------------------------
-    CIRCLED
-    ---------------------------------------------------------
-    */
 
     const circledUpper =
     "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
@@ -1636,11 +1529,9 @@ function createNameFromTemplate(
     "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
 
 
-    /*
-    ---------------------------------------------------------
-    SUPERSCRIPT / SUBSCRIPT
-    ---------------------------------------------------------
-    */
+    /* -----------------------------------------------------
+       SUPERSCRIPT / SUBSCRIPT
+    ----------------------------------------------------- */
 
     const superscript = {
 
@@ -1668,231 +1559,261 @@ function createNameFromTemplate(
     };
 
 
-    /*
-    ---------------------------------------------------------
-    GET NORMAL LETTER
-    ---------------------------------------------------------
-    */
-
-    function getNormalChar(
-        char
+    function transform(
+        text,
+        map
     ){
 
-        if(!char){
+        const upper =
+        Array.from(map.upper);
+
+        const lower =
+        Array.from(map.lower);
+
+        return Array
+        .from(text)
+        .map(function(char){
+
+            const code =
+            char.charCodeAt(0);
+
+            if(
+                code >= 65 &&
+                code <= 90
+            ){
+
+                return (
+                    upper[code - 65] ||
+                    char
+                );
+
+            }
+
+            if(
+                code >= 97 &&
+                code <= 122
+            ){
+
+                return (
+                    lower[code - 97] ||
+                    char
+                );
+
+            }
+
+            return char;
+
+        })
+        .join("");
+
+    }
+
+
+    /* -----------------------------------------------------
+       APPLY STYLE
+    ----------------------------------------------------- */
+
+    function applyStyle(
+        char,
+        mode
+    ){
+
+        if(mode === "normal"){
+            return char;
+        }
+
+        const lower =
+        char.toLowerCase();
+
+        const upper =
+        char.toUpperCase();
+
+
+        if(mode === "squared"){
+            return squared[upper] || char;
+        }
+
+
+        if(mode === "squaredAlt"){
+            return squaredAlt[upper] || char;
+        }
+
+
+        if(mode === "smallCaps"){
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(lower);
+
+            return index >= 0
+            ? Array.from(smallCaps)[index]
+            : char;
+
+        }
+
+
+        if(mode === "circled"){
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(lower);
+
+            return index >= 0
+            ? Array.from(circledLower)[index]
+            : char;
+
+        }
+
+
+        if(mode === "superscript"){
+            return superscript[lower] || char;
+        }
+
+
+        if(mode === "subscript"){
+            return subscript[lower] || char;
+        }
+
+
+        if(maps[mode]){
+            return transform(char,maps[mode]);
+        }
+
+
+        return char;
+
+    }
+
+
+    /* -----------------------------------------------------
+       REVERSE LOOKUP
+    ----------------------------------------------------- */
+
+    const reverse = {};
+
+    function addReverse(obj){
+
+        Object.keys(obj).forEach(function(key){
+
+            if(obj[key]){
+                reverse[obj[key]] =
+                key.toLowerCase();
+            }
+
+        });
+
+    }
+
+
+    addReverse(squared);
+    addReverse(squaredAlt);
+    addReverse(superscript);
+    addReverse(subscript);
+
+
+    Array.from(smallCaps).forEach(
+        function(value,index){
+
+            reverse[value] =
+            "abcdefghijklmnopqrstuvwxyz"[index];
+
+        }
+    );
+
+
+    Array.from(circledUpper).forEach(
+        function(value,index){
+
+            reverse[value] =
+            "abcdefghijklmnopqrstuvwxyz"[index];
+
+        }
+    );
+
+
+    Array.from(circledLower).forEach(
+        function(value,index){
+
+            reverse[value] =
+            "abcdefghijklmnopqrstuvwxyz"[index];
+
+        }
+    );
+
+
+    Object.keys(maps).forEach(function(key){
+
+        Array.from(maps[key].upper)
+        .forEach(function(value,index){
+
+            reverse[value] =
+            "abcdefghijklmnopqrstuvwxyz"[index];
+
+        });
+
+
+        Array.from(maps[key].lower)
+        .forEach(function(value,index){
+
+            reverse[value] =
+            "abcdefghijklmnopqrstuvwxyz"[index];
+
+        });
+
+    });
+
+
+    /* -----------------------------------------------------
+       NORMAL CHARACTER
+    ----------------------------------------------------- */
+
+    function normalChar(
+        cluster
+    ){
+
+        if(!cluster){
             return null;
         }
 
 
-        let value =
-        String(char);
+        for(
+            const ch of Array.from(cluster)
+        ){
 
-
-        /*
-        Unicode normalization
-        */
-
-        try{
-
-            const n =
-            value.normalize("NFKC");
-
-            if(
-                n.length === 1 &&
-                /^[A-Za-z0-9]$/.test(n)
-            ){
-
-                return n.toLowerCase();
-
+            if(reverse[ch]){
+                return reverse[ch];
             }
 
-        }
-        catch(e){}
 
+            try{
 
-        /*
-        SMALL CAPS
-        */
-
-        const smallIndex =
-        Array
-        .from(smallCaps)
-        .indexOf(
-            value
-        );
-
-        if(
-            smallIndex !== -1
-        ){
-
-            return String.fromCharCode(
-                97 + smallIndex
-            );
-
-        }
-
-
-        /*
-        FONT MAPS
-        */
-
-        for(
-            const key in maps
-        ){
-
-            const map =
-            maps[key];
-
-            const upper =
-            Array.from(
-                map.upper
-            );
-
-            const lower =
-            Array.from(
-                map.lower
-            );
-
-
-            const ui =
-            upper.indexOf(
-                value
-            );
-
-            if(
-                ui !== -1
-            ){
-
-                return String.fromCharCode(
-                    97 + ui
+                const normalized =
+                ch.normalize("NFKD")
+                .replace(
+                    /[\u0300-\u036f]/g,
+                    ""
                 );
 
-            }
 
-
-            const li =
-            lower.indexOf(
-                value
-            );
-
-            if(
-                li !== -1
-            ){
-
-                return String.fromCharCode(
-                    97 + li
+                const match =
+                normalized.match(
+                    /[A-Za-z0-9]/
                 );
 
-            }
 
-        }
-
-
-        /*
-        SQUARED
-        */
-
-        for(
-            const key in squared
-        ){
-
-            if(
-                squared[key] === value
-            ){
-
-                return key.toLowerCase();
+                if(match){
+                    return match[0].toLowerCase();
+                }
 
             }
+            catch(e){}
 
-        }
-
-
-        for(
-            const key in squaredAlt
-        ){
 
             if(
-                squaredAlt[key] === value
+                /^[A-Za-z0-9]$/.test(ch)
             ){
 
-                return key.toLowerCase();
-
-            }
-
-        }
-
-
-        /*
-        CIRCLED
-        */
-
-        const cu =
-        Array.from(
-            circledUpper
-        ).indexOf(
-            value
-        );
-
-        if(
-            cu !== -1
-        ){
-
-            return String.fromCharCode(
-                97 + cu
-            );
-
-        }
-
-
-        const cl =
-        Array.from(
-            circledLower
-        ).indexOf(
-            value
-        );
-
-        if(
-            cl !== -1
-        ){
-
-            return String.fromCharCode(
-                97 + cl
-            );
-
-        }
-
-
-        /*
-        SUPERSCRIPT
-        */
-
-        for(
-            const key in superscript
-        ){
-
-            if(
-                superscript[key] === value
-            ){
-
-                return key;
-
-            }
-
-        }
-
-
-        /*
-        SUBSCRIPT
-        */
-
-        for(
-            const key in subscript
-        ){
-
-            if(
-                subscript[key] === value
-            ){
-
-                return key;
+                return ch.toLowerCase();
 
             }
 
@@ -1904,291 +1825,11 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    ---------------------------------------------------------
-    APPLY STYLE
-    ---------------------------------------------------------
-    */
-
-    function applyStyle(
-        char,
-        mode
-    ){
-
-        if(
-            mode === "normal"
-        ){
-
-            return char;
-
-        }
-
-
-        const lower =
-        char.toLowerCase();
-
-        const upper =
-        char.toUpperCase();
-
-
-        if(
-            mode === "smallCaps"
-        ){
-
-            const index =
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(
-                lower
-            );
-
-            if(
-                index !== -1
-            ){
-
-                return Array
-                .from(
-                    smallCaps
-                )[index];
-
-            }
-
-            return char;
-
-        }
-
-
-        if(
-            mode === "squared"
-        ){
-
-            return (
-                squared[upper] ||
-                char
-            );
-
-        }
-
-
-        if(
-            mode === "squaredAlt"
-        ){
-
-            return (
-                squaredAlt[upper] ||
-                char
-            );
-
-        }
-
-
-        if(
-            mode === "superscript"
-        ){
-
-            return (
-                superscript[lower] ||
-                char
-            );
-
-        }
-
-
-        if(
-            mode === "subscript"
-        ){
-
-            return (
-                subscript[lower] ||
-                char
-            );
-
-        }
-
-
-        if(
-            mode === "circled"
-        ){
-
-            const index =
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(
-                lower
-            );
-
-            if(
-                index !== -1
-            ){
-
-                return Array
-                .from(
-                    circledLower
-                )[index];
-
-            }
-
-            return char;
-
-        }
-
-
-        if(
-            maps[mode]
-        ){
-
-            return transform(
-                char,
-                maps[mode]
-            );
-
-        }
-
-
-        return char;
-
-    }
-
-
-    /*
-    ---------------------------------------------------------
-    DETECT STYLE
-    ---------------------------------------------------------
-    */
-
-    function detectMode(
-        sourceChar,
-        styledChar
-    ){
-
-        if(
-            sourceChar === styledChar
-        ){
-
-            return "normal";
-
-        }
-
-
-        const upper =
-        sourceChar.toUpperCase();
-
-        const lower =
-        sourceChar.toLowerCase();
-
-
-        if(
-            squared[upper] === styledChar
-        ){
-
-            return "squared";
-
-        }
-
-
-        if(
-            squaredAlt[upper] === styledChar
-        ){
-
-            return "squaredAlt";
-
-        }
-
-
-        if(
-            superscript[lower] === styledChar
-        ){
-
-            return "superscript";
-
-        }
-
-
-        if(
-            subscript[lower] === styledChar
-        ){
-
-            return "subscript";
-
-        }
-
-
-        const smallIndex =
-        Array
-        .from(
-            smallCaps
-        )
-        .indexOf(
-            styledChar
-        );
-
-
-        if(
-            smallIndex !== -1 &&
-            smallIndex ===
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(
-                lower
-            )
-        ){
-
-            return "smallCaps";
-
-        }
-
-
-        const circledIndex =
-        Array
-        .from(
-            circledLower
-        )
-        .indexOf(
-            styledChar
-        );
-
-
-        if(
-            circledIndex !== -1 &&
-            circledIndex ===
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(
-                lower
-            )
-        ){
-
-            return "circled";
-
-        }
-
-
-        for(
-            const key in maps
-        ){
-
-            if(
-                transform(
-                    sourceChar,
-                    maps[key]
-                ) === styledChar
-            ){
-
-                return key;
-
-            }
-
-        }
-
-
-        return "normal";
-
-    }
-
-
-    /*
-    ---------------------------------------------------------
-    GRAPHEME SEGMENTS
-    ---------------------------------------------------------
-    */
-
-    function segmentText(
+    /* -----------------------------------------------------
+       GRAPHEME SEGMENTS
+    ----------------------------------------------------- */
+
+    function graphemes(
         text
     ){
 
@@ -2207,14 +1848,15 @@ function createNameFromTemplate(
                     }
                 );
 
+
                 return Array
                 .from(
-                    segmenter.segment(
-                        text
-                    )
+                    segmenter.segment(text)
                 )
                 .map(
-                    x => x.segment
+                    function(item){
+                        return item.segment;
+                    }
                 );
 
             }
@@ -2223,259 +1865,137 @@ function createNameFromTemplate(
         catch(e){}
 
 
-        return Array.from(
-            text
-        );
+        return Array.from(text);
 
     }
 
 
-    /*
-    ---------------------------------------------------------
-    NORMALIZE GRAPHEME
-    ---------------------------------------------------------
-    */
+    /* -----------------------------------------------------
+       FIND ORIGINAL NAME INSIDE STYLE
+    ----------------------------------------------------- */
 
-    function normalizeGrapheme(
-        grapheme
+    const sourceChars =
+    Array.from(originalName);
+
+    const segments =
+    graphemes(style);
+
+
+    let matches = null;
+
+
+    for(
+        let start = 0;
+        start < segments.length;
+        start++
     ){
 
-        if(!grapheme){
-            return null;
-        }
+        let position =
+        start;
 
+        const found = [];
 
-        /*
-        First character/base
-        */
-
-        const chars =
-        Array.from(
-            grapheme
-        );
+        let success = true;
 
 
         for(
-            const ch of chars
+            let i = 0;
+            i < sourceChars.length;
+            i++
         ){
 
-            const normal =
-            getNormalChar(
-                ch
-            );
+            const wanted =
+            sourceChars[i].toLowerCase();
 
-            if(normal){
-
-                return normal;
-
-            }
-
-        }
+            let matched = false;
 
 
-        /*
-        NFKD fallback
-        */
-
-        try{
-
-            const normalized =
-            grapheme
-            .normalize("NFKD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            );
-
-            const match =
-            normalized.match(
-                /[A-Za-z0-9]/
-            );
-
-            if(match){
-
-                return match[0]
-                .toLowerCase();
-
-            }
-
-        }
-        catch(e){}
-
-
-        return null;
-
-    }
-
-
-    /*
-    ---------------------------------------------------------
-    FIND ORIGINAL NAME IN STYLE
-    INCLUDING COMBINING SYMBOLS
-    ---------------------------------------------------------
-    */
-
-    function findStyledName(){
-
-        const source =
-        Array.from(
-            originalName
-        );
-
-
-        const segments =
-        segmentText(
-            style
-        );
-
-
-        if(
-            source.length === 0 ||
-            segments.length === 0
-        ){
-
-            return null;
-
-        }
-
-
-        for(
-            let start = 0;
-            start < segments.length;
-            start++
-        ){
-
-            let position =
-            start;
-
-            const matches = [];
-
-            let success =
-            true;
-
-
-            for(
-                let i = 0;
-                i < source.length;
-                i++
+            while(
+                position < segments.length
             ){
 
-                const wanted =
-                source[i]
-                .toLowerCase();
+                const normal =
+                normalChar(
+                    segments[position]
+                );
 
 
-                let found =
-                false;
-
-
-                while(
-                    position <
-                    segments.length
+                if(
+                    normal === wanted
                 ){
 
-                    const segment =
-                    segments[position];
+                    found.push({
 
+                        index:
+                        position,
 
-                    const normal =
-                    normalizeGrapheme(
-                        segment
-                    );
+                        segment:
+                        segments[position]
 
-
-                    if(
-                        normal === wanted
-                    ){
-
-                        matches.push({
-
-                            index:
-                            position,
-
-                            segment:
-                            segment
-
-                        });
-
-                        position++;
-
-                        found =
-                        true;
-
-                        break;
-
-                    }
-
-
-                    /*
-                    Decorations/symbols between
-                    letters ko skip kar sakte hain.
-                    */
+                    });
 
                     position++;
-
-                }
-
-
-                if(!found){
-
-                    success =
-                    false;
+                    matched = true;
 
                     break;
 
                 }
 
+
+                position++;
+
             }
 
 
-            if(
-                success &&
-                matches.length ===
-                source.length
-            ){
+            if(!matched){
 
-                return {
-
-                    segments:
-                    segments,
-
-                    matches:
-                    matches
-
-                };
+                success = false;
+                break;
 
             }
 
         }
 
 
-        return null;
+        if(
+            success &&
+            found.length === sourceChars.length
+        ){
+
+            matches = found;
+            break;
+
+        }
 
     }
 
 
-    const found =
-    findStyledName();
+    /* -----------------------------------------------------
+       NAME FOUND
+    ----------------------------------------------------- */
+
+    if(matches){
+
+        const firstIndex =
+        matches[0].index;
+
+        const lastIndex =
+        matches[matches.length - 1].index;
 
 
-    /*
-    ---------------------------------------------------------
-    APPLY USER NAME
-    ---------------------------------------------------------
-    */
-
-    if(found){
-
-        const segments =
-        found.segments;
-
-        const matches =
-        found.matches;
+        const prefix =
+        segments
+        .slice(0,firstIndex)
+        .join("");
 
 
-        const replacementModes = [];
+        const suffix =
+        segments
+        .slice(lastIndex + 1)
+        .join("");
+
+
+        const modes = [];
 
 
         for(
@@ -2485,85 +2005,141 @@ function createNameFromTemplate(
         ){
 
             const originalChar =
-            Array.from(
-                originalName
-            )[i];
-
+            sourceChars[i];
 
             const segment =
             matches[i].segment;
 
 
-            const chars =
-            Array.from(
-                segment
-            );
+            const first =
+            Array.from(segment)[0];
 
 
-            let baseChar =
-            chars[0];
+            let mode = "normal";
 
 
-            let mode =
-            detectMode(
-                originalChar,
-                baseChar
-            );
+            const upper =
+            originalChar.toUpperCase();
+
+            const lower =
+            originalChar.toLowerCase();
 
 
-            replacementModes.push({
+            if(
+                squared[upper] === first
+            ){
+
+                mode = "squared";
+
+            }
+
+            else if(
+                squaredAlt[upper] === first
+            ){
+
+                mode = "squaredAlt";
+
+            }
+
+            else if(
+                superscript[lower] === first
+            ){
+
+                mode = "superscript";
+
+            }
+
+            else if(
+                subscript[lower] === first
+            ){
+
+                mode = "subscript";
+
+            }
+
+            else{
+
+                const smallIndex =
+                Array.from(smallCaps)
+                .indexOf(first);
+
+
+                if(
+                    smallIndex !== -1 &&
+                    smallIndex ===
+                    "abcdefghijklmnopqrstuvwxyz"
+                    .indexOf(lower)
+                ){
+
+                    mode = "smallCaps";
+
+                }
+
+                else{
+
+                    const circledIndex =
+                    Array.from(circledLower)
+                    .indexOf(first);
+
+
+                    if(
+                        circledIndex !== -1 &&
+                        circledIndex ===
+                        "abcdefghijklmnopqrstuvwxyz"
+                        .indexOf(lower)
+                    ){
+
+                        mode = "circled";
+
+                    }
+
+                    else{
+
+                        for(
+                            const key in maps
+                        ){
+
+                            if(
+                                transform(
+                                    originalChar,
+                                    maps[key]
+                                ) === first
+                            ){
+
+                                mode = key;
+                                break;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+            modes.push({
 
                 mode:
                 mode,
 
-                originalSegment:
-                segment
+                decoration:
+                Array.from(segment)
+                .slice(1)
+                .join("")
 
             });
 
         }
 
 
-        const firstIndex =
-        matches[0].index;
-
-
-        const lastIndex =
-        matches[
-            matches.length - 1
-        ].index;
-
-
-        /*
-        Preserve all decorations around
-        the original letters.
-        */
-
-        let prefix =
-        segments
-        .slice(
-            0,
-            firstIndex
-        )
-        .join("");
-
-
-        let suffix =
-        segments
-        .slice(
-            lastIndex + 1
-        )
-        .join("");
-
-
         const inputChars =
-        Array.from(
-            input
-        );
+        Array.from(input);
 
 
-        let replacement =
-        "";
+        let replacement = "";
 
 
         for(
@@ -2572,91 +2148,38 @@ function createNameFromTemplate(
             i++
         ){
 
-            const char =
-            inputChars[i];
-
-
             const pattern =
-            replacementModes[
-                i %
-                replacementModes.length
+            modes[
+                i % modes.length
             ];
 
 
             let styled =
             applyStyle(
-                char,
+                inputChars[i],
                 pattern.mode
             );
 
 
             /*
-            Original CSV character ke combining
-            decorations preserve karo.
-
-            Example:
-            S + decoration
-
-            New:
-            M + same decoration
+            Original character ke extra
+            combining/decorative marks preserve.
             */
 
-            const originalSegment =
-            pattern.originalSegment;
-
-
-            const originalChars =
-            Array.from(
-                originalSegment
-            );
-
-
             if(
-                originalChars.length > 1
+                pattern.decoration
             ){
 
-                const originalBase =
-                originalChars[0];
-
-
-                const decoration =
-                originalChars
-                .slice(1)
-                .join("");
-
-
-                /*
-                Agar decoration Unicode combining
-                mark/symbol hai to same decoration
-                naye character ke saath lagao.
-                */
-
-                if(
-                    decoration &&
-                    decoration !==
-                    originalBase
-                ){
-
-                    styled +=
-                    decoration;
-
-                }
+                styled +=
+                pattern.decoration;
 
             }
 
 
-            replacement +=
-            styled;
+            replacement += styled;
 
         }
 
-
-        /*
-        Prefix + new name + suffix
-
-        Isse CSV ka old name completely
-        replace ho jata hai.
-        */
 
         return (
             prefix +
@@ -2667,17 +2190,15 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    ---------------------------------------------------------
-    FULL STYLE FALLBACKS
-    ---------------------------------------------------------
-    */
+    /* -----------------------------------------------------
+       FALLBACK: MATHEMATICAL STYLES
+    ----------------------------------------------------- */
 
     for(
         const key in maps
     ){
 
-        const styledOriginal =
+        const oldStyled =
         transform(
             originalName,
             maps[key]
@@ -2685,14 +2206,11 @@ function createNameFromTemplate(
 
 
         if(
-            styledOriginal &&
-            style.includes(
-                styledOriginal
-            )
+            style.includes(oldStyled)
         ){
 
             return style.replaceAll(
-                styledOriginal,
+                oldStyled,
                 transform(
                     input,
                     maps[key]
@@ -2704,203 +2222,161 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    SQUARED
-    */
+    /* -----------------------------------------------------
+       FALLBACK: SQUARED
+    ----------------------------------------------------- */
 
-    function squaredText(
-        text
-    ){
+    function squaredText(text){
 
         return Array
         .from(text)
-        .map(
-            function(char){
+        .map(function(char){
 
-                return (
-                    squared[
-                        char.toUpperCase()
-                    ] ||
-                    char
-                );
+            return (
+                squared[
+                    char.toUpperCase()
+                ] ||
+                char
+            );
 
-            }
-        )
+        })
         .join("");
 
     }
 
 
-    const squaredOriginal =
-    squaredText(
-        originalName
-    );
+    const oldSquared =
+    squaredText(originalName);
 
 
     if(
-        squaredOriginal &&
-        style.includes(
-            squaredOriginal
-        )
+        style.includes(oldSquared)
     ){
 
         return style.replaceAll(
-            squaredOriginal,
+            oldSquared,
             squaredText(input)
         );
 
     }
 
 
-    /*
-    CIRCLED
-    */
+    /* -----------------------------------------------------
+       FALLBACK: CIRCLED
+    ----------------------------------------------------- */
 
-    function circledText(
-        text
-    ){
-
-        const lower =
-        Array.from(
-            circledLower
-        );
+    function circledText(text){
 
         return Array
         .from(text)
-        .map(
-            function(char){
+        .map(function(char){
 
-                const index =
-                "abcdefghijklmnopqrstuvwxyz"
-                .indexOf(
-                    char.toLowerCase()
-                );
-
-
-                if(
-                    index !== -1
-                ){
-
-                    return lower[index];
-
-                }
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                char.toLowerCase()
+            );
 
 
-                return char;
-
+            if(index >= 0){
+                return Array.from(
+                    circledLower
+                )[index];
             }
-        )
+
+
+            return char;
+
+        })
         .join("");
 
     }
 
 
-    const circledOriginal =
-    circledText(
-        originalName
-    );
+    const oldCircled =
+    circledText(originalName);
 
 
     if(
-        circledOriginal &&
-        style.includes(
-            circledOriginal
-        )
+        style.includes(oldCircled)
     ){
 
         return style.replaceAll(
-            circledOriginal,
+            oldCircled,
             circledText(input)
         );
 
     }
 
 
-    /*
-    FULLWIDTH
-    */
+    /* -----------------------------------------------------
+       FALLBACK: FULLWIDTH
+    ----------------------------------------------------- */
 
-    function fullwidth(
-        text
-    ){
+    function fullwidth(text){
 
         return Array
         .from(text)
-        .map(
-            function(char){
+        .map(function(char){
 
-                const code =
-                char.charCodeAt(0);
-
-
-                if(
-                    code >= 65 &&
-                    code <= 90
-                ){
-
-                    return String
-                    .fromCodePoint(
-                        0xFF21 +
-                        code -
-                        65
-                    );
-
-                }
+            const code =
+            char.charCodeAt(0);
 
 
-                if(
-                    code >= 97 &&
-                    code <= 122
-                ){
+            if(
+                code >= 65 &&
+                code <= 90
+            ){
 
-                    return String
-                    .fromCodePoint(
-                        0xFF41 +
-                        code -
-                        97
-                    );
-
-                }
-
-
-                return char;
+                return String.fromCodePoint(
+                    0xFF21 + code - 65
+                );
 
             }
-        )
+
+
+            if(
+                code >= 97 &&
+                code <= 122
+            ){
+
+                return String.fromCodePoint(
+                    0xFF41 + code - 97
+                );
+
+            }
+
+
+            return char;
+
+        })
         .join("");
 
     }
 
 
-    const fullOriginal =
-    fullwidth(
-        originalName
-    );
+    const oldFullwidth =
+    fullwidth(originalName);
 
 
     if(
-        fullOriginal &&
-        style.includes(
-            fullOriginal
-        )
+        style.includes(oldFullwidth)
     ){
 
         return style.replaceAll(
-            fullOriginal,
+            oldFullwidth,
             fullwidth(input)
         );
 
     }
 
 
-    /*
-    {name}
-    */
+    /* -----------------------------------------------------
+       {name}
+    ----------------------------------------------------- */
 
     if(
-        style.includes(
-            "{name}"
-        )
+        style.includes("{name}")
     ){
 
         return style.replaceAll(
@@ -2912,18 +2388,20 @@ function createNameFromTemplate(
 
 
     /*
-    ---------------------------------------------------------
     IMPORTANT:
-    Agar CSV style me original name ko identify
-    nahi kar paaya to old name dikhane ke bajay
-    user name ko return karna.
-    ---------------------------------------------------------
+    Purana CSV name kabhi return nahi hoga.
+    Agar exact style identify na ho paye,
+    user ka entered name return hoga.
     */
 
     return input;
 
 }
 
+
+/* =========================================================
+   GENERATED PAGE
+========================================================= */
 
 function renderGeneratedPage(){
 
