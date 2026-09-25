@@ -1612,205 +1612,96 @@ function applyStyleToInput(
    CREATE NAME FROM DATABASE STYLE
    FIXED - ALL DATABASE STYLES
 ===================================================== */
+       function createNameFromTemplate(style, input){
 
-function createNameFromTemplate(databaseStyle, input){
-
-    databaseStyle = String(databaseStyle || "").trim();
+    style = String(style || "").trim();
     input = String(input || "").trim();
 
-    if(!databaseStyle || !input){
-        return null;
+    if(!style || !input) return null;
+
+    const chars = Array.from(style);
+
+    // 1. Keycap / boxed style
+    if(chars.some(c => c.codePointAt(0) === 0x20E3)){
+        return Array.from(input).map(c =>
+            /^[A-Za-z0-9]$/.test(c)
+                ? c + "\u20E3"
+                : c
+        ).join("");
     }
 
-    const templateChars = Array.from(databaseStyle);
-    const inputChars = Array.from(input);
+    // 2. Detect Unicode font from ANY character
+    for(const char of chars){
 
-    /* ---------------------------------------------
-       1. KEYCAP / BOX STYLE
-       Example:
-       S⃣t⃣y⃣l⃣i⃣s⃣h⃣
+        const detected = getCharStyle(char);
 
-       Result:
-       m⃣o⃣n⃣u
-    --------------------------------------------- */
+        if(detected){
 
-    if(
-        templateChars.some(
-            char => char.codePointAt(0) === 0x20E3
-        )
-    ){
+            return Array.from(input).map(c => {
 
-        return inputChars.map(char => {
+                if(/^[A-Za-z]$/.test(c)){
+                    return convertCharacter(c, detected);
+                }
 
-            if(
-                /^[A-Za-z0-9]$/.test(char)
-            ){
-                return char + "\u20E3";
-            }
+                return c;
 
-            return char;
-
-        }).join("");
-
+            }).join("");
+        }
     }
 
+    // 3. Find normal letters inside decoration
+    let first = -1;
+    let last = -1;
 
-    /* ---------------------------------------------
-       2. DETECT UNICODE FONT STYLE
-    --------------------------------------------- */
+    chars.forEach((c,i) => {
 
-    let detectedStyle = null;
+        if(/^[A-Za-z0-9]$/.test(c)){
 
-    for(const char of templateChars){
+            if(first === -1) first = i;
 
-        const style = getCharStyle(char);
-
-        if(style){
-
-            detectedStyle = style;
-            break;
-
+            last = i;
         }
 
-    }
+    });
 
-
-    /* ---------------------------------------------
-       3. UNICODE FONT STYLE FOUND
-    --------------------------------------------- */
-
-    if(detectedStyle){
-
-        return inputChars.map(char => {
-
-            if(
-                /^[A-Za-z]$/.test(char)
-            ){
-
-                return convertCharacter(
-                    char,
-                    detectedStyle
-                );
-
-            }
-
-            return char;
-
-        }).join("");
-
-    }
-
-
-    /* ---------------------------------------------
-       4. FIND DECORATION / SYMBOL PATTERN
-
-       Example:
-
-       ꧁Stylish꧂
-       『Stylish』
-       ★Stylish★
-       ×͜×Stylish
-    --------------------------------------------- */
-
-    let firstLetterIndex = -1;
-    let lastLetterIndex = -1;
-
-    for(let i = 0; i < templateChars.length; i++){
-
-        if(
-            /^[A-Za-z0-9]$/.test(
-                templateChars[i]
-            )
-        ){
-
-            if(firstLetterIndex === -1){
-                firstLetterIndex = i;
-            }
-
-            lastLetterIndex = i;
-
-        }
-
-    }
-
-
-    if(firstLetterIndex !== -1){
+    if(first !== -1){
 
         const prefix =
-            templateChars
-            .slice(0, firstLetterIndex)
-            .join("");
+            chars.slice(0, first).join("");
 
         const suffix =
-            templateChars
-            .slice(lastLetterIndex + 1)
-            .join("");
+            chars.slice(last + 1).join("");
 
-        /*
-           Check whether template contains
-           multiple ASCII letters.
-        */
-
-        const templateLetters =
-            templateChars
-            .slice(
-                firstLetterIndex,
-                lastLetterIndex + 1
-            )
-            .filter(
-                char =>
-                /^[A-Za-z0-9]$/.test(char)
-            );
-
-
-        /*
-           If template has letters, keep its
-           decoration and replace the actual name.
-        */
-
-        if(templateLetters.length > 0){
-
-            return (
-                prefix +
-                input +
-                suffix
-            );
-
-        }
-
+        return prefix + input + suffix;
     }
 
+    // 4. If style contains combining marks,
+    // apply those marks to every input character
+    const combining =
+        chars.filter(c => /\p{M}/u.test(c));
 
-    /* ---------------------------------------------
-       5. SPECIAL SYMBOL / EMOJI STYLE
+    if(combining.length){
 
-       If no font could be detected,
-       return template decoration + input
-    --------------------------------------------- */
+        return Array.from(input).map(c =>
+            c + combining.join("")
+        ).join("");
+    }
 
+    // 5. If the database style contains symbols,
+    // keep them around the name
     const symbols =
-        templateChars
-        .filter(
-            char =>
-            !/^[A-Za-z0-9]$/.test(char)
-        )
-        .join("");
+        chars.filter(c =>
+            !/^[A-Za-z0-9]$/.test(c)
+        );
 
-    if(symbols){
+    if(symbols.length){
 
-        return symbols + input;
-
+        return symbols.join("") + input;
     }
 
-
-    /* ---------------------------------------------
-       6. FINAL FALLBACK
-    --------------------------------------------- */
-
+    // 6. fallback
     return input;
-
 }
-        
 /* =====================================================
    LOAD DATABASE
    IMPORTANT:
@@ -2482,20 +2373,6 @@ function generateName(
                 return;
 
             }
-
-
-            if(
-                seen.has(result)
-            ){
-
-                return;
-
-            }
-
-
-            seen.add(result);
-
-
             generatedResults.push({
 
                 name:
