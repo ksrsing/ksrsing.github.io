@@ -48,8 +48,6 @@ body{
     min-height:100vh;
 }
 
-/* NAVBAR */
-
 .navbar{
     position:sticky;
     top:0;
@@ -125,8 +123,6 @@ body{
     cursor:pointer;
 }
 
-/* HERO */
-
 .hero{
     max-width:1100px;
     margin:auto;
@@ -181,8 +177,6 @@ body{
     line-height:1.7;
 }
 
-/* SEARCH */
-
 .search-box{
     max-width:720px;
     margin:auto;
@@ -235,8 +229,6 @@ body{
     font-weight:800;
 }
 
-/* PREVIEW */
-
 .preview{
     max-width:650px;
     margin:25px auto 0;
@@ -264,8 +256,6 @@ body{
     word-break:break-word;
 }
 
-/* SECTION */
-
 .section{
     max-width:1250px;
     margin:auto;
@@ -285,8 +275,6 @@ body{
     color:#7f87ad;
     margin-top:7px;
 }
-
-/* CATEGORIES */
 
 .categories{
     display:grid;
@@ -329,8 +317,6 @@ body{
     color:#dfe2ff;
 }
 
-/* RESULTS */
-
 .results-header{
     display:flex;
     justify-content:space-between;
@@ -352,8 +338,6 @@ body{
     grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
-
-/* CARD */
 
 .name-card{
     position:relative;
@@ -460,8 +444,6 @@ body{
     color:#ff72ad;
 }
 
-/* EMPTY */
-
 .empty{
     grid-column:1/-1;
 
@@ -502,8 +484,6 @@ body{
     line-height:1.7;
 }
 
-/* LOAD MORE */
-
 .load-more-wrap{
     text-align:center;
     padding:30px 0;
@@ -525,15 +505,11 @@ body{
     cursor:pointer;
 }
 
-/* FAVORITES */
-
 .favorite-list{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
-
-/* FEATURES */
 
 .features{
     display:grid;
@@ -567,8 +543,6 @@ body{
     font-size:14px;
 }
 
-/* FOOTER */
-
 footer{
     margin-top:40px;
     padding:30px 20px;
@@ -581,8 +555,6 @@ footer{
     color:#686f95;
     font-size:13px;
 }
-
-/* TOAST */
 
 .toast{
     position:fixed;
@@ -615,8 +587,6 @@ footer{
     transform:
     translate(-50%,0);
 }
-
-/* RESPONSIVE */
 
 @media(max-width:1050px){
 
@@ -706,8 +676,6 @@ footer{
 
 <body>
 
-<!-- NAVBAR -->
-
 <nav class="navbar">
 
 <div class="nav-container">
@@ -736,9 +704,6 @@ Get Started
 </div>
 
 </nav>
-
-
-<!-- HERO -->
 
 <section class="hero" id="home">
 
@@ -790,9 +755,6 @@ Your Name
 
 </section>
 
-
-<!-- STYLES -->
-
 <section class="section" id="styles">
 
 <div class="section-heading">
@@ -823,7 +785,6 @@ All Styles
 
 </div>
 
-
 <div
 class="category-card"
 onclick="generateCategory('Gaming')">
@@ -837,7 +798,6 @@ Gaming
 </div>
 
 </div>
-
 
 <div
 class="category-card"
@@ -853,7 +813,6 @@ Cool
 
 </div>
 
-
 <div
 class="category-card"
 onclick="generateCategory('Royal')">
@@ -867,7 +826,6 @@ Royal
 </div>
 
 </div>
-
 
 <div
 class="category-card"
@@ -883,7 +841,6 @@ Love
 
 </div>
 
-
 <div
 class="category-card"
 onclick="generateCategory('Fire')">
@@ -897,7 +854,6 @@ Fire
 </div>
 
 </div>
-
 
 <div
 class="category-card"
@@ -916,9 +872,6 @@ Danger
 </div>
 
 </section>
-
-
-<!-- RESULTS -->
 
 <section class="section">
 
@@ -942,7 +895,6 @@ Loading database...
 
 </div>
 
-
 <div
 class="name-grid"
 id="nameGrid">
@@ -952,7 +904,6 @@ Loading stylish names...
 </div>
 
 </div>
-
 
 <div
 class="load-more-wrap"
@@ -970,9 +921,6 @@ Load More
 </div>
 
 </section>
-
-
-<!-- FAVORITES -->
 
 <section
 class="section"
@@ -996,9 +944,6 @@ id="favoriteList">
 </div>
 
 </section>
-
-
-<!-- ABOUT -->
 
 <section
 class="section"
@@ -1035,7 +980,6 @@ the styles stored in your database.
 
 </div>
 
-
 <div class="feature">
 
 <div class="feature-icon">
@@ -1052,7 +996,6 @@ monospace and many decorative styles.
 </p>
 
 </div>
-
 
 <div class="feature">
 
@@ -1075,13 +1018,11 @@ directly on your device.
 
 </section>
 
-
 <footer>
 
 © 2026 NameCraft | Stylish Name Generator
 
 </footer>
-
 
 <div
 class="toast"
@@ -1093,10 +1034,6 @@ Copied!
 
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
 "https://ujpzkpeslemcuizylymi.supabase.co";
@@ -1110,10 +1047,6 @@ window.supabase.createClient(
     SUPABASE_PUBLISHABLE_KEY
 );
 
-
-/* =====================================================
-   VISIT TRACKING
-===================================================== */
 
 async function recordVisit(){
 
@@ -1152,10 +1085,6 @@ async function recordVisit(){
 }
 
 
-/* =====================================================
-   VARIABLES
-===================================================== */
-
 let favorites =
 JSON.parse(
     localStorage.getItem(
@@ -1178,10 +1107,6 @@ const GENERATED_PAGE_SIZE = 80;
 let currentMode = "database";
 
 
-/* =====================================================
-   LOAD DATABASE
-===================================================== */
-
 async function loadDatabaseNames(){
 
     currentPage = 0;
@@ -1192,12 +1117,10 @@ async function loadDatabaseNames(){
 
     currentMode = "database";
 
-
     const grid =
     document.getElementById(
         "nameGrid"
     );
-
 
     grid.innerHTML = `
 
@@ -1215,14 +1138,12 @@ async function loadDatabaseNames(){
 
     `;
 
-
     document
     .getElementById(
         "resultTitle"
     )
     .textContent =
     "All Stylish Names";
-
 
     document
     .getElementById(
@@ -1231,14 +1152,12 @@ async function loadDatabaseNames(){
     .textContent =
     "Loading database...";
 
-
     document
     .getElementById(
         "loadMoreWrap"
     )
     .style.display =
     "none";
-
 
     try{
 
@@ -1248,7 +1167,6 @@ async function loadDatabaseNames(){
 
         const batchSize = 1000;
 
-
         while(true){
 
             const {
@@ -1256,28 +1174,18 @@ async function loadDatabaseNames(){
                 error
             } =
             await supabaseClient
-
             .from("names")
-
-            /*
-            IMPORTANT:
-            Ab name aur style dono read honge.
-            */
-
             .select("id, name, style")
-
             .order(
                 "id",
                 {
                     ascending:true
                 }
             )
-
             .range(
                 start,
                 start + batchSize - 1
             );
-
 
             if(error){
 
@@ -1294,14 +1202,11 @@ async function loadDatabaseNames(){
 
             }
 
-
             const rows =
             data || [];
 
-
             allRows =
             allRows.concat(rows);
-
 
             if(
                 rows.length < batchSize
@@ -1311,9 +1216,7 @@ async function loadDatabaseNames(){
 
             }
 
-
             start += batchSize;
-
 
             if(
                 start >= 10000
@@ -1326,16 +1229,8 @@ async function loadDatabaseNames(){
         }
 
 
-        /*
-        Database object:
-
-        originalName = CSV ka random name
-        style        = us random name ka stylish version
-        */
-
         allDatabaseNames =
         allRows
-
         .map(
             function(item){
 
@@ -1344,9 +1239,25 @@ async function loadDatabaseNames(){
                     id:
                     item.id,
 
+                    /*
+                    IMPORTANT:
+                    name = CSV ka original
+                    random/base name
+                    */
+
                     originalName:
                     String(
                         item.name || ""
+                    ).trim(),
+
+                    /*
+                    style = CSV ka actual
+                    stylish design
+                    */
+
+                    name:
+                    String(
+                        item.style || ""
                     ).trim(),
 
                     style:
@@ -1364,7 +1275,6 @@ async function loadDatabaseNames(){
 
             }
         )
-
         .filter(
             function(item){
 
@@ -1432,7 +1342,6 @@ async function loadDatabaseNames(){
 
         }
 
-
         renderDatabasePage();
 
     }
@@ -1454,10 +1363,6 @@ async function loadDatabaseNames(){
 }
 
 
-/* =====================================================
-   SHOW ALL STYLES
-===================================================== */
-
 function showAllStyles(){
 
     document
@@ -1476,30 +1381,22 @@ function showAllStyles(){
 }
 
 
-/* =====================================================
-   DATABASE PAGE
-===================================================== */
-
 function renderDatabasePage(){
 
     currentMode = "database";
 
-
     const data =
     allDatabaseNames;
-
 
     const start =
     currentPage *
     PAGE_SIZE;
-
 
     const end =
     Math.min(
         start + PAGE_SIZE,
         data.length
     );
-
 
     if(
         currentPage === 0
@@ -1513,7 +1410,6 @@ function renderDatabasePage(){
 
     }
 
-
     for(
         let i = start;
         i < end;
@@ -1526,7 +1422,6 @@ function renderDatabasePage(){
 
     }
 
-
     document
     .getElementById(
         "resultInfo"
@@ -1537,7 +1432,6 @@ function renderDatabasePage(){
     data.length +
     " styles";
 
-
     document
     .getElementById(
         "loadMoreWrap"
@@ -1546,7 +1440,6 @@ function renderDatabasePage(){
     end < data.length
     ? "block"
     : "none";
-
 
     if(
         data.length === 0
@@ -1571,10 +1464,6 @@ function renderDatabasePage(){
 }
 
 
-/* =====================================================
-   DATABASE CARD
-===================================================== */
-
 function createDatabaseCard(item){
 
     const grid =
@@ -1582,20 +1471,18 @@ function createDatabaseCard(item){
         "nameGrid"
     );
 
-
     const card =
     document.createElement(
         "div"
     );
-
 
     card.className =
     "name-card";
 
 
     /*
-    Database preview me original random
-    name nahi, style preview show hoga.
+    Database me jo original name hai,
+    usko usi row ke style me dikhana.
     */
 
     const preview =
@@ -1605,12 +1492,10 @@ function createDatabaseCard(item){
         item.originalName
     );
 
-
     const active =
     favorites.includes(
         preview
     );
-
 
     card.innerHTML = `
 
@@ -1622,13 +1507,11 @@ function createDatabaseCard(item){
 
         </div>
 
-
         <div class="name-meta">
 
             <span class="style-tag">
                 Database Style
             </span>
-
 
             <div class="card-actions">
 
@@ -1636,7 +1519,6 @@ function createDatabaseCard(item){
                 class="card-btn copy-btn">
                     Copy
                 </button>
-
 
                 <button
                 class="card-btn favorite-btn
@@ -1652,7 +1534,6 @@ function createDatabaseCard(item){
 
     `;
 
-
     card
     .querySelector(
         ".copy-btn"
@@ -1665,7 +1546,6 @@ function createDatabaseCard(item){
         );
 
     };
-
 
     card
     .querySelector(
@@ -1680,7 +1560,6 @@ function createDatabaseCard(item){
 
     };
 
-
     grid.appendChild(
         card
     );
@@ -1688,17 +1567,12 @@ function createDatabaseCard(item){
 }
 
 
-/* =====================================================
-   GENERATE NAME
-===================================================== */
-
 function generateName(input){
 
     input =
     String(
         input || ""
     ).trim();
-
 
     if(!input){
 
@@ -1709,7 +1583,6 @@ function generateName(input){
         return;
 
     }
-
 
     if(
         allDatabaseNames.length === 0
@@ -1725,23 +1598,19 @@ function generateName(input){
 
     }
 
-
     generatedResults = [];
 
     generatedPage = 0;
 
     currentMode = "generated";
 
-
     const source =
     allDatabaseNames;
-
 
     console.log(
         "TOTAL STYLES:",
         source.length
     );
-
 
     source.forEach(
         function(item){
@@ -1753,11 +1622,9 @@ function generateName(input){
                 item.originalName
             );
 
-
             if(!result){
                 return;
             }
-
 
             generatedResults.push({
 
@@ -1778,12 +1645,10 @@ function generateName(input){
         }
     );
 
-
     console.log(
         "TOTAL GENERATED:",
         generatedResults.length
     );
-
 
     if(
         generatedResults.length === 0
@@ -1797,7 +1662,6 @@ function generateName(input){
 
     }
 
-
     document
     .getElementById(
         "resultTitle"
@@ -1805,9 +1669,7 @@ function generateName(input){
     .textContent =
     "Stylish Names for " + input;
 
-
     renderGeneratedPage();
-
 
     document
     .getElementById(
@@ -1821,7 +1683,9 @@ function generateName(input){
 
 
 /* =====================================================
-   CREATE NAME FROM DATABASE STYLE
+   ONLY IMPORTANT CHANGE:
+   CSV NAME -> USER INPUT
+   SAME CSV STYLE + DECORATIONS
 ===================================================== */
 
 function createNameFromTemplate(
@@ -1831,22 +1695,13 @@ function createNameFromTemplate(
 ){
 
     style =
-    String(
-        style || ""
-    ).trim();
-
+    String(style || "").trim();
 
     input =
-    String(
-        input || ""
-    ).trim();
-
+    String(input || "").trim();
 
     originalName =
-    String(
-        originalName || ""
-    ).trim();
-
+    String(originalName || "").trim();
 
     if(
         !style ||
@@ -1858,18 +1713,13 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    =====================================================
-    STEP 1
-    Direct normal name replacement
-    =====================================================
-    */
+    /* -----------------------------------------------
+       DIRECT NORMAL NAME
+    ----------------------------------------------- */
 
     if(
         originalName &&
-        style.includes(
-            originalName
-        )
+        style.includes(originalName)
     ){
 
         return style.replaceAll(
@@ -1881,12 +1731,12 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    FONT MAPS
-    =====================================================
+    -----------------------------------------------
+    UNICODE MAPS
+    -----------------------------------------------
     */
 
-    const fontMaps = {
+    const maps = {
 
         italic: {
 
@@ -1898,7 +1748,6 @@ function createNameFromTemplate(
 
         },
 
-
         script: {
 
             upper:
@@ -1908,7 +1757,6 @@ function createNameFromTemplate(
             "𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
 
         },
-
 
         fraktur: {
 
@@ -1920,7 +1768,6 @@ function createNameFromTemplate(
 
         },
 
-
         double: {
 
             upper:
@@ -1930,7 +1777,6 @@ function createNameFromTemplate(
             "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
 
         },
-
 
         monospace: {
 
@@ -1942,7 +1788,6 @@ function createNameFromTemplate(
 
         },
 
-
         sans: {
 
             upper:
@@ -1952,7 +1797,6 @@ function createNameFromTemplate(
             "𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
 
         },
-
 
         sansItalic: {
 
@@ -1967,27 +1811,16 @@ function createNameFromTemplate(
     };
 
 
-    /*
-    =====================================================
-    TRANSFORM FUNCTION
-    =====================================================
-    */
-
     function transform(
         text,
         map
     ){
 
         const upper =
-        Array.from(
-            map.upper
-        );
+        Array.from(map.upper);
 
         const lower =
-        Array.from(
-            map.lower
-        );
-
+        Array.from(map.lower);
 
         return Array
         .from(text)
@@ -1996,7 +1829,6 @@ function createNameFromTemplate(
 
                 const code =
                 char.charCodeAt(0);
-
 
                 if(
                     code >= 65 &&
@@ -2011,7 +1843,6 @@ function createNameFromTemplate(
 
                 }
 
-
                 if(
                     code >= 97 &&
                     code <= 122
@@ -2025,7 +1856,6 @@ function createNameFromTemplate(
 
                 }
 
-
                 return char;
 
             }
@@ -2036,22 +1866,20 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    STEP 2
-    Detect same font using original name
-    =====================================================
+    -----------------------------------------------
+    CHECK COMPLETE UNICODE FONT
+    -----------------------------------------------
     */
 
     for(
-        const key in fontMaps
+        const key in maps
     ){
 
         const styledOriginal =
         transform(
             originalName,
-            fontMaps[key]
+            maps[key]
         );
-
 
         if(
             styledOriginal &&
@@ -2063,9 +1891,8 @@ function createNameFromTemplate(
             const styledInput =
             transform(
                 input,
-                fontMaps[key]
+                maps[key]
             );
-
 
             return style.replaceAll(
                 styledOriginal,
@@ -2078,10 +1905,435 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    STEP 3
+    -----------------------------------------------
+    SQUARED LETTERS
+    -----------------------------------------------
+    */
+
+    const squared = {
+
+        A:"🅰", B:"🅱", C:"🅲", D:"🅳",
+        E:"🅴", F:"🅵", G:"🅶", H:"🅷",
+        I:"🅸", J:"🅹", K:"🅺", L:"🅻",
+        M:"🅼", N:"🅽", O:"🅾", P:"🅿",
+        Q:"🆀", R:"🆁", S:"🆂", T:"🆃",
+        U:"🆄", V:"🆅", W:"🆆", X:"🆇",
+        Y:"🆈", Z:"🆉"
+
+    };
+
+
+    function squaredText(text){
+
+        return Array
+        .from(text)
+        .map(
+            function(char){
+
+                const upper =
+                char.toUpperCase();
+
+                if(
+                    squared[upper]
+                ){
+
+                    return squared[upper];
+
+                }
+
+                return char;
+
+            }
+        )
+        .join("");
+
+    }
+
+
+    /*
+    -----------------------------------------------
+    FULL SQUARED ORIGINAL
+    -----------------------------------------------
+    */
+
+    const squaredOriginal =
+    squaredText(
+        originalName
+    );
+
+
+    if(
+        squaredOriginal &&
+        style.includes(
+            squaredOriginal
+        )
+    ){
+
+        return style.replaceAll(
+            squaredOriginal,
+            squaredText(input)
+        );
+
+    }
+
+
+    /*
+    -----------------------------------------------
+    MIXED SQUARED STYLE
+    Example:
+
+    亗 🅂ilent🄱lade9226 彡
+
+    Original:
+    SilentBlade9226
+
+    The function finds each original
+    character even when some characters
+    are styled.
+    -----------------------------------------------
+    */
+
+    function isSameStyledChar(
+        sourceChar,
+        styleChar
+    ){
+
+        if(
+            sourceChar === styleChar
+        ){
+
+            return true;
+
+        }
+
+
+        const upper =
+        sourceChar.toUpperCase();
+
+
+        if(
+            squared[upper] === styleChar
+        ){
+
+            return true;
+
+        }
+
+
+        for(
+            const key in maps
+        ){
+
+            const converted =
+            transform(
+                sourceChar,
+                maps[key]
+            );
+
+            if(
+                converted === styleChar
+            ){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+
+    function findOriginalRange(){
+
+        const source =
+        Array.from(
+            originalName
+        );
+
+        const target =
+        Array.from(
+            style
+        );
+
+
+        if(
+            source.length === 0
+        ){
+
+            return null;
+
+        }
+
+
+        for(
+            let start = 0;
+            start < target.length;
+            start++
+        ){
+
+            let pos =
+            start;
+
+            let matched = true;
+
+
+            for(
+                let i = 0;
+                i < source.length;
+                i++
+            ){
+
+                const sourceChar =
+                source[i];
+
+
+                if(
+                    pos >= target.length
+                ){
+
+                    matched = false;
+                    break;
+
+                }
+
+
+                if(
+                    isSameStyledChar(
+                        sourceChar,
+                        target[pos]
+                    )
+                ){
+
+                    pos++;
+
+                    continue;
+
+                }
+
+
+                matched = false;
+                break;
+
+            }
+
+
+            if(
+                matched
+            ){
+
+                return {
+
+                    start:start,
+
+                    end:pos
+
+                };
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    const range =
+    findOriginalRange();
+
+
+    if(range){
+
+        const originalStyledPart =
+        Array
+        .from(style)
+        .slice(
+            range.start,
+            range.end
+        );
+
+
+        /*
+        Determine which style each character
+        in the original name was using.
+        */
+
+        const sourceChars =
+        Array.from(
+            originalName
+        );
+
+        const styledChars =
+        Array.from(
+            originalStyledPart
+        );
+
+
+        const stylePattern =
+        [];
+
+
+        let p = 0;
+
+
+        for(
+            let i = 0;
+            i < sourceChars.length;
+            i++
+        ){
+
+            const sourceChar =
+            sourceChars[i];
+
+
+            const targetChar =
+            styledChars[p];
+
+
+            let mode =
+            "normal";
+
+
+            if(
+                targetChar === sourceChar
+            ){
+
+                mode = "normal";
+
+            }
+
+            else if(
+                squared[
+                    sourceChar.toUpperCase()
+                ] === targetChar
+            ){
+
+                mode = "squared";
+
+            }
+
+            else{
+
+                for(
+                    const key in maps
+                ){
+
+                    const converted =
+                    transform(
+                        sourceChar,
+                        maps[key]
+                    );
+
+
+                    if(
+                        converted === targetChar
+                    ){
+
+                        mode = key;
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            stylePattern.push(
+                mode
+            );
+
+
+            p++;
+
+        }
+
+
+        function applyPattern(text){
+
+            const chars =
+            Array.from(text);
+
+
+            return chars
+            .map(
+                function(char,index){
+
+                    /*
+                    Original style pattern ko
+                    new name par repeat kiya jayega.
+                    */
+
+                    const mode =
+                    stylePattern[
+                        index %
+                        stylePattern.length
+                    ];
+
+
+                    if(
+                        mode === "squared"
+                    ){
+
+                        const upper =
+                        char.toUpperCase();
+
+                        return (
+                            squared[upper] ||
+                            char
+                        );
+
+                    }
+
+
+                    if(
+                        maps[mode]
+                    ){
+
+                        return transform(
+                            char,
+                            maps[mode]
+                        );
+
+                    }
+
+
+                    return char;
+
+                }
+            )
+            .join("");
+
+        }
+
+
+        const replacement =
+        applyPattern(input);
+
+
+        return (
+            style.slice(
+                0,
+                range.start
+            ) +
+
+            replacement +
+
+            style.slice(
+                range.end
+            )
+        );
+
+    }
+
+
+    /*
+    -----------------------------------------------
     FULLWIDTH
-    =====================================================
+    -----------------------------------------------
     */
 
     function fullwidth(text){
@@ -2093,7 +2345,6 @@ function createNameFromTemplate(
 
                 const code =
                 char.charCodeAt(0);
-
 
                 if(
                     code >= 65 &&
@@ -2108,7 +2359,6 @@ function createNameFromTemplate(
 
                 }
 
-
                 if(
                     code >= 97 &&
                     code <= 122
@@ -2121,7 +2371,6 @@ function createNameFromTemplate(
                     );
 
                 }
-
 
                 return char;
 
@@ -2154,10 +2403,9 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    STEP 4
-    CIRCLED LETTERS
-    =====================================================
+    -----------------------------------------------
+    CIRCLED
+    -----------------------------------------------
     */
 
     const circledUpper =
@@ -2169,6 +2417,12 @@ function createNameFromTemplate(
 
     function circled(text){
 
+        const upper =
+        Array.from(circledUpper);
+
+        const lower =
+        Array.from(circledLower);
+
         return Array
         .from(text)
         .map(
@@ -2177,21 +2431,18 @@ function createNameFromTemplate(
                 const code =
                 char.charCodeAt(0);
 
-
                 if(
                     code >= 65 &&
                     code <= 90
                 ){
 
                     return (
-                        Array.from(
-                            circledUpper
-                        )[code - 65] ||
-                        char
+                        upper[
+                            code - 65
+                        ] || char
                     );
 
                 }
-
 
                 if(
                     code >= 97 &&
@@ -2199,14 +2450,12 @@ function createNameFromTemplate(
                 ){
 
                     return (
-                        Array.from(
-                            circledLower
-                        )[code - 97] ||
-                        char
+                        lower[
+                            code - 97
+                        ] || char
                     );
 
                 }
-
 
                 return char;
 
@@ -2239,16 +2488,13 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    STEP 5
-    If style has {name} placeholder
-    =====================================================
+    -----------------------------------------------
+    {name} PLACEHOLDER
+    -----------------------------------------------
     */
 
     if(
-        style.includes(
-            "{name}"
-        )
+        style.includes("{name}")
     ){
 
         return style.replaceAll(
@@ -2260,10 +2506,9 @@ function createNameFromTemplate(
 
 
     /*
-    =====================================================
-    STEP 6
-    Last fallback
-    =====================================================
+    -----------------------------------------------
+    LAST FALLBACK
+    -----------------------------------------------
     */
 
     return style;
@@ -2271,20 +2516,14 @@ function createNameFromTemplate(
 }
 
 
-/* =====================================================
-   RENDER GENERATED
-===================================================== */
-
 function renderGeneratedPage(){
 
     currentMode = "generated";
-
 
     const grid =
     document.getElementById(
         "nameGrid"
     );
-
 
     if(
         generatedPage === 0
@@ -2294,11 +2533,9 @@ function renderGeneratedPage(){
 
     }
 
-
     const start =
     generatedPage *
     GENERATED_PAGE_SIZE;
-
 
     const end =
     Math.min(
@@ -2306,7 +2543,6 @@ function renderGeneratedPage(){
         GENERATED_PAGE_SIZE,
         generatedResults.length
     );
-
 
     for(
         let i = start;
@@ -2320,7 +2556,6 @@ function renderGeneratedPage(){
 
     }
 
-
     document
     .getElementById(
         "resultInfo"
@@ -2330,7 +2565,6 @@ function renderGeneratedPage(){
     " of " +
     generatedResults.length +
     " generated styles";
-
 
     document
     .getElementById(
@@ -2345,10 +2579,6 @@ function renderGeneratedPage(){
 }
 
 
-/* =====================================================
-   GENERATED CARD
-===================================================== */
-
 function createGeneratedCard(item){
 
     const grid =
@@ -2356,22 +2586,18 @@ function createGeneratedCard(item){
         "nameGrid"
     );
 
-
     const card =
     document.createElement(
         "div"
     );
 
-
     card.className =
     "name-card";
-
 
     const active =
     favorites.includes(
         item.name
     );
-
 
     card.innerHTML = `
 
@@ -2383,13 +2609,11 @@ function createGeneratedCard(item){
 
         </div>
 
-
         <div class="name-meta">
 
             <span class="style-tag">
                 Database Style
             </span>
-
 
             <div class="card-actions">
 
@@ -2397,7 +2621,6 @@ function createGeneratedCard(item){
                 class="card-btn copy-btn">
                     Copy
                 </button>
-
 
                 <button
                 class="card-btn favorite-btn
@@ -2413,7 +2636,6 @@ function createGeneratedCard(item){
 
     `;
 
-
     card
     .querySelector(
         ".copy-btn"
@@ -2426,7 +2648,6 @@ function createGeneratedCard(item){
         );
 
     };
-
 
     card
     .querySelector(
@@ -2441,17 +2662,12 @@ function createGeneratedCard(item){
 
     };
 
-
     grid.appendChild(
         card
     );
 
 }
 
-
-/* =====================================================
-   CATEGORY
-===================================================== */
 
 function generateCategory(category){
 
@@ -2467,16 +2683,9 @@ function generateCategory(category){
 
     }
 
-
-    /*
-    Abhi CSV me category column nahi hai,
-    isliye category buttons all styles dikhayenge.
-    */
-
     currentPage = 0;
 
     currentMode = "database";
-
 
     document
     .getElementById(
@@ -2486,9 +2695,7 @@ function generateCategory(category){
     category +
     " Stylish Names";
 
-
     renderDatabasePage();
-
 
     document
     .getElementById(
@@ -2501,10 +2708,6 @@ function generateCategory(category){
 }
 
 
-/* =====================================================
-   LOAD MORE
-===================================================== */
-
 function loadMore(){
 
     if(
@@ -2514,11 +2717,9 @@ function loadMore(){
         const nextPage =
         generatedPage + 1;
 
-
         const nextStart =
         nextPage *
         GENERATED_PAGE_SIZE;
-
 
         if(
             nextStart <
@@ -2528,25 +2729,20 @@ function loadMore(){
             generatedPage =
             nextPage;
 
-
             renderGeneratedPage();
 
         }
-
 
         return;
 
     }
 
-
     const nextPage =
     currentPage + 1;
-
 
     const nextStart =
     nextPage *
     PAGE_SIZE;
-
 
     if(
         nextStart <
@@ -2556,17 +2752,12 @@ function loadMore(){
         currentPage =
         nextPage;
 
-
         renderDatabasePage();
 
     }
 
 }
 
-
-/* =====================================================
-   GENERATE BUTTON
-===================================================== */
 
 document
 .getElementById(
@@ -2587,10 +2778,6 @@ document
     }
 );
 
-
-/* =====================================================
-   ENTER KEY
-===================================================== */
 
 document
 .getElementById(
@@ -2614,10 +2801,6 @@ document
 );
 
 
-/* =====================================================
-   LIVE PREVIEW
-===================================================== */
-
 document
 .getElementById(
     "nameInput"
@@ -2638,10 +2821,6 @@ document
 );
 
 
-/* =====================================================
-   COPY
-===================================================== */
-
 async function copyName(name){
 
     try{
@@ -2651,7 +2830,6 @@ async function copyName(name){
         .writeText(
             name
         );
-
 
         showToast(
             "Name copied ✓"
@@ -2666,10 +2844,8 @@ async function copyName(name){
             "textarea"
         );
 
-
         textarea.value =
         name;
-
 
         document
         .body
@@ -2677,17 +2853,13 @@ async function copyName(name){
             textarea
         );
 
-
         textarea.select();
-
 
         document.execCommand(
             "copy"
         );
 
-
         textarea.remove();
-
 
         showToast(
             "Name copied ✓"
@@ -2698,17 +2870,12 @@ async function copyName(name){
 }
 
 
-/* =====================================================
-   FAVORITES
-===================================================== */
-
 function toggleFavorite(name){
 
     const index =
     favorites.indexOf(
         name
     );
-
 
     if(
         index === -1
@@ -2717,7 +2884,6 @@ function toggleFavorite(name){
         favorites.push(
             name
         );
-
 
         showToast(
             "Added to favorites ♥"
@@ -2732,13 +2898,11 @@ function toggleFavorite(name){
             1
         );
 
-
         showToast(
             "Removed from favorites"
         );
 
     }
-
 
     localStorage.setItem(
         "namecraftFavorites",
@@ -2747,17 +2911,12 @@ function toggleFavorite(name){
         )
     );
 
-
     renderFavorites();
 
     refreshFavoriteButtons();
 
 }
 
-
-/* =====================================================
-   REFRESH FAVORITES
-===================================================== */
 
 function refreshFavoriteButtons(){
 
@@ -2773,38 +2932,31 @@ function refreshFavoriteButtons(){
                 ".name-card"
             );
 
-
             if(!card){
                 return;
             }
-
 
             const element =
             card.querySelector(
                 ".name-text"
             );
 
-
             if(!element){
                 return;
             }
 
-
             const name =
             element.textContent.trim();
-
 
             const active =
             favorites.includes(
                 name
             );
 
-
             button.classList.toggle(
                 "active",
                 active
             );
-
 
             button.textContent =
             active
@@ -2817,10 +2969,6 @@ function refreshFavoriteButtons(){
 }
 
 
-/* =====================================================
-   FAVORITES RENDER
-===================================================== */
-
 function renderFavorites(){
 
     const container =
@@ -2828,9 +2976,7 @@ function renderFavorites(){
         "favoriteList"
     );
 
-
     container.innerHTML = "";
-
 
     if(
         favorites.length === 0
@@ -2850,7 +2996,6 @@ function renderFavorites(){
 
     }
 
-
     [
         ...favorites
     ]
@@ -2863,10 +3008,8 @@ function renderFavorites(){
                 "div"
             );
 
-
             card.className =
             "name-card";
-
 
             card.innerHTML = `
 
@@ -2878,13 +3021,11 @@ function renderFavorites(){
 
                 </div>
 
-
                 <div class="name-meta">
 
                     <span class="style-tag">
                         Favorite
                     </span>
-
 
                     <div class="card-actions">
 
@@ -2892,7 +3033,6 @@ function renderFavorites(){
                         class="card-btn copy-btn">
                             Copy
                         </button>
-
 
                         <button
                         class="card-btn favorite-btn active">
@@ -2904,7 +3044,6 @@ function renderFavorites(){
                 </div>
 
             `;
-
 
             card
             .querySelector(
@@ -2919,7 +3058,6 @@ function renderFavorites(){
 
             };
 
-
             card
             .querySelector(
                 ".favorite-btn"
@@ -2933,7 +3071,6 @@ function renderFavorites(){
 
             };
 
-
             container.appendChild(
                 card
             );
@@ -2943,10 +3080,6 @@ function renderFavorites(){
 
 }
 
-
-/* =====================================================
-   TOAST
-===================================================== */
 
 let toastTimer;
 
@@ -2958,20 +3091,16 @@ function showToast(message){
         "toast"
     );
 
-
     toast.textContent =
     message;
-
 
     toast.classList.add(
         "show"
     );
 
-
     clearTimeout(
         toastTimer
     );
-
 
     toastTimer =
     setTimeout(
@@ -2987,10 +3116,6 @@ function showToast(message){
 
 }
 
-
-/* =====================================================
-   DATABASE ERROR
-===================================================== */
 
 function showDatabaseError(message){
 
@@ -3023,14 +3148,12 @@ function showDatabaseError(message){
 
     `;
 
-
     document
     .getElementById(
         "resultInfo"
     )
     .textContent =
     "Database error";
-
 
     document
     .getElementById(
@@ -3041,10 +3164,6 @@ function showDatabaseError(message){
 
 }
 
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
 
 function escapeHtml(value){
 
@@ -3077,10 +3196,6 @@ function escapeHtml(value){
 
 }
 
-
-/* =====================================================
-   START
-===================================================== */
 
 renderFavorites();
 
