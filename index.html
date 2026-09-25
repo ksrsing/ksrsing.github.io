@@ -1624,224 +1624,81 @@ function createNameFromTemplate(databaseStyle, input){
         return null;
     }
 
+    const chars =
+        Array.from(databaseStyle);
 
     /*
-       Database style ke andar actual example name
-       identify karna hai.
+       Box / combining mark wala style detect karo.
 
-       Priority:
-       1. Number wala name  -> Lion47, Wolf99
-       2. Capital-letter wala name -> EagleX, DarkWolf
-       3. CamelCase name -> DarkWolf, RangerX
+       Example:
+       S⃣ t⃣ y⃣ l⃣ i⃣ s⃣ h⃣
     */
 
+    let baseLetters = [];
 
-    const candidates = [];
+    let hasBoxStyle = false;
 
+    for(let i = 0; i < chars.length; i++){
 
-    /*
-       Normal English/alphanumeric words
-       find karo.
-    */
+        const char = chars[i];
 
-    const regex =
-        /[A-Za-z][A-Za-z0-9]*/g;
+        const next = chars[i + 1];
 
+        if(
+            next &&
+            next.codePointAt(0) === 0x20E3
+        ){
 
-    let match;
+            baseLetters.push(char);
 
+            hasBoxStyle = true;
 
-    while(
-        (match = regex.exec(databaseStyle)) !== null
-    ){
-
-        const word =
-            match[0];
-
-        const index =
-            match.index;
-
-
-        /*
-           Bahut chhote decorative fragments
-           ignore karo.
-        */
-
-        if(word.length < 3){
-            continue;
         }
 
-
-        /*
-           Candidate ki information save karo.
-        */
-
-        candidates.push({
-
-            word: word,
-
-            index: index,
-
-            hasNumber:
-                /\d/.test(word),
-
-            startsUpper:
-                /^[A-Z]/.test(word),
-
-            hasUpperAfterFirst:
-                /^[A-Z][a-z]+[A-Z]/.test(word)
-
-        });
-
     }
-
-
-    if(candidates.length === 0){
-
-        return input;
-
-    }
-
 
     /*
-       Actual name choose karo.
-
-       Number wala naam sabse pehle:
-       EagleX
-       Lion47
-       Wolf99
+       Agar database style me boxed letters mile,
+       to input ke har letter ke baad wahi
+       combining box laga do.
     */
 
-    let nameCandidate =
-        candidates.find(
-            function(item){
+    if(hasBoxStyle){
 
-                return item.hasNumber &&
-                       item.startsUpper;
+        let styledInput = "";
+
+        for(
+            const char of Array.from(input)
+        ){
+
+            if(
+                /^[A-Za-z0-9]$/.test(char)
+            ){
+
+                styledInput +=
+                    char + "\u20E3";
 
             }
-        );
+            else{
 
+                styledInput += char;
 
-    /*
-       Agar number wala nahi mila,
-       to CamelCase / Capital-start name.
-    */
-
-    if(!nameCandidate){
-
-        nameCandidate =
-            candidates.find(
-                function(item){
-
-                    return (
-                        item.startsUpper &&
-                        item.hasUpperAfterFirst
-                    );
-
-                }
-            );
-
-    }
-
-
-    /*
-       Agar ab bhi nahi mila,
-       to capital se start hone wala
-       sabse lamba word.
-    */
-
-    if(!nameCandidate){
-
-        const upperCandidates =
-            candidates.filter(
-                function(item){
-
-                    return item.startsUpper;
-
-                }
-            );
-
-
-        if(upperCandidates.length > 0){
-
-            nameCandidate =
-                upperCandidates.reduce(
-                    function(longest, current){
-
-                        return current.word.length >
-                               longest.word.length
-                            ? current
-                            : longest;
-
-                    }
-                );
+            }
 
         }
 
-    }
-
-
-    /*
-       Last fallback:
-       sabse lamba word.
-    */
-
-    if(!nameCandidate){
-
-        nameCandidate =
-            candidates.reduce(
-                function(longest, current){
-
-                    return current.word.length >
-                           longest.word.length
-                        ? current
-                        : longest;
-
-                }
-            );
+        return styledInput;
 
     }
 
-
-    const start =
-        nameCandidate.index;
-
-
-    const end =
-        start +
-        nameCandidate.word.length;
-
-
     /*
-       Actual old name ko remove karo.
+       Agar boxed style nahi mila,
+       to normal input return karo.
     */
 
-    const prefix =
-        databaseStyle.slice(
-            0,
-            start
-        );
-
-
-    const suffix =
-        databaseStyle.slice(
-            end
-        );
-
-
-    /*
-       Sirf user ka naam insert hoga.
-    */
-
-    return (
-        prefix +
-        input +
-        suffix
-    );
+    return input;
 
 }
-
         
 /* =====================================================
    LOAD DATABASE
