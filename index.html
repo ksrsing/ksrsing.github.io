@@ -1608,86 +1608,209 @@ function applyStyleToInput(
 
 }
 
-
 /* =====================================================
    CREATE NAME FROM DATABASE STYLE
+   FIXED VERSION
 ===================================================== */
 
-function createNameFromTemplate(
-    databaseName,
-    input
-){
+function createNameFromTemplate(databaseStyle, input){
+
+    databaseStyle = String(databaseStyle || "").trim();
+    input = String(input || "").trim();
+
+    if(!databaseStyle || !input){
+        return null;
+    }
+
+    /*
+       Unicode font letters ko normal ASCII me identify
+       karne ke liye NFKD normalization use karenge.
+    */
+
+    function isLetterLike(char){
+
+        if(!char){
+            return false;
+        }
+
+        const normalized =
+            char.normalize("NFKD");
+
+        return /^[A-Za-z0-9]$/.test(normalized);
+    }
+
 
     const chars =
-    Array.from(databaseName);
+        Array.from(databaseStyle);
 
-    const positions = [];
 
-    for(
-        let i = 0;
-        i < chars.length;
-        i++
-    ){
+    /*
+       Database style me letter positions find karo.
+    */
 
-        if(
-            isStyledLetter(chars[i])
-        ){
+    const letterPositions = [];
 
-            positions.push(i);
+    for(let i = 0; i < chars.length; i++){
+
+        if(isLetterLike(chars[i])){
+
+            letterPositions.push(i);
 
         }
 
     }
 
-    if(
-        positions.length === 0
-    ){
 
-        return null;
+    /*
+       Agar style me koi recognizable text nahi mila,
+       to style ko direct prefix/symbol ke saath use karo.
+    */
+
+    if(letterPositions.length === 0){
+
+        return (
+            databaseStyle +
+            " " +
+            input
+        );
 
     }
 
-    const first =
-    positions[0];
 
-    const last =
-    positions[
-        positions.length - 1
-    ];
+    /*
+       Consecutive letter groups find karo.
+       Example:
+
+       ☾𓂃 Your Name 𓂃☽
+
+       ya
+
+       Ⓨⓞⓤⓡ ⓝⓐⓜⓔ
+
+    */
+
+    const groups = [];
+
+    let start = null;
+    let last = null;
+
+    for(const pos of letterPositions){
+
+        if(start === null){
+
+            start = pos;
+            last = pos;
+
+            continue;
+
+        }
+
+
+        /*
+           Space ko same text group ka part maanenge.
+           Bahut bade decorative gaps ko new group maanenge.
+        */
+
+        if(pos - last <= 3){
+
+            last = pos;
+
+        }
+        else{
+
+            groups.push({
+                start:start,
+                end:last
+            });
+
+            start = pos;
+            last = pos;
+
+        }
+
+    }
+
+
+    if(start !== null){
+
+        groups.push({
+            start:start,
+            end:last
+        });
+
+    }
 
 
     /*
-       Database ke symbols/prefix/suffix
-       same rakhe jayenge.
+       Sabse bada text group choose karo.
+    */
+
+    let mainGroup = groups[0];
+
+    for(const group of groups){
+
+        const currentLength =
+            group.end -
+            group.start;
+
+        const mainLength =
+            mainGroup.end -
+            mainGroup.start;
+
+        if(currentLength > mainLength){
+
+            mainGroup = group;
+
+        }
+
+    }
+
+
+    /*
+       Prefix
     */
 
     const prefix =
-    chars
-    .slice(0, first)
-    .join("");
+        chars
+        .slice(
+            0,
+            mainGroup.start
+        )
+        .join("");
+
+
+    /*
+       Suffix
+    */
 
     const suffix =
-    chars
-    .slice(last + 1)
-    .join("");
+        chars
+        .slice(
+            mainGroup.end + 1
+        )
+        .join("");
 
+
+    /*
+       Style detect karo.
+    */
 
     let styleName = null;
 
     for(
-        const position of positions
+        let i = mainGroup.start;
+        i <= mainGroup.end;
+        i++
     ){
 
         const detected =
-        getCharStyle(
-            chars[position]
-        );
+            getCharStyle(
+                chars[i]
+            );
 
         if(detected){
 
-            styleName =
-            detected;
-
+            styleName = detected;
             break;
 
         }
@@ -1695,30 +1818,31 @@ function createNameFromTemplate(
     }
 
 
-    if(!styleName){
-
-        styleName = "normal";
-
-    }
-
+    /*
+       Agar existing Unicode style identify ho gaya
+       to input ko usi font me convert karo.
+    */
 
     let styledInput;
 
 
-    if(
-        styleName === "normal"
-    ){
+    if(styleName){
 
-        styledInput = input;
+        styledInput =
+            applyStyleToInput(
+                input,
+                styleName
+            );
 
     }
     else{
 
-        styledInput =
-        applyStyleToInput(
-            input,
-            styleName
-        );
+        /*
+           Unknown Unicode style ke case me
+           normal input use hoga.
+        */
+
+        styledInput = input;
 
     }
 
@@ -1730,7 +1854,6 @@ function createNameFromTemplate(
     );
 
 }
-
 
 /* =====================================================
    LOAD DATABASE
