@@ -2294,141 +2294,98 @@ function createDatabaseCard(
    GENERATE NAME
 ===================================================== */
 
-function generateName(
-    input
-){
+function generateName(input){
 
-    input =
-    input.trim();
-
+    input = String(input || "").trim();
 
     if(!input){
 
-        showToast(
-            "Pehle name enter karo"
-        );
+        showToast("Pehle name enter karo");
 
         return;
-
     }
 
+    if(allDatabaseNames.length === 0){
 
-    if(
-        allDatabaseNames.length === 0
-    ){
-
-        showToast(
-            "Database load ho raha hai..."
-        );
-
+        showToast("Database load ho raha hai...");
 
         loadDatabaseNames();
 
-
         return;
-
     }
 
-
     generatedResults = [];
-
     generatedPage = 0;
-
     currentMode = "generated";
 
+    const source = getFilteredDatabaseNames();
 
-    const seen =
-    new Set();
+    console.log(
+        "TOTAL DATABASE STYLES:",
+        source.length
+    );
 
+    source.forEach(function(item){
 
-    const source =
-    getFilteredDatabaseNames();
+        const template =
+            String(item.name || "").trim();
 
+        if(!template){
+            return;
+        }
 
-    source.forEach(
-        function(item){
-
-            const template =
-            String(
-                item.name || ""
-            ).trim();
-
-
-            if(!template){
-
-                return;
-
-            }
-
-
-            const result =
+        const result =
             createNameFromTemplate(
                 template,
                 input
             );
 
-
-            if(!result){
-
-                return;
-
-            }
-            generatedResults.push({
-
-                name:
-                result,
-
-                font:
-                "Database Style",
-
-                category:
-                "Database",
-
-                source:
-                template
-
-            });
-
+        if(!result){
+            return;
         }
+
+        generatedResults.push({
+
+            name: result,
+
+            font: "Database Style",
+
+            category: "Database",
+
+            source: template
+
+        });
+
+    });
+
+    console.log(
+        "TOTAL GENERATED:",
+        generatedResults.length
     );
 
-
-    if(
-        generatedResults.length === 0
-    ){
+    if(generatedResults.length === 0){
 
         showToast(
             "Database me usable styles nahi mile"
         );
 
         return;
-
     }
 
-
     document
-    .getElementById(
-        "resultTitle"
-    )
+    .getElementById("resultTitle")
     .textContent =
-    "Stylish Names for " +
-    input;
-
+    "Stylish Names for " + input;
 
     renderGeneratedPage();
 
-
     document
-    .getElementById(
-        "nameGrid"
-    )
+    .getElementById("nameGrid")
     .scrollIntoView({
-        behavior:"smooth"
+        behavior: "smooth"
     });
 
 }
-
-
 /* =====================================================
    RENDER GENERATED
 ===================================================== */
