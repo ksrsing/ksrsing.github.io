@@ -1612,7 +1612,6 @@ function applyStyleToInput(
    CREATE NAME FROM DATABASE STYLE
    FIXED VERSION
 ===================================================== */
-
 function createNameFromTemplate(databaseStyle, input){
 
     databaseStyle = String(databaseStyle || "").trim();
@@ -1623,238 +1622,242 @@ function createNameFromTemplate(databaseStyle, input){
     }
 
     /*
-       Unicode font letters ko normal ASCII me identify
-       karne ke liye NFKD normalization use karenge.
+       Database style me agar "Your Name",
+       "your name", "YOUR NAME" ya
+       "YourName" type placeholder hai,
+       to usko directly input name se replace karo.
     */
 
-    function isLetterLike(char){
+    const placeholderPatterns = [
 
-        if(!char){
-            return false;
-        }
+        /your\s+name/giu,
+        /yourname/giu,
+        /stylish\s+name/giu,
+        /stylishname/giu,
+        /my\s+name/giu,
+        /myname/giu
 
-        const normalized =
-            char.normalize("NFKD");
-
-        return /^[A-Za-z0-9]$/.test(normalized);
-    }
+    ];
 
 
-    const chars =
-        Array.from(databaseStyle);
+    let result = databaseStyle;
 
 
     /*
-       Database style me letter positions find karo.
+       Pehle normal placeholders replace karo.
     */
 
-    const letterPositions = [];
+    let replaced = false;
 
-    for(let i = 0; i < chars.length; i++){
-
-        if(isLetterLike(chars[i])){
-
-            letterPositions.push(i);
-
-        }
-
-    }
-
-
-    /*
-       Agar style me koi recognizable text nahi mila,
-       to style ko direct prefix/symbol ke saath use karo.
-    */
-
-    if(letterPositions.length === 0){
-
-        return (
-            databaseStyle +
-            " " +
-            input
-        );
-
-    }
-
-
-    /*
-       Consecutive letter groups find karo.
-       Example:
-
-       ☾𓂃 Your Name 𓂃☽
-
-       ya
-
-       Ⓨⓞⓤⓡ ⓝⓐⓜⓔ
-
-    */
-
-    const groups = [];
-
-    let start = null;
-    let last = null;
-
-    for(const pos of letterPositions){
-
-        if(start === null){
-
-            start = pos;
-            last = pos;
-
-            continue;
-
-        }
-
-
-        /*
-           Space ko same text group ka part maanenge.
-           Bahut bade decorative gaps ko new group maanenge.
-        */
-
-        if(pos - last <= 3){
-
-            last = pos;
-
-        }
-        else{
-
-            groups.push({
-                start:start,
-                end:last
-            });
-
-            start = pos;
-            last = pos;
-
-        }
-
-    }
-
-
-    if(start !== null){
-
-        groups.push({
-            start:start,
-            end:last
-        });
-
-    }
-
-
-    /*
-       Sabse bada text group choose karo.
-    */
-
-    let mainGroup = groups[0];
-
-    for(const group of groups){
-
-        const currentLength =
-            group.end -
-            group.start;
-
-        const mainLength =
-            mainGroup.end -
-            mainGroup.start;
-
-        if(currentLength > mainLength){
-
-            mainGroup = group;
-
-        }
-
-    }
-
-
-    /*
-       Prefix
-    */
-
-    const prefix =
-        chars
-        .slice(
-            0,
-            mainGroup.start
-        )
-        .join("");
-
-
-    /*
-       Suffix
-    */
-
-    const suffix =
-        chars
-        .slice(
-            mainGroup.end + 1
-        )
-        .join("");
-
-
-    /*
-       Style detect karo.
-    */
-
-    let styleName = null;
 
     for(
-        let i = mainGroup.start;
-        i <= mainGroup.end;
-        i++
+        const pattern of placeholderPatterns
     ){
 
-        const detected =
-            getCharStyle(
-                chars[i]
+        if(pattern.test(result)){
+
+            result =
+            result.replace(
+                pattern,
+                input
             );
 
-        if(detected){
+            replaced = true;
 
-            styleName = detected;
             break;
 
         }
 
+        /*
+           RegExp global hone ki wajah se
+           lastIndex reset karna zaroori hai.
+        */
+
+        pattern.lastIndex = 0;
+
     }
 
 
     /*
-       Agar existing Unicode style identify ho gaya
-       to input ko usi font me convert karo.
+       Agar database style me normal
+       "Your Name" placeholder nahi mila,
+       to existing Unicode styled letters
+       detect karke input ko usi font me
+       convert karne ki koshish karo.
     */
 
-    let styledInput;
+    if(!replaced){
+
+        function detectStyle(text){
+
+            for(
+                const styleName in UNICODE_STYLES
+            ){
+
+                const style =
+                UNICODE_STYLES[styleName];
+
+                const upper =
+                Array.from(style.upper);
+
+                const lower =
+                Array.from(style.lower);
+
+                for(const char of Array.from(text)){
+
+                    if(
+                        upper.includes(char) ||
+                        lower.includes(char)
+                    ){
+
+                        return styleName;
+
+                    }
+
+                }
+
+            }
+
+            return null;
+
+        }
 
 
-    if(styleName){
+        const styleName =
+        detectStyle(databaseStyle);
 
-        styledInput =
+
+        if(styleName){
+
+            /*
+               Database ke existing styled letters
+               ko normal placeholder samajhne ki jagah
+               input ko same style me convert karo.
+            */
+
+            const styledInput =
             applyStyleToInput(
                 input,
                 styleName
             );
 
-    }
-    else{
+
+            /*
+               Database ke letters ko remove karke
+               unki jagah styled input lagao.
+
+               Decorative symbols, spaces etc.
+               preserve rahenge.
+            */
+
+            const chars =
+            Array.from(databaseStyle);
+
+
+            let firstLetter = -1;
+            let lastLetter = -1;
+
+
+            for(
+                let i = 0;
+                i < chars.length;
+                i++
+            ){
+
+                if(
+                    getCharStyle(
+                        chars[i]
+                    )
+                ){
+
+                    if(firstLetter === -1){
+                        firstLetter = i;
+                    }
+
+                    lastLetter = i;
+
+                }
+
+            }
+
+
+            if(
+                firstLetter !== -1 &&
+                lastLetter !== -1
+            ){
+
+                const prefix =
+                chars
+                .slice(
+                    0,
+                    firstLetter
+                )
+                .join("");
+
+
+                const suffix =
+                chars
+                .slice(
+                    lastLetter + 1
+                )
+                .join("");
+
+
+                return (
+                    prefix +
+                    styledInput +
+                    suffix
+                );
+
+            }
+
+        }
+
 
         /*
-           Unknown Unicode style ke case me
-           normal input use hoga.
+           Agar style me Unicode font identify
+           nahi hua, to database ke text ko
+           raw name ke saath chipkaane ke bajay
+           input ko use karo.
+
+           Decorative prefix/suffix preserve
+           karne ki basic koshish.
         */
 
-        styledInput = input;
+        const match =
+        databaseStyle.match(
+            /^([^\p{L}\p{N}]*).*?([^\p{L}\p{N}]*)$/u
+        );
+
+
+        if(match){
+
+            const prefix =
+            match[1] || "";
+
+            const suffix =
+            match[2] || "";
+
+            return (
+                prefix +
+                input +
+                suffix
+            );
+
+        }
+
+
+        return input;
 
     }
 
 
-    return (
-        prefix +
-        styledInput +
-        suffix
-    );
+    return result;
 
 }
 
+
+        
 /* =====================================================
    LOAD DATABASE
    IMPORTANT:
