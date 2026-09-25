@@ -1272,7 +1272,50 @@ window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
 );
+     
+/* =====================================================
+   VISIT TRACKING
+===================================================== */
 
+async function recordVisit(){
+
+    try{
+
+        const { error } =
+        await supabaseClient
+        .from("visits")
+        .insert([
+            {
+                created_at:
+                new Date().toISOString()
+            }
+        ]);
+
+        if(error){
+
+            console.error(
+                "Visit insert error:",
+                error
+            );
+
+        }else{
+
+            console.log(
+                "Visit recorded successfully"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Visit tracking failed:",
+            error
+        );
+
+    }
+
+}
 
 /* =====================================================
    VARIABLES
@@ -3218,6 +3261,8 @@ function escapeHtml(
 renderFavorites();
 
 loadDatabaseNames();
+
+recordVisit();
 
 </script>
 
