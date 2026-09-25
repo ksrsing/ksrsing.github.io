@@ -1626,31 +1626,77 @@ function createNameFromTemplate(databaseStyle, input){
 
 
     /*
-       Database ke style me jo actual example name hai
-       usko find karenge.
+       Database style ke andar actual example name
+       identify karna hai.
 
-       Examples:
-       EagleX
-       Lion47
-       DragonX
-       Warrior44
-       DarkWolf
-       RangerX
+       Priority:
+       1. Number wala name  -> Lion47, Wolf99
+       2. Capital-letter wala name -> EagleX, DarkWolf
+       3. CamelCase name -> DarkWolf, RangerX
     */
 
 
-    const matches =
-        [...databaseStyle.matchAll(
-            /[A-Za-z][A-Za-z0-9]*/g
-        )];
+    const candidates = [];
 
 
     /*
-       Agar koi normal English name nahi mila
-       to input ko directly return karo.
+       Normal English/alphanumeric words
+       find karo.
     */
 
-    if(matches.length === 0){
+    const regex =
+        /[A-Za-z][A-Za-z0-9]*/g;
+
+
+    let match;
+
+
+    while(
+        (match = regex.exec(databaseStyle)) !== null
+    ){
+
+        const word =
+            match[0];
+
+        const index =
+            match.index;
+
+
+        /*
+           Bahut chhote decorative fragments
+           ignore karo.
+        */
+
+        if(word.length < 3){
+            continue;
+        }
+
+
+        /*
+           Candidate ki information save karo.
+        */
+
+        candidates.push({
+
+            word: word,
+
+            index: index,
+
+            hasNumber:
+                /\d/.test(word),
+
+            startsUpper:
+                /^[A-Z]/.test(word),
+
+            hasUpperAfterFirst:
+                /^[A-Z][a-z]+[A-Z]/.test(word)
+
+        });
+
+    }
+
+
+    if(candidates.length === 0){
 
         return input;
 
@@ -1658,45 +1704,118 @@ function createNameFromTemplate(databaseStyle, input){
 
 
     /*
-       Sabse lamba alphanumeric word
-       actual name maana jayega.
+       Actual name choose karo.
 
-       Example:
-
-       cxxx{}::::::::> Cobra47
-
-       cxxx = 4 characters
-       Cobra47 = 7 characters
-
-       Isliye Cobra47 select hoga.
+       Number wala naam sabse pehle:
+       EagleX
+       Lion47
+       Wolf99
     */
 
-    let nameMatch =
-        matches[0];
+    let nameCandidate =
+        candidates.find(
+            function(item){
+
+                return item.hasNumber &&
+                       item.startsUpper;
+
+            }
+        );
 
 
-    for(const match of matches){
+    /*
+       Agar number wala nahi mila,
+       to CamelCase / Capital-start name.
+    */
 
-        if(
-            match[0].length >
-            nameMatch[0].length
-        ){
+    if(!nameCandidate){
 
-            nameMatch = match;
+        nameCandidate =
+            candidates.find(
+                function(item){
+
+                    return (
+                        item.startsUpper &&
+                        item.hasUpperAfterFirst
+                    );
+
+                }
+            );
+
+    }
+
+
+    /*
+       Agar ab bhi nahi mila,
+       to capital se start hone wala
+       sabse lamba word.
+    */
+
+    if(!nameCandidate){
+
+        const upperCandidates =
+            candidates.filter(
+                function(item){
+
+                    return item.startsUpper;
+
+                }
+            );
+
+
+        if(upperCandidates.length > 0){
+
+            nameCandidate =
+                upperCandidates.reduce(
+                    function(longest, current){
+
+                        return current.word.length >
+                               longest.word.length
+                            ? current
+                            : longest;
+
+                    }
+                );
 
         }
 
     }
 
 
+    /*
+       Last fallback:
+       sabse lamba word.
+    */
+
+    if(!nameCandidate){
+
+        nameCandidate =
+            candidates.reduce(
+                function(longest, current){
+
+                    return current.word.length >
+                           longest.word.length
+                        ? current
+                        : longest;
+
+                }
+            );
+
+    }
+
+
     const start =
-        nameMatch.index;
+        nameCandidate.index;
 
 
     const end =
         start +
-        nameMatch[0].length;
+        nameCandidate.word.length;
 
+
+    /*
+       Actual old name ko remove karo.
+    */
 
     const prefix =
         databaseStyle.slice(
@@ -1712,8 +1831,7 @@ function createNameFromTemplate(databaseStyle, input){
 
 
     /*
-       Purana database name remove karke
-       user ka entered name insert karo.
+       Sirf user ka naam insert hoga.
     */
 
     return (
