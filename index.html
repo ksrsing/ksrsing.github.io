@@ -1614,248 +1614,115 @@ function applyStyleToInput(
 ===================================================== */
 function createNameFromTemplate(databaseStyle, input){
 
-    databaseStyle = String(databaseStyle || "").trim();
-    input = String(input || "").trim();
+    databaseStyle =
+        String(databaseStyle || "").trim();
+
+    input =
+        String(input || "").trim();
 
     if(!databaseStyle || !input){
         return null;
     }
 
-    /*
-       Database style me agar "Your Name",
-       "your name", "YOUR NAME" ya
-       "YourName" type placeholder hai,
-       to usko directly input name se replace karo.
-    */
-
-    const placeholderPatterns = [
-
-        /your\s+name/giu,
-        /yourname/giu,
-        /stylish\s+name/giu,
-        /stylishname/giu,
-        /my\s+name/giu,
-        /myname/giu
-
-    ];
-
-
-    let result = databaseStyle;
-
 
     /*
-       Pehle normal placeholders replace karo.
+       Database ke style me jo actual example name hai
+       usko find karenge.
+
+       Examples:
+       EagleX
+       Lion47
+       DragonX
+       Warrior44
+       DarkWolf
+       RangerX
     */
 
-    let replaced = false;
 
-
-    for(
-        const pattern of placeholderPatterns
-    ){
-
-        if(pattern.test(result)){
-
-            result =
-            result.replace(
-                pattern,
-                input
-            );
-
-            replaced = true;
-
-            break;
-
-        }
-
-        /*
-           RegExp global hone ki wajah se
-           lastIndex reset karna zaroori hai.
-        */
-
-        pattern.lastIndex = 0;
-
-    }
+    const matches =
+        [...databaseStyle.matchAll(
+            /[A-Za-z][A-Za-z0-9]*/g
+        )];
 
 
     /*
-       Agar database style me normal
-       "Your Name" placeholder nahi mila,
-       to existing Unicode styled letters
-       detect karke input ko usi font me
-       convert karne ki koshish karo.
+       Agar koi normal English name nahi mila
+       to input ko directly return karo.
     */
 
-    if(!replaced){
-
-        function detectStyle(text){
-
-            for(
-                const styleName in UNICODE_STYLES
-            ){
-
-                const style =
-                UNICODE_STYLES[styleName];
-
-                const upper =
-                Array.from(style.upper);
-
-                const lower =
-                Array.from(style.lower);
-
-                for(const char of Array.from(text)){
-
-                    if(
-                        upper.includes(char) ||
-                        lower.includes(char)
-                    ){
-
-                        return styleName;
-
-                    }
-
-                }
-
-            }
-
-            return null;
-
-        }
-
-
-        const styleName =
-        detectStyle(databaseStyle);
-
-
-        if(styleName){
-
-            /*
-               Database ke existing styled letters
-               ko normal placeholder samajhne ki jagah
-               input ko same style me convert karo.
-            */
-
-            const styledInput =
-            applyStyleToInput(
-                input,
-                styleName
-            );
-
-
-            /*
-               Database ke letters ko remove karke
-               unki jagah styled input lagao.
-
-               Decorative symbols, spaces etc.
-               preserve rahenge.
-            */
-
-            const chars =
-            Array.from(databaseStyle);
-
-
-            let firstLetter = -1;
-            let lastLetter = -1;
-
-
-            for(
-                let i = 0;
-                i < chars.length;
-                i++
-            ){
-
-                if(
-                    getCharStyle(
-                        chars[i]
-                    )
-                ){
-
-                    if(firstLetter === -1){
-                        firstLetter = i;
-                    }
-
-                    lastLetter = i;
-
-                }
-
-            }
-
-
-            if(
-                firstLetter !== -1 &&
-                lastLetter !== -1
-            ){
-
-                const prefix =
-                chars
-                .slice(
-                    0,
-                    firstLetter
-                )
-                .join("");
-
-
-                const suffix =
-                chars
-                .slice(
-                    lastLetter + 1
-                )
-                .join("");
-
-
-                return (
-                    prefix +
-                    styledInput +
-                    suffix
-                );
-
-            }
-
-        }
-
-
-        /*
-           Agar style me Unicode font identify
-           nahi hua, to database ke text ko
-           raw name ke saath chipkaane ke bajay
-           input ko use karo.
-
-           Decorative prefix/suffix preserve
-           karne ki basic koshish.
-        */
-
-        const match =
-        databaseStyle.match(
-            /^([^\p{L}\p{N}]*).*?([^\p{L}\p{N}]*)$/u
-        );
-
-
-        if(match){
-
-            const prefix =
-            match[1] || "";
-
-            const suffix =
-            match[2] || "";
-
-            return (
-                prefix +
-                input +
-                suffix
-            );
-
-        }
-
+    if(matches.length === 0){
 
         return input;
 
     }
 
 
-    return result;
+    /*
+       Sabse lamba alphanumeric word
+       actual name maana jayega.
+
+       Example:
+
+       cxxx{}::::::::> Cobra47
+
+       cxxx = 4 characters
+       Cobra47 = 7 characters
+
+       Isliye Cobra47 select hoga.
+    */
+
+    let nameMatch =
+        matches[0];
+
+
+    for(const match of matches){
+
+        if(
+            match[0].length >
+            nameMatch[0].length
+        ){
+
+            nameMatch = match;
+
+        }
+
+    }
+
+
+    const start =
+        nameMatch.index;
+
+
+    const end =
+        start +
+        nameMatch[0].length;
+
+
+    const prefix =
+        databaseStyle.slice(
+            0,
+            start
+        );
+
+
+    const suffix =
+        databaseStyle.slice(
+            end
+        );
+
+
+    /*
+       Purana database name remove karke
+       user ka entered name insert karo.
+    */
+
+    return (
+        prefix +
+        input +
+        suffix
+    );
 
 }
-
 
         
 /* =====================================================
