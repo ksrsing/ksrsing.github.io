@@ -618,87 +618,38 @@ Generate names from your database styles.
 <div class="categories">
 
 <div class="category-card" onclick="showAllStyles()">
-
-<div class="category-icon">
-✨
-</div>
-
-<div class="category-name">
-All Styles
-</div>
-
+<div class="category-icon">✨</div>
+<div class="category-name">All Styles</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Gaming')">
-
-<div class="category-icon">
-🎮
-</div>
-
-<div class="category-name">
-Gaming
-</div>
-
+<div class="category-icon">🎮</div>
+<div class="category-name">Gaming</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Cool')">
-
-<div class="category-icon">
-😎
-</div>
-
-<div class="category-name">
-Cool
-</div>
-
+<div class="category-icon">😎</div>
+<div class="category-name">Cool</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Royal')">
-
-<div class="category-icon">
-👑
-</div>
-
-<div class="category-name">
-Royal
-</div>
-
+<div class="category-icon">👑</div>
+<div class="category-name">Royal</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Love')">
-
-<div class="category-icon">
-❤️
-</div>
-
-<div class="category-name">
-Love
-</div>
-
+<div class="category-icon">❤️</div>
+<div class="category-name">Love</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Fire')">
-
-<div class="category-icon">
-🔥
-</div>
-
-<div class="category-name">
-Fire
-</div>
-
+<div class="category-icon">🔥</div>
+<div class="category-name">Fire</div>
 </div>
 
 <div class="category-card" onclick="generateCategory('Danger')">
-
-<div class="category-icon">
-☠️
-</div>
-
-<div class="category-name">
-Danger
-</div>
-
+<div class="category-icon">☠️</div>
+<div class="category-name">Danger</div>
 </div>
 
 </div>
@@ -778,9 +729,7 @@ Simple, fast and stylish.
 
 <div class="feature">
 
-<div class="feature-icon">
-⚡
-</div>
+<div class="feature-icon">⚡</div>
 
 <h3>
 4000+ Database Styles
@@ -795,9 +744,7 @@ the styles stored in your database.
 
 <div class="feature">
 
-<div class="feature-icon">
-🎨
-</div>
+<div class="feature-icon">🎨</div>
 
 <h3>
 Multiple Unicode Styles
@@ -812,9 +759,7 @@ monospace and many decorative styles.
 
 <div class="feature">
 
-<div class="feature-icon">
-❤️
-</div>
+<div class="feature-icon">❤️</div>
 
 <h3>
 Favorites
@@ -1318,6 +1263,11 @@ function createDatabaseCard(item){
 }
 
 
+/* =========================================================
+   MAIN GENERATOR
+   CSV NAME KO USER KE NAME SE REPLACE KARTA HAI
+========================================================= */
+
 function generateName(input){
 
     input =
@@ -1356,10 +1306,6 @@ function generateName(input){
     const source =
     allDatabaseNames;
 
-    console.log(
-        "TOTAL STYLES:",
-        source.length
-    );
 
     source.forEach(
         function(item){
@@ -1371,9 +1317,11 @@ function generateName(input){
                 item.originalName
             );
 
+
             if(!result){
                 return;
             }
+
 
             generatedResults.push({
 
@@ -1394,10 +1342,12 @@ function generateName(input){
         }
     );
 
+
     console.log(
         "TOTAL GENERATED:",
         generatedResults.length
     );
+
 
     if(
         generatedResults.length === 0
@@ -1411,12 +1361,15 @@ function generateName(input){
 
     }
 
+
     document.getElementById(
         "resultTitle"
     ).textContent =
     "Stylish Names for " + input;
 
+
     renderGeneratedPage();
+
 
     document.getElementById(
         "nameGrid"
@@ -1427,10 +1380,9 @@ function generateName(input){
 }
 
 
-/* =====================================================
-   CSV NAME -> USER INPUT
-   SAME CSV STYLE + DECORATIONS
-===================================================== */
+/* =========================================================
+   CSV STYLE REPLACER
+========================================================= */
 
 function createNameFromTemplate(
     style,
@@ -1447,32 +1399,36 @@ function createNameFromTemplate(
     originalName =
     String(originalName || "").trim();
 
+
     if(
         !style ||
         !input
     ){
+
         return null;
+
     }
 
 
-    /*
-    SAME NAME
-    */
-
     if(
-        input === originalName
+        !originalName
     ){
+
         return style;
+
     }
 
 
     /*
-    DIRECT NORMAL NAME
+    ---------------------------------------------------------
+    DIRECT NORMAL TEXT
+    ---------------------------------------------------------
     */
 
     if(
-        originalName &&
-        style.includes(originalName)
+        style.includes(
+            originalName
+        )
     ){
 
         return style.replaceAll(
@@ -1484,7 +1440,9 @@ function createNameFromTemplate(
 
 
     /*
-    UNICODE MAPS
+    ---------------------------------------------------------
+    UNICODE STYLE MAPS
+    ---------------------------------------------------------
     */
 
     const maps = {
@@ -1568,10 +1526,14 @@ function createNameFromTemplate(
     ){
 
         const upper =
-        Array.from(map.upper);
+        Array.from(
+            map.upper
+        );
 
         const lower =
-        Array.from(map.lower);
+        Array.from(
+            map.lower
+        );
 
         return Array
         .from(text)
@@ -1580,6 +1542,7 @@ function createNameFromTemplate(
 
                 const code =
                 char.charCodeAt(0);
+
 
                 if(
                     code >= 65 &&
@@ -1594,6 +1557,7 @@ function createNameFromTemplate(
 
                 }
 
+
                 if(
                     code >= 97 &&
                     code <= 122
@@ -1607,6 +1571,7 @@ function createNameFromTemplate(
 
                 }
 
+
                 return char;
 
             }
@@ -1617,74 +1582,295 @@ function createNameFromTemplate(
 
 
     /*
-    SQUARED LETTERS
+    ---------------------------------------------------------
+    SQUARED
+    ---------------------------------------------------------
     */
 
     const squared = {
 
-        A:"🅰", B:"🅱", C:"🅲", D:"🅳",
-        E:"🅴", F:"🅵", G:"🅶", H:"🅷",
-        I:"🅸", J:"🅹", K:"🅺", L:"🅻",
-        M:"🅼", N:"🅽", O:"🅾", P:"🅿",
-        Q:"🆀", R:"🆁", S:"🆂", T:"🆃",
-        U:"🆄", V:"🆅", W:"🆆", X:"🆇",
-        Y:"🆈", Z:"🆉"
+        A:"🅰",B:"🅱",C:"🅲",D:"🅳",
+        E:"🅴",F:"🅵",G:"🅶",H:"🅷",
+        I:"🅸",J:"🅹",K:"🅺",L:"🅻",
+        M:"🅼",N:"🅽",O:"🅾",P:"🅿",
+        Q:"🆀",R:"🆁",S:"🆂",T:"🆃",
+        U:"🆄",V:"🆅",W:"🆆",X:"🆇",
+        Y:"🆈",Z:"🆉"
 
     };
 
 
     const squaredAlt = {
 
-        A:"🄰", B:"🄱", C:"🄲", D:"🄳",
-        E:"🄴", F:"🄵", G:"🄶", H:"🄷",
-        I:"🄸", J:"🄹", K:"🄺", L:"🄻",
-        M:"🄼", N:"🄽", O:"🄾", P:"🄿",
-        Q:"🅀", R:"🅁", S:"🅂", T:"🅃",
-        U:"🅄", V:"🅅", W:"🅆", X:"🅇",
-        Y:"🅈", Z:"🅉"
+        A:"🄰",B:"🄱",C:"🄲",D:"🄳",
+        E:"🄴",F:"🄵",G:"🄶",H:"🄷",
+        I:"🄸",J:"🄹",K:"🄺",L:"🄻",
+        M:"🄼",N:"🄽",O:"🄾",P:"🄿",
+        Q:"🅀",R:"🅁",S:"🅂",T:"🅃",
+        U:"🅄",V:"🅅",W:"🅆",X:"🅇",
+        Y:"🅈",Z:"🅉"
 
     };
 
 
-    function detectMode(
-        sourceChar,
-        targetChar
+    /*
+    ---------------------------------------------------------
+    SMALL CAPS
+    ---------------------------------------------------------
+    */
+
+    const smallCaps =
+    "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
+
+
+    /*
+    ---------------------------------------------------------
+    CIRCLED
+    ---------------------------------------------------------
+    */
+
+    const circledUpper =
+    "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
+
+    const circledLower =
+    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
+
+
+    /*
+    ---------------------------------------------------------
+    SUPERSCRIPT / SUBSCRIPT
+    ---------------------------------------------------------
+    */
+
+    const superscript = {
+
+        a:"ᵃ",b:"ᵇ",c:"ᶜ",d:"ᵈ",
+        e:"ᵉ",f:"ᶠ",g:"ᵍ",h:"ʰ",
+        i:"ⁱ",j:"ʲ",k:"ᵏ",l:"ˡ",
+        m:"ᵐ",n:"ⁿ",o:"ᵒ",p:"ᵖ",
+        q:"q",r:"ʳ",s:"ˢ",t:"ᵗ",
+        u:"ᵘ",v:"ᵛ",w:"ʷ",x:"ˣ",
+        y:"ʸ",z:"ᶻ"
+
+    };
+
+
+    const subscript = {
+
+        a:"ₐ",b:"ᵦ",c:"𝒸",d:"𝒹",
+        e:"ₑ",f:"𝒻",g:"𝓰",h:"ₕ",
+        i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",
+        m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",
+        q:"q",r:"ᵣ",s:"ₛ",t:"ₜ",
+        u:"ᵤ",v:"ᵥ",w:"𝓌",x:"ₓ",
+        y:"ᵧ",z:"𝓏"
+
+    };
+
+
+    /*
+    ---------------------------------------------------------
+    GET NORMAL LETTER
+    ---------------------------------------------------------
+    */
+
+    function getNormalChar(
+        char
     ){
 
-        if(
-            sourceChar === targetChar
-        ){
-            return "normal";
+        if(!char){
+            return null;
         }
 
 
-        const upper =
-        sourceChar.toUpperCase();
+        let value =
+        String(char);
 
+
+        /*
+        Unicode normalization
+        */
+
+        try{
+
+            const n =
+            value.normalize("NFKC");
+
+            if(
+                n.length === 1 &&
+                /^[A-Za-z0-9]$/.test(n)
+            ){
+
+                return n.toLowerCase();
+
+            }
+
+        }
+        catch(e){}
+
+
+        /*
+        SMALL CAPS
+        */
+
+        const smallIndex =
+        Array
+        .from(smallCaps)
+        .indexOf(
+            value
+        );
 
         if(
-            squared[upper] === targetChar
+            smallIndex !== -1
         ){
-            return "squared";
+
+            return String.fromCharCode(
+                97 + smallIndex
+            );
+
         }
 
 
-        if(
-            squaredAlt[upper] === targetChar
-        ){
-            return "squaredAlt";
-        }
-
+        /*
+        FONT MAPS
+        */
 
         for(
             const key in maps
         ){
 
+            const map =
+            maps[key];
+
+            const upper =
+            Array.from(
+                map.upper
+            );
+
+            const lower =
+            Array.from(
+                map.lower
+            );
+
+
+            const ui =
+            upper.indexOf(
+                value
+            );
+
             if(
-                transform(
-                    sourceChar,
-                    maps[key]
-                ) === targetChar
+                ui !== -1
+            ){
+
+                return String.fromCharCode(
+                    97 + ui
+                );
+
+            }
+
+
+            const li =
+            lower.indexOf(
+                value
+            );
+
+            if(
+                li !== -1
+            ){
+
+                return String.fromCharCode(
+                    97 + li
+                );
+
+            }
+
+        }
+
+
+        /*
+        SQUARED
+        */
+
+        for(
+            const key in squared
+        ){
+
+            if(
+                squared[key] === value
+            ){
+
+                return key.toLowerCase();
+
+            }
+
+        }
+
+
+        for(
+            const key in squaredAlt
+        ){
+
+            if(
+                squaredAlt[key] === value
+            ){
+
+                return key.toLowerCase();
+
+            }
+
+        }
+
+
+        /*
+        CIRCLED
+        */
+
+        const cu =
+        Array.from(
+            circledUpper
+        ).indexOf(
+            value
+        );
+
+        if(
+            cu !== -1
+        ){
+
+            return String.fromCharCode(
+                97 + cu
+            );
+
+        }
+
+
+        const cl =
+        Array.from(
+            circledLower
+        ).indexOf(
+            value
+        );
+
+        if(
+            cl !== -1
+        ){
+
+            return String.fromCharCode(
+                97 + cl
+            );
+
+        }
+
+
+        /*
+        SUPERSCRIPT
+        */
+
+        for(
+            const key in superscript
+        ){
+
+            if(
+                superscript[key] === value
             ){
 
                 return key;
@@ -1694,22 +1880,86 @@ function createNameFromTemplate(
         }
 
 
-        return "normal";
+        /*
+        SUBSCRIPT
+        */
+
+        for(
+            const key in subscript
+        ){
+
+            if(
+                subscript[key] === value
+            ){
+
+                return key;
+
+            }
+
+        }
+
+
+        return null;
 
     }
 
 
-    function applyMode(
+    /*
+    ---------------------------------------------------------
+    APPLY STYLE
+    ---------------------------------------------------------
+    */
+
+    function applyStyle(
         char,
         mode
     ){
 
         if(
-            mode === "squared"
+            mode === "normal"
         ){
 
-            const upper =
-            char.toUpperCase();
+            return char;
+
+        }
+
+
+        const lower =
+        char.toLowerCase();
+
+        const upper =
+        char.toUpperCase();
+
+
+        if(
+            mode === "smallCaps"
+        ){
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                lower
+            );
+
+            if(
+                index !== -1
+            ){
+
+                return Array
+                .from(
+                    smallCaps
+                )[index];
+
+            }
+
+            return char;
+
+        }
+
+
+        if(
+            mode === "squared"
+        ){
 
             return (
                 squared[upper] ||
@@ -1723,13 +1973,60 @@ function createNameFromTemplate(
             mode === "squaredAlt"
         ){
 
-            const upper =
-            char.toUpperCase();
-
             return (
                 squaredAlt[upper] ||
                 char
             );
+
+        }
+
+
+        if(
+            mode === "superscript"
+        ){
+
+            return (
+                superscript[lower] ||
+                char
+            );
+
+        }
+
+
+        if(
+            mode === "subscript"
+        ){
+
+            return (
+                subscript[lower] ||
+                char
+            );
+
+        }
+
+
+        if(
+            mode === "circled"
+        ){
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                lower
+            );
+
+            if(
+                index !== -1
+            ){
+
+                return Array
+                .from(
+                    circledLower
+                )[index];
+
+            }
+
+            return char;
 
         }
 
@@ -1752,25 +2049,289 @@ function createNameFromTemplate(
 
 
     /*
-    FIND ORIGINAL NAME
-    EVEN IF MIXED WITH DIFFERENT UNICODE STYLES
+    ---------------------------------------------------------
+    DETECT STYLE
+    ---------------------------------------------------------
     */
 
-    function findOriginalRange(){
+    function detectMode(
+        sourceChar,
+        styledChar
+    ){
+
+        if(
+            sourceChar === styledChar
+        ){
+
+            return "normal";
+
+        }
+
+
+        const upper =
+        sourceChar.toUpperCase();
+
+        const lower =
+        sourceChar.toLowerCase();
+
+
+        if(
+            squared[upper] === styledChar
+        ){
+
+            return "squared";
+
+        }
+
+
+        if(
+            squaredAlt[upper] === styledChar
+        ){
+
+            return "squaredAlt";
+
+        }
+
+
+        if(
+            superscript[lower] === styledChar
+        ){
+
+            return "superscript";
+
+        }
+
+
+        if(
+            subscript[lower] === styledChar
+        ){
+
+            return "subscript";
+
+        }
+
+
+        const smallIndex =
+        Array
+        .from(
+            smallCaps
+        )
+        .indexOf(
+            styledChar
+        );
+
+
+        if(
+            smallIndex !== -1 &&
+            smallIndex ===
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                lower
+            )
+        ){
+
+            return "smallCaps";
+
+        }
+
+
+        const circledIndex =
+        Array
+        .from(
+            circledLower
+        )
+        .indexOf(
+            styledChar
+        );
+
+
+        if(
+            circledIndex !== -1 &&
+            circledIndex ===
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                lower
+            )
+        ){
+
+            return "circled";
+
+        }
+
+
+        for(
+            const key in maps
+        ){
+
+            if(
+                transform(
+                    sourceChar,
+                    maps[key]
+                ) === styledChar
+            ){
+
+                return key;
+
+            }
+
+        }
+
+
+        return "normal";
+
+    }
+
+
+    /*
+    ---------------------------------------------------------
+    GRAPHEME SEGMENTS
+    ---------------------------------------------------------
+    */
+
+    function segmentText(
+        text
+    ){
+
+        try{
+
+            if(
+                typeof Intl !== "undefined" &&
+                Intl.Segmenter
+            ){
+
+                const segmenter =
+                new Intl.Segmenter(
+                    undefined,
+                    {
+                        granularity:"grapheme"
+                    }
+                );
+
+                return Array
+                .from(
+                    segmenter.segment(
+                        text
+                    )
+                )
+                .map(
+                    x => x.segment
+                );
+
+            }
+
+        }
+        catch(e){}
+
+
+        return Array.from(
+            text
+        );
+
+    }
+
+
+    /*
+    ---------------------------------------------------------
+    NORMALIZE GRAPHEME
+    ---------------------------------------------------------
+    */
+
+    function normalizeGrapheme(
+        grapheme
+    ){
+
+        if(!grapheme){
+            return null;
+        }
+
+
+        /*
+        First character/base
+        */
+
+        const chars =
+        Array.from(
+            grapheme
+        );
+
+
+        for(
+            const ch of chars
+        ){
+
+            const normal =
+            getNormalChar(
+                ch
+            );
+
+            if(normal){
+
+                return normal;
+
+            }
+
+        }
+
+
+        /*
+        NFKD fallback
+        */
+
+        try{
+
+            const normalized =
+            grapheme
+            .normalize("NFKD")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            );
+
+            const match =
+            normalized.match(
+                /[A-Za-z0-9]/
+            );
+
+            if(match){
+
+                return match[0]
+                .toLowerCase();
+
+            }
+
+        }
+        catch(e){}
+
+
+        return null;
+
+    }
+
+
+    /*
+    ---------------------------------------------------------
+    FIND ORIGINAL NAME IN STYLE
+    INCLUDING COMBINING SYMBOLS
+    ---------------------------------------------------------
+    */
+
+    function findStyledName(){
 
         const source =
         Array.from(
             originalName
         );
 
-        const target =
-        Array.from(
+
+        const segments =
+        segmentText(
             style
         );
 
 
         if(
-            source.length === 0
+            source.length === 0 ||
+            segments.length === 0
         ){
 
             return null;
@@ -1780,14 +2341,16 @@ function createNameFromTemplate(
 
         for(
             let start = 0;
-            start < target.length;
+            start < segments.length;
             start++
         ){
 
-            let pos =
+            let position =
             start;
 
-            let matched =
+            const matches = [];
+
+            let success =
             true;
 
 
@@ -1797,98 +2360,89 @@ function createNameFromTemplate(
                 i++
             ){
 
-                if(
-                    pos >= target.length
+                const wanted =
+                source[i]
+                .toLowerCase();
+
+
+                let found =
+                false;
+
+
+                while(
+                    position <
+                    segments.length
                 ){
 
-                    matched =
+                    const segment =
+                    segments[position];
+
+
+                    const normal =
+                    normalizeGrapheme(
+                        segment
+                    );
+
+
+                    if(
+                        normal === wanted
+                    ){
+
+                        matches.push({
+
+                            index:
+                            position,
+
+                            segment:
+                            segment
+
+                        });
+
+                        position++;
+
+                        found =
+                        true;
+
+                        break;
+
+                    }
+
+
+                    /*
+                    Decorations/symbols between
+                    letters ko skip kar sakte hain.
+                    */
+
+                    position++;
+
+                }
+
+
+                if(!found){
+
+                    success =
                     false;
 
                     break;
 
                 }
-
-
-                const sourceChar =
-                source[i];
-
-                const targetChar =
-                target[pos];
-
-
-                const possible = [
-                    sourceChar
-                ];
-
-
-                for(
-                    const key in maps
-                ){
-
-                    possible.push(
-                        transform(
-                            sourceChar,
-                            maps[key]
-                        )
-                    );
-
-                }
-
-
-                const upper =
-                sourceChar.toUpperCase();
-
-
-                if(
-                    squared[upper]
-                ){
-
-                    possible.push(
-                        squared[upper]
-                    );
-
-                }
-
-
-                if(
-                    squaredAlt[upper]
-                ){
-
-                    possible.push(
-                        squaredAlt[upper]
-                    );
-
-                }
-
-
-                if(
-                    !possible.includes(
-                        targetChar
-                    )
-                ){
-
-                    matched =
-                    false;
-
-                    break;
-
-                }
-
-
-                pos++;
 
             }
 
 
             if(
-                matched
+                success &&
+                matches.length ===
+                source.length
             ){
 
                 return {
 
-                    start:start,
+                    segments:
+                    segments,
 
-                    end:pos
+                    matches:
+                    matches
 
                 };
 
@@ -1902,93 +2456,221 @@ function createNameFromTemplate(
     }
 
 
-    const range =
-    findOriginalRange();
+    const found =
+    findStyledName();
 
 
     /*
-    APPLY SAME STYLE PATTERN
-    TO NEW USER NAME
+    ---------------------------------------------------------
+    APPLY USER NAME
+    ---------------------------------------------------------
     */
 
-    if(range){
+    if(found){
 
-        const sourceChars =
-        Array.from(
-            originalName
-        );
+        const segments =
+        found.segments;
 
-        const styledChars =
-        Array
-        .from(style)
-        .slice(
-            range.start,
-            range.end
-        );
+        const matches =
+        found.matches;
 
 
-        const pattern = [];
+        const replacementModes = [];
 
 
         for(
             let i = 0;
-            i < sourceChars.length;
+            i < matches.length;
             i++
         ){
 
-            pattern.push(
-                detectMode(
-                    sourceChars[i],
-                    styledChars[i]
-                )
+            const originalChar =
+            Array.from(
+                originalName
+            )[i];
+
+
+            const segment =
+            matches[i].segment;
+
+
+            const chars =
+            Array.from(
+                segment
             );
+
+
+            let baseChar =
+            chars[0];
+
+
+            let mode =
+            detectMode(
+                originalChar,
+                baseChar
+            );
+
+
+            replacementModes.push({
+
+                mode:
+                mode,
+
+                originalSegment:
+                segment
+
+            });
 
         }
 
 
-        const inputChars =
-        Array.from(input);
+        const firstIndex =
+        matches[0].index;
 
 
-        const replacement =
-        inputChars
-        .map(
-            function(char,index){
+        const lastIndex =
+        matches[
+            matches.length - 1
+        ].index;
 
-                const mode =
-                pattern[
-                    index %
-                    pattern.length
-                ];
 
-                return applyMode(
-                    char,
-                    mode
-                );
+        /*
+        Preserve all decorations around
+        the original letters.
+        */
 
-            }
+        let prefix =
+        segments
+        .slice(
+            0,
+            firstIndex
         )
         .join("");
 
 
+        let suffix =
+        segments
+        .slice(
+            lastIndex + 1
+        )
+        .join("");
+
+
+        const inputChars =
+        Array.from(
+            input
+        );
+
+
+        let replacement =
+        "";
+
+
+        for(
+            let i = 0;
+            i < inputChars.length;
+            i++
+        ){
+
+            const char =
+            inputChars[i];
+
+
+            const pattern =
+            replacementModes[
+                i %
+                replacementModes.length
+            ];
+
+
+            let styled =
+            applyStyle(
+                char,
+                pattern.mode
+            );
+
+
+            /*
+            Original CSV character ke combining
+            decorations preserve karo.
+
+            Example:
+            S + decoration
+
+            New:
+            M + same decoration
+            */
+
+            const originalSegment =
+            pattern.originalSegment;
+
+
+            const originalChars =
+            Array.from(
+                originalSegment
+            );
+
+
+            if(
+                originalChars.length > 1
+            ){
+
+                const originalBase =
+                originalChars[0];
+
+
+                const decoration =
+                originalChars
+                .slice(1)
+                .join("");
+
+
+                /*
+                Agar decoration Unicode combining
+                mark/symbol hai to same decoration
+                naye character ke saath lagao.
+                */
+
+                if(
+                    decoration &&
+                    decoration !==
+                    originalBase
+                ){
+
+                    styled +=
+                    decoration;
+
+                }
+
+            }
+
+
+            replacement +=
+            styled;
+
+        }
+
+
+        /*
+        Prefix + new name + suffix
+
+        Isse CSV ka old name completely
+        replace ho jata hai.
+        */
+
         return (
-            style.slice(
-                0,
-                range.start
-            ) +
-
+            prefix +
             replacement +
-
-            style.slice(
-                range.end
-            )
+            suffix
         );
 
     }
 
 
     /*
-    FULL UNICODE FONT
+    ---------------------------------------------------------
+    FULL STYLE FALLBACKS
+    ---------------------------------------------------------
     */
 
     for(
@@ -2000,6 +2682,7 @@ function createNameFromTemplate(
             originalName,
             maps[key]
         );
+
 
         if(
             styledOriginal &&
@@ -2022,7 +2705,7 @@ function createNameFromTemplate(
 
 
     /*
-    FULL SQUARED
+    SQUARED
     */
 
     function squaredText(
@@ -2034,11 +2717,10 @@ function createNameFromTemplate(
         .map(
             function(char){
 
-                const upper =
-                char.toUpperCase();
-
                 return (
-                    squared[upper] ||
+                    squared[
+                        char.toUpperCase()
+                    ] ||
                     char
                 );
 
@@ -2071,6 +2753,70 @@ function createNameFromTemplate(
 
 
     /*
+    CIRCLED
+    */
+
+    function circledText(
+        text
+    ){
+
+        const lower =
+        Array.from(
+            circledLower
+        );
+
+        return Array
+        .from(text)
+        .map(
+            function(char){
+
+                const index =
+                "abcdefghijklmnopqrstuvwxyz"
+                .indexOf(
+                    char.toLowerCase()
+                );
+
+
+                if(
+                    index !== -1
+                ){
+
+                    return lower[index];
+
+                }
+
+
+                return char;
+
+            }
+        )
+        .join("");
+
+    }
+
+
+    const circledOriginal =
+    circledText(
+        originalName
+    );
+
+
+    if(
+        circledOriginal &&
+        style.includes(
+            circledOriginal
+        )
+    ){
+
+        return style.replaceAll(
+            circledOriginal,
+            circledText(input)
+        );
+
+    }
+
+
+    /*
     FULLWIDTH
     */
 
@@ -2086,6 +2832,7 @@ function createNameFromTemplate(
                 const code =
                 char.charCodeAt(0);
 
+
                 if(
                     code >= 65 &&
                     code <= 90
@@ -2100,6 +2847,7 @@ function createNameFromTemplate(
 
                 }
 
+
                 if(
                     code >= 97 &&
                     code <= 122
@@ -2113,6 +2861,7 @@ function createNameFromTemplate(
                     );
 
                 }
+
 
                 return char;
 
@@ -2145,95 +2894,6 @@ function createNameFromTemplate(
 
 
     /*
-    CIRCLED
-    */
-
-    const circledUpper =
-    "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
-
-    const circledLower =
-    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
-
-
-    function circled(
-        text
-    ){
-
-        const upper =
-        Array.from(
-            circledUpper
-        );
-
-        const lower =
-        Array.from(
-            circledLower
-        );
-
-        return Array
-        .from(text)
-        .map(
-            function(char){
-
-                const code =
-                char.charCodeAt(0);
-
-                if(
-                    code >= 65 &&
-                    code <= 90
-                ){
-
-                    return (
-                        upper[
-                            code - 65
-                        ] || char
-                    );
-
-                }
-
-                if(
-                    code >= 97 &&
-                    code <= 122
-                ){
-
-                    return (
-                        lower[
-                            code - 97
-                        ] || char
-                    );
-
-                }
-
-                return char;
-
-            }
-        )
-        .join("");
-
-    }
-
-
-    const circledOriginal =
-    circled(
-        originalName
-    );
-
-
-    if(
-        circledOriginal &&
-        style.includes(
-            circledOriginal
-        )
-    ){
-
-        return style.replaceAll(
-            circledOriginal,
-            circled(input)
-        );
-
-    }
-
-
-    /*
     {name}
     */
 
@@ -2252,10 +2912,15 @@ function createNameFromTemplate(
 
 
     /*
-    LAST FALLBACK
+    ---------------------------------------------------------
+    IMPORTANT:
+    Agar CSV style me original name ko identify
+    nahi kar paaya to old name dikhane ke bajay
+    user name ko return karna.
+    ---------------------------------------------------------
     */
 
-    return style;
+    return input;
 
 }
 
@@ -2277,9 +2942,11 @@ function renderGeneratedPage(){
 
     }
 
+
     const start =
     generatedPage *
     GENERATED_PAGE_SIZE;
+
 
     const end =
     Math.min(
@@ -2287,6 +2954,7 @@ function renderGeneratedPage(){
         GENERATED_PAGE_SIZE,
         generatedResults.length
     );
+
 
     for(
         let i = start;
@@ -2300,6 +2968,7 @@ function renderGeneratedPage(){
 
     }
 
+
     document.getElementById(
         "resultInfo"
     ).textContent =
@@ -2307,6 +2976,7 @@ function renderGeneratedPage(){
     " of " +
     generatedResults.length +
     " generated styles";
+
 
     document.getElementById(
         "loadMoreWrap"
@@ -2334,10 +3004,12 @@ function createGeneratedCard(item){
     card.className =
     "name-card";
 
+
     const active =
     favorites.includes(
         item.name
     );
+
 
     card.innerHTML = `
 
@@ -2376,6 +3048,7 @@ function createGeneratedCard(item){
 
     `;
 
+
     card.querySelector(
         ".copy-btn"
     ).onclick =
@@ -2387,6 +3060,7 @@ function createGeneratedCard(item){
 
     };
 
+
     card.querySelector(
         ".favorite-btn"
     ).onclick =
@@ -2397,6 +3071,7 @@ function createGeneratedCard(item){
         );
 
     };
+
 
     grid.appendChild(
         card
@@ -2421,8 +3096,10 @@ function generateCategory(
 
     }
 
+
     currentPage = 0;
     currentMode = "database";
+
 
     document.getElementById(
         "resultTitle"
@@ -2430,7 +3107,9 @@ function generateCategory(
     category +
     " Stylish Names";
 
+
     renderDatabasePage();
+
 
     document.getElementById(
         "nameGrid"
@@ -2450,9 +3129,11 @@ function loadMore(){
         const nextPage =
         generatedPage + 1;
 
+
         const nextStart =
         nextPage *
         GENERATED_PAGE_SIZE;
+
 
         if(
             nextStart <
@@ -2470,12 +3151,15 @@ function loadMore(){
 
     }
 
+
     const nextPage =
     currentPage + 1;
+
 
     const nextStart =
     nextPage *
     PAGE_SIZE;
+
 
     if(
         nextStart <
@@ -2559,6 +3243,7 @@ async function copyName(
             name
         );
 
+
         showToast(
             "Name copied ✓"
         );
@@ -2572,20 +3257,26 @@ async function copyName(
             "textarea"
         );
 
+
         textarea.value =
         name;
+
 
         document.body.appendChild(
             textarea
         );
 
+
         textarea.select();
+
 
         document.execCommand(
             "copy"
         );
 
+
         textarea.remove();
+
 
         showToast(
             "Name copied ✓"
@@ -2605,6 +3296,7 @@ function toggleFavorite(
         name
     );
 
+
     if(
         index === -1
     ){
@@ -2612,6 +3304,7 @@ function toggleFavorite(
         favorites.push(
             name
         );
+
 
         showToast(
             "Added to favorites ♥"
@@ -2626,11 +3319,13 @@ function toggleFavorite(
             1
         );
 
+
         showToast(
             "Removed from favorites"
         );
 
     }
+
 
     localStorage.setItem(
         "namecraftFavorites",
@@ -2638,6 +3333,7 @@ function toggleFavorite(
             favorites
         )
     );
+
 
     renderFavorites();
 
@@ -2660,31 +3356,38 @@ function refreshFavoriteButtons(){
                 ".name-card"
             );
 
+
             if(!card){
                 return;
             }
+
 
             const element =
             card.querySelector(
                 ".name-text"
             );
 
+
             if(!element){
                 return;
             }
 
+
             const name =
             element.textContent.trim();
+
 
             const active =
             favorites.includes(
                 name
             );
 
+
             button.classList.toggle(
                 "active",
                 active
             );
+
 
             button.textContent =
             active
@@ -2704,7 +3407,9 @@ function renderFavorites(){
         "favoriteList"
     );
 
+
     container.innerHTML = "";
+
 
     if(
         favorites.length === 0
@@ -2724,6 +3429,7 @@ function renderFavorites(){
 
     }
 
+
     [
         ...favorites
     ]
@@ -2736,8 +3442,10 @@ function renderFavorites(){
                 "div"
             );
 
+
             card.className =
             "name-card";
+
 
             card.innerHTML = `
 
@@ -2773,6 +3481,7 @@ function renderFavorites(){
 
             `;
 
+
             card.querySelector(
                 ".copy-btn"
             ).onclick =
@@ -2784,6 +3493,7 @@ function renderFavorites(){
 
             };
 
+
             card.querySelector(
                 ".favorite-btn"
             ).onclick =
@@ -2794,6 +3504,7 @@ function renderFavorites(){
                 );
 
             };
+
 
             container.appendChild(
                 card
@@ -2817,16 +3528,20 @@ function showToast(
         "toast"
     );
 
+
     toast.textContent =
     message;
+
 
     toast.classList.add(
         "show"
     );
 
+
     clearTimeout(
         toastTimer
     );
+
 
     toastTimer =
     setTimeout(
@@ -2874,10 +3589,12 @@ function showDatabaseError(
 
     `;
 
+
     document.getElementById(
         "resultInfo"
     ).textContent =
     "Database error";
+
 
     document.getElementById(
         "loadMoreWrap"
