@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -8,26 +7,12 @@
 <meta name="viewport"
 content="width=device-width,initial-scale=1.0">
 
-<meta name="theme-color"
-content="#080b22">
+<meta name="theme-color" content="#080b22">
 
 <meta name="description"
 content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
-<head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-<title>Stylish Name Generator</title>
-
-</head>
-<title>NameCraft - 2000+ Stylish Name Generator</title>
-     <script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7634997668299480"
-crossorigin="anonymous"></script>
-     
+<title>NameCraft - Stylish Name Generator</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -44,7 +29,6 @@ html{
 }
 
 body{
-
     font-family:Arial,Helvetica,sans-serif;
 
     background:
@@ -67,13 +51,11 @@ body{
 /* NAVBAR */
 
 .navbar{
-
     position:sticky;
     top:0;
     z-index:1000;
 
     background:rgba(8,11,34,.85);
-
     backdrop-filter:blur(18px);
 
     border-bottom:
@@ -81,7 +63,6 @@ body{
 }
 
 .nav-container{
-
     max-width:1250px;
     margin:auto;
 
@@ -93,7 +74,6 @@ body{
 }
 
 .logo{
-
     font-size:25px;
     font-weight:900;
 
@@ -111,13 +91,11 @@ body{
 }
 
 .nav-links{
-
     display:flex;
     gap:25px;
 }
 
 .nav-links a{
-
     color:#cbd0f5;
     text-decoration:none;
 
@@ -130,7 +108,6 @@ body{
 }
 
 .get-started{
-
     border:0;
     color:white;
 
@@ -142,58 +119,46 @@ body{
     );
 
     padding:11px 18px;
-
     border-radius:12px;
 
     font-weight:700;
-
     cursor:pointer;
 }
 
 /* HERO */
 
 .hero{
-
     max-width:1100px;
     margin:auto;
 
     padding:80px 20px 50px;
-
     text-align:center;
 }
 
 .badge{
-
     display:inline-block;
 
     padding:8px 15px;
-
     border-radius:30px;
 
-    background:
-    rgba(255,255,255,.04);
+    background:rgba(255,255,255,.04);
 
     border:
     1px solid rgba(255,255,255,.08);
 
     color:#b9bfff;
-
     font-size:13px;
 
     margin-bottom:20px;
 }
 
 .hero h1{
-
     font-size:clamp(42px,7vw,75px);
-
     line-height:1.05;
-
     font-weight:900;
 }
 
 .gradient-text{
-
     background:
     linear-gradient(
         90deg,
@@ -209,54 +174,42 @@ body{
 }
 
 .hero p{
-
     max-width:700px;
-
     margin:22px auto 30px;
 
     color:#9da5cd;
-
     line-height:1.7;
 }
 
 /* SEARCH */
 
 .search-box{
-
     max-width:720px;
-
     margin:auto;
 
     display:flex;
-
     gap:8px;
 
     padding:7px;
-
     border-radius:18px;
 
-    background:
-    rgba(255,255,255,.05);
+    background:rgba(255,255,255,.05);
 
     border:
     1px solid rgba(255,255,255,.09);
 }
 
 .search-box input{
-
     flex:1;
-
     min-width:0;
 
     border:0;
     outline:0;
 
     background:transparent;
-
     color:white;
 
     padding:15px;
-
     font-size:16px;
 }
 
@@ -265,9 +218,7 @@ body{
 }
 
 .search-box button{
-
     border:0;
-
     color:white;
 
     background:
@@ -278,59 +229,45 @@ body{
     );
 
     padding:0 25px;
-
     border-radius:13px;
 
     cursor:pointer;
-
     font-weight:800;
 }
 
 /* PREVIEW */
 
 .preview{
-
     max-width:650px;
-
     margin:25px auto 0;
 
     padding:20px;
-
     border-radius:18px;
 
-    background:
-    rgba(255,255,255,.035);
+    background:rgba(255,255,255,.035);
 
     border:
     1px solid rgba(255,255,255,.07);
 }
 
 .preview-label{
-
     color:#737b9e;
-
     font-size:11px;
-
     margin-bottom:10px;
 }
 
 #livePreview{
-
     font-size:25px;
-
     font-weight:400;
 
     min-height:32px;
-
     word-break:break-word;
 }
 
 /* SECTION */
 
 .section{
-
     max-width:1250px;
-
     margin:auto;
 
     padding:55px 20px;
@@ -345,78 +282,58 @@ body{
 }
 
 .section-heading p{
-
     color:#7f87ad;
-
     margin-top:7px;
 }
 
 /* CATEGORIES */
 
 .categories{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(7,1fr);
-
+    grid-template-columns:repeat(7,1fr);
     gap:12px;
 }
 
 .category-card{
-
     padding:18px 8px;
-
     border-radius:17px;
 
-    background:
-    rgba(255,255,255,.035);
+    background:rgba(255,255,255,.035);
 
     border:
     1px solid rgba(255,255,255,.07);
 
     text-align:center;
-
     cursor:pointer;
 
     transition:.2s;
 }
 
 .category-card:hover{
-
     transform:translateY(-4px);
 
-    background:
-    rgba(255,255,255,.07);
+    background:rgba(255,255,255,.07);
 
     border-color:
     rgba(100,100,255,.5);
 }
 
 .category-icon{
-
     font-size:24px;
-
     margin-bottom:8px;
 }
 
 .category-name{
-
     font-size:13px;
-
     font-weight:700;
-
     color:#dfe2ff;
 }
 
 /* RESULTS */
 
 .results-header{
-
     display:flex;
-
     justify-content:space-between;
-
     margin-bottom:20px;
 }
 
@@ -425,40 +342,29 @@ body{
 }
 
 .result-info{
-
     margin-top:7px;
-
     color:#737b9f;
-
     font-size:13px;
 }
 
 .name-grid{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
 
 /* CARD */
 
 .name-card{
-
     position:relative;
 
     min-height:150px;
 
     display:flex;
-
     flex-direction:column;
-
     justify-content:space-between;
 
     padding:18px;
-
     border-radius:18px;
 
     background:
@@ -477,7 +383,6 @@ body{
 }
 
 .name-card:hover{
-
     transform:translateY(-4px);
 
     border-color:
@@ -485,47 +390,35 @@ body{
 }
 
 .name-text{
-
     font-size:23px;
-
     font-weight:400;
 
     line-height:1.6;
-
     word-break:break-word;
 
     min-height:65px;
 
     display:flex;
-
     align-items:center;
 }
 
 .name-meta{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 
     gap:8px;
-
     margin-top:15px;
 }
 
 .style-tag{
-
     max-width:58%;
 
     overflow:hidden;
-
     text-overflow:ellipsis;
-
     white-space:nowrap;
 
     padding:5px 8px;
-
     border-radius:8px;
 
     background:
@@ -534,19 +427,15 @@ body{
     color:#aaa1ff;
 
     font-size:10px;
-
     font-weight:700;
 }
 
 .card-actions{
-
     display:flex;
-
     gap:6px;
 }
 
 .card-btn{
-
     border:
     1px solid rgba(255,255,255,.08);
 
@@ -556,16 +445,13 @@ body{
     color:#dce0ff;
 
     padding:7px 9px;
-
     border-radius:9px;
 
     cursor:pointer;
-
     font-size:11px;
 }
 
 .card-btn:hover{
-
     background:
     rgba(255,255,255,.1);
 }
@@ -577,11 +463,9 @@ body{
 /* EMPTY */
 
 .empty{
-
     grid-column:1/-1;
 
     padding:45px 20px;
-
     text-align:center;
 
     color:#737b9f;
@@ -593,22 +477,18 @@ body{
 }
 
 .loading{
-
     grid-column:1/-1;
 
     padding:50px;
-
     text-align:center;
 
     color:#7c84aa;
 }
 
 .error-box{
-
     grid-column:1/-1;
 
     padding:25px;
-
     border-radius:15px;
 
     background:
@@ -625,14 +505,11 @@ body{
 /* LOAD MORE */
 
 .load-more-wrap{
-
     text-align:center;
-
     padding:30px 0;
 }
 
 .load-more{
-
     padding:13px 25px;
 
     border-radius:12px;
@@ -651,31 +528,21 @@ body{
 /* FAVORITES */
 
 .favorite-list{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
 
 /* FEATURES */
 
 .features{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:18px;
 }
 
 .feature{
-
     padding:25px;
-
     border-radius:20px;
 
     background:
@@ -686,9 +553,7 @@ body{
 }
 
 .feature-icon{
-
     font-size:28px;
-
     margin-bottom:14px;
 }
 
@@ -697,20 +562,15 @@ body{
 }
 
 .feature p{
-
     color:#8088ad;
-
     line-height:1.6;
-
     font-size:14px;
 }
 
 /* FOOTER */
 
 footer{
-
     margin-top:40px;
-
     padding:30px 20px;
 
     text-align:center;
@@ -719,31 +579,26 @@ footer{
     1px solid rgba(255,255,255,.07);
 
     color:#686f95;
-
     font-size:13px;
 }
 
 /* TOAST */
 
 .toast{
-
     position:fixed;
 
     left:50%;
-
     bottom:25px;
 
     transform:
     translate(-50%,20px);
 
     opacity:0;
-
     pointer-events:none;
 
     z-index:9999;
 
     padding:12px 18px;
-
     border-radius:12px;
 
     background:#151936;
@@ -755,7 +610,6 @@ footer{
 }
 
 .toast.show{
-
     opacity:1;
 
     transform:
@@ -767,16 +621,14 @@ footer{
 @media(max-width:1050px){
 
     .categories{
-        grid-template-columns:
-        repeat(4,1fr);
+        grid-template-columns:repeat(4,1fr);
     }
 
     .name-grid,
     .favorite-list{
-
-        grid-template-columns:
-        repeat(3,1fr);
+        grid-template-columns:repeat(3,1fr);
     }
+
 }
 
 @media(max-width:750px){
@@ -786,35 +638,28 @@ footer{
     }
 
     .categories{
-
-        grid-template-columns:
-        repeat(3,1fr);
+        grid-template-columns:repeat(3,1fr);
     }
 
     .name-grid,
     .favorite-list{
-
-        grid-template-columns:
-        repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .features{
         grid-template-columns:1fr;
     }
+
 }
 
 @media(max-width:500px){
 
     .hero{
-
-        padding:
-        55px 15px 40px;
+        padding:55px 15px 40px;
     }
 
     .nav-container{
-
-        padding:
-        13px 15px;
+        padding:13px 15px;
     }
 
     .logo{
@@ -822,43 +667,30 @@ footer{
     }
 
     .get-started{
-
-        padding:
-        9px 12px;
-
+        padding:9px 12px;
         font-size:12px;
     }
 
     .search-box input{
-
-        padding:
-        12px 8px;
-
+        padding:12px 8px;
         font-size:14px;
     }
 
     .search-box button{
-
-        padding:
-        0 14px;
-
+        padding:0 14px;
         font-size:12px;
     }
 
     .categories{
-
-        grid-template-columns:
-        repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .name-grid,
     .favorite-list{
-
         grid-template-columns:1fr;
     }
 
     .section{
-
         padding-left:15px;
         padding-right:15px;
     }
@@ -866,13 +698,15 @@ footer{
     .name-text{
         font-size:25px;
     }
+
 }
 
 </style>
-
 </head>
 
 <body>
+
+<!-- NAVBAR -->
 
 <nav class="navbar">
 
@@ -885,11 +719,8 @@ NameCraft
 <div class="nav-links">
 
 <a href="#home">Home</a>
-
 <a href="#styles">Styles</a>
-
 <a href="#favorites">Favorites</a>
-
 <a href="#about">About</a>
 
 </div>
@@ -907,12 +738,12 @@ Get Started
 </nav>
 
 
-<section
-class="hero"
-id="home">
+<!-- HERO -->
+
+<section class="hero" id="home">
 
 <div class="badge">
-✦ Free 2000+ Stylish Name Generator
+✦ 4000+ Stylish Name Generator
 </div>
 
 <h1>
@@ -927,8 +758,8 @@ Perfect Name
 
 <p>
 
-Enter any name and generate stylish names
-using the styles already available in the database.
+Enter any name and generate it in
+all the stylish designs stored in your database.
 
 </p>
 
@@ -960,9 +791,9 @@ Your Name
 </section>
 
 
-<section
-class="section"
-id="styles">
+<!-- STYLES -->
+
+<section class="section" id="styles">
 
 <div class="section-heading">
 
@@ -971,7 +802,7 @@ Choose a Style
 </h2>
 
 <p>
-Choose a category from your database.
+Generate names from your database styles.
 </p>
 
 </div>
@@ -980,14 +811,14 @@ Choose a category from your database.
 
 <div
 class="category-card"
-onclick="loadDatabaseNames()">
+onclick="showAllStyles()">
 
 <div class="category-icon">
 ✨
 </div>
 
 <div class="category-name">
-All Names
+All Styles
 </div>
 
 </div>
@@ -1087,6 +918,8 @@ Danger
 </section>
 
 
+<!-- RESULTS -->
+
 <section class="section">
 
 <div class="results-header">
@@ -1139,6 +972,8 @@ Load More
 </section>
 
 
+<!-- FAVORITES -->
+
 <section
 class="section"
 id="favorites">
@@ -1162,6 +997,8 @@ id="favoriteList">
 
 </section>
 
+
+<!-- ABOUT -->
 
 <section
 class="section"
@@ -1188,12 +1025,12 @@ Simple, fast and stylish.
 </div>
 
 <h3>
-2000+ Database Styles
+4000+ Database Styles
 </h3>
 
 <p>
-Generate names using styles already stored
-in your database.
+Generate your own name using
+the styles stored in your database.
 </p>
 
 </div>
@@ -1206,12 +1043,12 @@ in your database.
 </div>
 
 <h3>
-Database Based Styles
+Multiple Unicode Styles
 </h3>
 
 <p>
-The generator uses your existing database
-styles instead of random styles.
+Italic, script, gothic, double,
+monospace and many decorative styles.
 </p>
 
 </div>
@@ -1228,8 +1065,8 @@ Favorites
 </h3>
 
 <p>
-Save your favorite names directly
-on your device.
+Save your favorite generated names
+directly on your device.
 </p>
 
 </div>
@@ -1272,7 +1109,8 @@ window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
 );
-     
+
+
 /* =====================================================
    VISIT TRACKING
 ===================================================== */
@@ -1298,15 +1136,11 @@ async function recordVisit(){
                 error
             );
 
-        }else{
-
-            console.log(
-                "Visit recorded successfully"
-            );
-
         }
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
             "Visit tracking failed:",
@@ -1316,6 +1150,7 @@ async function recordVisit(){
     }
 
 }
+
 
 /* =====================================================
    VARIABLES
@@ -1334,8 +1169,6 @@ let currentPage = 0;
 
 const PAGE_SIZE = 60;
 
-let currentCategory = "";
-
 let generatedResults = [];
 
 let generatedPage = 0;
@@ -1346,371 +1179,10 @@ let currentMode = "database";
 
 
 /* =====================================================
-   UNICODE STYLES
-===================================================== */
-
-const UNICODE_STYLES = {
-
-italic: {
-
-upper:
-"𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
-
-lower:
-"𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
-
-},
-
-script: {
-
-upper:
-"𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
-
-lower:
-"𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
-
-},
-
-fraktur: {
-
-upper:
-"𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
-
-lower:
-"𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
-
-},
-
-double: {
-
-upper:
-"𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
-
-lower:
-"𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
-
-},
-
-monospace: {
-
-upper:
-"𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
-
-lower:
-"𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
-
-},
-
-sans: {
-
-upper:
-"𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
-
-lower:
-"𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
-
-}
-
-};
-
-
-/* =====================================================
-   GET CHARACTER STYLE
-===================================================== */
-
-function getCharStyle(char){
-
-    for(
-        const styleName in UNICODE_STYLES
-    ){
-
-        const style =
-        UNICODE_STYLES[styleName];
-
-        if(
-            Array.from(style.upper)
-            .includes(char)
-        ){
-            return styleName;
-        }
-
-        if(
-            Array.from(style.lower)
-            .includes(char)
-        ){
-            return styleName;
-        }
-
-    }
-
-    const code =
-    char.codePointAt(0);
-
-    if(
-
-        (
-            code >= 0xFF21 &&
-            code <= 0xFF3A
-        )
-
-        ||
-
-        (
-            code >= 0xFF41 &&
-            code <= 0xFF5A
-        )
-
-    ){
-
-        return "fullwidth";
-
-    }
-
-    return null;
-
-}
-
-
-/* =====================================================
-   CHECK CHARACTER
-===================================================== */
-
-function isStyledLetter(char){
-
-    if(
-        /^[A-Za-z0-9]$/.test(char)
-    ){
-        return true;
-    }
-
-    return (
-        getCharStyle(char) !== null
-    );
-
-}
-
-
-/* =====================================================
-   CONVERT CHARACTER
-===================================================== */
-
-function convertCharacter(
-    char,
-    styleName
-){
-
-    if(
-        !/^[A-Za-z]$/.test(char)
-    ){
-        return char;
-    }
-
-    if(
-        styleName === "fullwidth"
-    ){
-
-        const code =
-        char.codePointAt(0);
-
-        if(
-            code >= 65 &&
-            code <= 90
-        ){
-
-            return String.fromCodePoint(
-                0xFF21 + code - 65
-            );
-
-        }
-
-        if(
-            code >= 97 &&
-            code <= 122
-        ){
-
-            return String.fromCodePoint(
-                0xFF41 + code - 97
-            );
-
-        }
-
-        return char;
-
-    }
-
-    const style =
-    UNICODE_STYLES[styleName];
-
-    if(!style){
-        return char;
-    }
-
-    const upper =
-    Array.from(style.upper);
-
-    const lower =
-    Array.from(style.lower);
-
-    const code =
-    char.charCodeAt(0);
-
-    if(
-        code >= 65 &&
-        code <= 90
-    ){
-
-        return (
-            upper[code - 65] ||
-            char
-        );
-
-    }
-
-    if(
-        code >= 97 &&
-        code <= 122
-    ){
-
-        return (
-            lower[code - 97] ||
-            char
-        );
-
-    }
-
-    return char;
-
-}
-
-
-/* =====================================================
-   APPLY STYLE
-===================================================== */
-
-function applyStyleToInput(
-    input,
-    styleName
-){
-
-    return Array
-    .from(input)
-    .map(
-        function(char){
-
-            return convertCharacter(
-                char,
-                styleName
-            );
-
-        }
-    )
-    .join("");
-
-}
-
-/* =====================================================
-   CREATE NAME FROM DATABASE STYLE
-   FIXED - ALL DATABASE STYLES
-===================================================== */
-       function createNameFromTemplate(style, input){
-
-    style = String(style || "").trim();
-    input = String(input || "").trim();
-
-    if(!style || !input) return null;
-
-    const chars = Array.from(style);
-
-    // 1. Keycap / boxed style
-    if(chars.some(c => c.codePointAt(0) === 0x20E3)){
-        return Array.from(input).map(c =>
-            /^[A-Za-z0-9]$/.test(c)
-                ? c + "\u20E3"
-                : c
-        ).join("");
-    }
-
-    // 2. Detect Unicode font from ANY character
-    for(const char of chars){
-
-        const detected = getCharStyle(char);
-
-        if(detected){
-
-            return Array.from(input).map(c => {
-
-                if(/^[A-Za-z]$/.test(c)){
-                    return convertCharacter(c, detected);
-                }
-
-                return c;
-
-            }).join("");
-        }
-    }
-
-    // 3. Find normal letters inside decoration
-    let first = -1;
-    let last = -1;
-
-    chars.forEach((c,i) => {
-
-        if(/^[A-Za-z0-9]$/.test(c)){
-
-            if(first === -1) first = i;
-
-            last = i;
-        }
-
-    });
-
-    if(first !== -1){
-
-        const prefix =
-            chars.slice(0, first).join("");
-
-        const suffix =
-            chars.slice(last + 1).join("");
-
-        return prefix + input + suffix;
-    }
-
-    // 4. If style contains combining marks,
-    // apply those marks to every input character
-    const combining =
-        chars.filter(c => /\p{M}/u.test(c));
-
-    if(combining.length){
-
-        return Array.from(input).map(c =>
-            c + combining.join("")
-        ).join("");
-    }
-
-    // 5. If the database style contains symbols,
-    // keep them around the name
-    const symbols =
-        chars.filter(c =>
-            !/^[A-Za-z0-9]$/.test(c)
-        );
-
-    if(symbols.length){
-
-        return symbols.join("") + input;
-    }
-
-    // 6. fallback
-    return input;
-}
-/* =====================================================
    LOAD DATABASE
-   IMPORTANT:
-   DATABASE NAME IS IN style COLUMN
 ===================================================== */
 
 async function loadDatabaseNames(){
-
-    currentCategory = "";
 
     currentPage = 0;
 
@@ -1731,12 +1203,12 @@ async function loadDatabaseNames(){
 
         <div class="loading">
 
-            Loading database names...
+            Loading database styles...
 
             <br><br>
 
             <small>
-                Loading 2000+ styles...
+                Please wait...
             </small>
 
         </div>
@@ -1779,14 +1251,6 @@ async function loadDatabaseNames(){
 
         while(true){
 
-            console.log(
-                "Loading rows:",
-                start,
-                "to",
-                start + batchSize - 1
-            );
-
-
             const {
                 data,
                 error
@@ -1796,12 +1260,11 @@ async function loadDatabaseNames(){
             .from("names")
 
             /*
-               IMPORTANT:
-               name nahi,
-               style column load hoga.
+            IMPORTANT:
+            Ab name aur style dono read honge.
             */
 
-            .select("id, style")
+            .select("id, name, style")
 
             .order(
                 "id",
@@ -1823,11 +1286,9 @@ async function loadDatabaseNames(){
                     error
                 );
 
-
                 showDatabaseError(
                     error.message
                 );
-
 
                 return;
 
@@ -1840,12 +1301,6 @@ async function loadDatabaseNames(){
 
             allRows =
             allRows.concat(rows);
-
-
-            console.log(
-                "Batch loaded:",
-                rows.length
-            );
 
 
             if(
@@ -1871,17 +1326,11 @@ async function loadDatabaseNames(){
         }
 
 
-        console.log(
-            "TOTAL DATABASE ROWS:",
-            allRows.length
-        );
-
-
         /*
-           YAHAN MAIN FIX HAI.
+        Database object:
 
-           item.style ko name ki tarah
-           website me use kiya jayega.
+        originalName = CSV ka random name
+        style        = us random name ka stylish version
         */
 
         allDatabaseNames =
@@ -1895,8 +1344,15 @@ async function loadDatabaseNames(){
                     id:
                     item.id,
 
-                    name:
-                    item.style || "",
+                    originalName:
+                    String(
+                        item.name || ""
+                    ).trim(),
+
+                    style:
+                    String(
+                        item.style || ""
+                    ).trim(),
 
                     font:
                     "Database Style",
@@ -1913,10 +1369,8 @@ async function loadDatabaseNames(){
             function(item){
 
                 return (
-                    item.name &&
-                    String(
-                        item.name
-                    ).trim() !== ""
+                    item.originalName &&
+                    item.style
                 );
 
             }
@@ -1924,7 +1378,7 @@ async function loadDatabaseNames(){
 
 
         console.log(
-            "TOTAL USABLE STYLES:",
+            "TOTAL DATABASE STYLES:",
             allDatabaseNames.length
         );
 
@@ -1938,29 +1392,34 @@ async function loadDatabaseNames(){
                 <div class="error-box">
 
                     <strong>
-                        Database connected,
-                        but the style column is empty.
+                        No usable styles found.
                     </strong>
 
                     <br><br>
 
-                    Table:
+                    Supabase table:
                     <b>names</b>
 
                     <br><br>
 
-                    Column:
+                    Required columns:
+
+                    <br>
+
+                    <b>name</b>
+
+                    <br>
+
                     <b>style</b>
 
                     <br><br>
 
-                    Supabase me style column
-                    ke andar data check karo.
+                    Check that your CSV was imported
+                    with both columns.
 
                 </div>
 
             `;
-
 
             document
             .getElementById(
@@ -1969,14 +1428,12 @@ async function loadDatabaseNames(){
             .textContent =
             "0 styles found";
 
-
             return;
 
         }
 
 
         renderDatabasePage();
-
 
     }
 
@@ -1986,7 +1443,6 @@ async function loadDatabaseNames(){
             "DATABASE LOAD ERROR:",
             error
         );
-
 
         showDatabaseError(
             error.message ||
@@ -1999,26 +1455,29 @@ async function loadDatabaseNames(){
 
 
 /* =====================================================
-   GET FILTERED DATABASE
+   SHOW ALL STYLES
 ===================================================== */
 
-function getFilteredDatabaseNames(){
+function showAllStyles(){
 
-    /*
-       Tumhare database me actual stylish data
-       style column me hai aur category column
-       use nahi kar rahe.
+    document
+    .getElementById(
+        "resultTitle"
+    )
+    .textContent =
+    "All Stylish Names";
 
-       Isliye All Styles return honge.
-    */
+    currentPage = 0;
 
-    return allDatabaseNames;
+    currentMode = "database";
+
+    renderDatabasePage();
 
 }
 
 
 /* =====================================================
-   RENDER DATABASE PAGE
+   DATABASE PAGE
 ===================================================== */
 
 function renderDatabasePage(){
@@ -2027,7 +1486,7 @@ function renderDatabasePage(){
 
 
     const data =
-    getFilteredDatabaseNames();
+    allDatabaseNames;
 
 
     const start =
@@ -2076,7 +1535,7 @@ function renderDatabasePage(){
     end +
     " of " +
     data.length +
-    " database styles";
+    " styles";
 
 
     document
@@ -2113,80 +1572,10 @@ function renderDatabasePage(){
 
 
 /* =====================================================
-   CATEGORY
-===================================================== */
-
-function generateCategory(
-    category
-){
-
-    if(
-        allDatabaseNames.length === 0
-    ){
-
-        showToast(
-            "Database abhi load ho raha hai..."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       Current database me category data nahi hai,
-       isliye category button par bhi database
-       ke styles show honge.
-    */
-
-    currentCategory = "";
-
-    currentPage = 0;
-
-    generatedResults = [];
-
-    generatedPage = 0;
-
-    currentMode = "database";
-
-
-    document
-    .getElementById(
-        "resultTitle"
-    )
-    .textContent =
-    category +
-    " Stylish Names";
-
-
-    document
-    .getElementById(
-        "nameGrid"
-    )
-    .innerHTML = "";
-
-
-    renderDatabasePage();
-
-
-    document
-    .getElementById(
-        "nameGrid"
-    )
-    .scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =====================================================
    DATABASE CARD
 ===================================================== */
 
-function createDatabaseCard(
-    item
-){
+function createDatabaseCard(item){
 
     const grid =
     document.getElementById(
@@ -2204,9 +1593,22 @@ function createDatabaseCard(
     "name-card";
 
 
+    /*
+    Database preview me original random
+    name nahi, style preview show hoga.
+    */
+
+    const preview =
+    createNameFromTemplate(
+        item.style,
+        item.originalName,
+        item.originalName
+    );
+
+
     const active =
     favorites.includes(
-        item.name
+        preview
     );
 
 
@@ -2215,7 +1617,7 @@ function createDatabaseCard(
         <div class="name-text">
 
             ${escapeHtml(
-                item.name
+                preview || item.style
             )}
 
         </div>
@@ -2224,9 +1626,7 @@ function createDatabaseCard(
         <div class="name-meta">
 
             <span class="style-tag">
-
                 Database Style
-
             </span>
 
 
@@ -2234,9 +1634,7 @@ function createDatabaseCard(
 
                 <button
                 class="card-btn copy-btn">
-
                     Copy
-
                 </button>
 
 
@@ -2263,7 +1661,7 @@ function createDatabaseCard(
     function(){
 
         copyName(
-            item.name
+            preview
         );
 
     };
@@ -2277,7 +1675,7 @@ function createDatabaseCard(
     function(){
 
         toggleFavorite(
-            item.name
+            preview
         );
 
     };
@@ -2296,96 +1694,583 @@ function createDatabaseCard(
 
 function generateName(input){
 
-    input = String(input || "").trim();
+    input =
+    String(
+        input || ""
+    ).trim();
+
 
     if(!input){
 
-        showToast("Pehle name enter karo");
+        showToast(
+            "Pehle name enter karo"
+        );
 
         return;
+
     }
 
-    if(allDatabaseNames.length === 0){
 
-        showToast("Database load ho raha hai...");
+    if(
+        allDatabaseNames.length === 0
+    ){
+
+        showToast(
+            "Database load ho raha hai..."
+        );
 
         loadDatabaseNames();
 
         return;
+
     }
 
+
     generatedResults = [];
+
     generatedPage = 0;
+
     currentMode = "generated";
 
-    const source = getFilteredDatabaseNames();
+
+    const source =
+    allDatabaseNames;
+
 
     console.log(
-        "TOTAL DATABASE STYLES:",
+        "TOTAL STYLES:",
         source.length
     );
 
-    source.forEach(function(item){
 
-        const template =
-            String(item.name || "").trim();
+    source.forEach(
+        function(item){
 
-        if(!template){
-            return;
-        }
-
-        const result =
+            const result =
             createNameFromTemplate(
-                template,
-                input
+                item.style,
+                input,
+                item.originalName
             );
 
-        if(!result){
-            return;
+
+            if(!result){
+                return;
+            }
+
+
+            generatedResults.push({
+
+                name:
+                result,
+
+                font:
+                "Database Style",
+
+                category:
+                "Database",
+
+                source:
+                item.style
+
+            });
+
         }
+    );
 
-        generatedResults.push({
-
-            name: result,
-
-            font: "Database Style",
-
-            category: "Database",
-
-            source: template
-
-        });
-
-    });
 
     console.log(
         "TOTAL GENERATED:",
         generatedResults.length
     );
 
-    if(generatedResults.length === 0){
+
+    if(
+        generatedResults.length === 0
+    ){
 
         showToast(
-            "Database me usable styles nahi mile"
+            "Styles generate nahi ho paaye"
         );
 
         return;
+
     }
 
+
     document
-    .getElementById("resultTitle")
+    .getElementById(
+        "resultTitle"
+    )
     .textContent =
     "Stylish Names for " + input;
 
+
     renderGeneratedPage();
 
+
     document
-    .getElementById("nameGrid")
+    .getElementById(
+        "nameGrid"
+    )
     .scrollIntoView({
-        behavior: "smooth"
+        behavior:"smooth"
     });
 
 }
+
+
+/* =====================================================
+   CREATE NAME FROM DATABASE STYLE
+===================================================== */
+
+function createNameFromTemplate(
+    style,
+    input,
+    originalName
+){
+
+    style =
+    String(
+        style || ""
+    ).trim();
+
+
+    input =
+    String(
+        input || ""
+    ).trim();
+
+
+    originalName =
+    String(
+        originalName || ""
+    ).trim();
+
+
+    if(
+        !style ||
+        !input
+    ){
+
+        return null;
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 1
+    Direct normal name replacement
+    =====================================================
+    */
+
+    if(
+        originalName &&
+        style.includes(
+            originalName
+        )
+    ){
+
+        return style.replaceAll(
+            originalName,
+            input
+        );
+
+    }
+
+
+    /*
+    =====================================================
+    FONT MAPS
+    =====================================================
+    */
+
+    const fontMaps = {
+
+        italic: {
+
+            upper:
+            "𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
+
+            lower:
+            "𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
+
+        },
+
+
+        script: {
+
+            upper:
+            "𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
+
+            lower:
+            "𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
+
+        },
+
+
+        fraktur: {
+
+            upper:
+            "𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
+
+            lower:
+            "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
+
+        },
+
+
+        double: {
+
+            upper:
+            "𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
+
+            lower:
+            "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
+
+        },
+
+
+        monospace: {
+
+            upper:
+            "𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
+
+            lower:
+            "𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
+
+        },
+
+
+        sans: {
+
+            upper:
+            "𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
+
+            lower:
+            "𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
+
+        },
+
+
+        sansItalic: {
+
+            upper:
+            "𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡",
+
+            lower:
+            "𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻"
+
+        }
+
+    };
+
+
+    /*
+    =====================================================
+    TRANSFORM FUNCTION
+    =====================================================
+    */
+
+    function transform(
+        text,
+        map
+    ){
+
+        const upper =
+        Array.from(
+            map.upper
+        );
+
+        const lower =
+        Array.from(
+            map.lower
+        );
+
+
+        return Array
+        .from(text)
+        .map(
+            function(char){
+
+                const code =
+                char.charCodeAt(0);
+
+
+                if(
+                    code >= 65 &&
+                    code <= 90
+                ){
+
+                    return (
+                        upper[
+                            code - 65
+                        ] || char
+                    );
+
+                }
+
+
+                if(
+                    code >= 97 &&
+                    code <= 122
+                ){
+
+                    return (
+                        lower[
+                            code - 97
+                        ] || char
+                    );
+
+                }
+
+
+                return char;
+
+            }
+        )
+        .join("");
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 2
+    Detect same font using original name
+    =====================================================
+    */
+
+    for(
+        const key in fontMaps
+    ){
+
+        const styledOriginal =
+        transform(
+            originalName,
+            fontMaps[key]
+        );
+
+
+        if(
+            styledOriginal &&
+            style.includes(
+                styledOriginal
+            )
+        ){
+
+            const styledInput =
+            transform(
+                input,
+                fontMaps[key]
+            );
+
+
+            return style.replaceAll(
+                styledOriginal,
+                styledInput
+            );
+
+        }
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 3
+    FULLWIDTH
+    =====================================================
+    */
+
+    function fullwidth(text){
+
+        return Array
+        .from(text)
+        .map(
+            function(char){
+
+                const code =
+                char.charCodeAt(0);
+
+
+                if(
+                    code >= 65 &&
+                    code <= 90
+                ){
+
+                    return String
+                    .fromCodePoint(
+                        0xFF21 +
+                        code - 65
+                    );
+
+                }
+
+
+                if(
+                    code >= 97 &&
+                    code <= 122
+                ){
+
+                    return String
+                    .fromCodePoint(
+                        0xFF41 +
+                        code - 97
+                    );
+
+                }
+
+
+                return char;
+
+            }
+        )
+        .join("");
+
+    }
+
+
+    const fullOriginal =
+    fullwidth(
+        originalName
+    );
+
+
+    if(
+        fullOriginal &&
+        style.includes(
+            fullOriginal
+        )
+    ){
+
+        return style.replaceAll(
+            fullOriginal,
+            fullwidth(input)
+        );
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 4
+    CIRCLED LETTERS
+    =====================================================
+    */
+
+    const circledUpper =
+    "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
+
+    const circledLower =
+    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
+
+
+    function circled(text){
+
+        return Array
+        .from(text)
+        .map(
+            function(char){
+
+                const code =
+                char.charCodeAt(0);
+
+
+                if(
+                    code >= 65 &&
+                    code <= 90
+                ){
+
+                    return (
+                        Array.from(
+                            circledUpper
+                        )[code - 65] ||
+                        char
+                    );
+
+                }
+
+
+                if(
+                    code >= 97 &&
+                    code <= 122
+                ){
+
+                    return (
+                        Array.from(
+                            circledLower
+                        )[code - 97] ||
+                        char
+                    );
+
+                }
+
+
+                return char;
+
+            }
+        )
+        .join("");
+
+    }
+
+
+    const circledOriginal =
+    circled(
+        originalName
+    );
+
+
+    if(
+        circledOriginal &&
+        style.includes(
+            circledOriginal
+        )
+    ){
+
+        return style.replaceAll(
+            circledOriginal,
+            circled(input)
+        );
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 5
+    If style has {name} placeholder
+    =====================================================
+    */
+
+    if(
+        style.includes(
+            "{name}"
+        )
+    ){
+
+        return style.replaceAll(
+            "{name}",
+            input
+        );
+
+    }
+
+
+    /*
+    =====================================================
+    STEP 6
+    Last fallback
+    =====================================================
+    */
+
+    return style;
+
+}
+
+
 /* =====================================================
    RENDER GENERATED
 ===================================================== */
@@ -2464,9 +2349,7 @@ function renderGeneratedPage(){
    GENERATED CARD
 ===================================================== */
 
-function createGeneratedCard(
-    item
-){
+function createGeneratedCard(item){
 
     const grid =
     document.getElementById(
@@ -2504,9 +2387,7 @@ function createGeneratedCard(
         <div class="name-meta">
 
             <span class="style-tag">
-
                 Database Style
-
             </span>
 
 
@@ -2514,9 +2395,7 @@ function createGeneratedCard(
 
                 <button
                 class="card-btn copy-btn">
-
                     Copy
-
                 </button>
 
 
@@ -2571,6 +2450,58 @@ function createGeneratedCard(
 
 
 /* =====================================================
+   CATEGORY
+===================================================== */
+
+function generateCategory(category){
+
+    if(
+        allDatabaseNames.length === 0
+    ){
+
+        showToast(
+            "Database abhi load ho raha hai..."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    Abhi CSV me category column nahi hai,
+    isliye category buttons all styles dikhayenge.
+    */
+
+    currentPage = 0;
+
+    currentMode = "database";
+
+
+    document
+    .getElementById(
+        "resultTitle"
+    )
+    .textContent =
+    category +
+    " Stylish Names";
+
+
+    renderDatabasePage();
+
+
+    document
+    .getElementById(
+        "nameGrid"
+    )
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
    LOAD MORE
 ===================================================== */
 
@@ -2608,10 +2539,6 @@ function loadMore(){
     }
 
 
-    const data =
-    getFilteredDatabaseNames();
-
-
     const nextPage =
     currentPage + 1;
 
@@ -2623,7 +2550,7 @@ function loadMore(){
 
     if(
         nextStart <
-        data.length
+        allDatabaseNames.length
     ){
 
         currentPage =
@@ -2715,9 +2642,7 @@ document
    COPY
 ===================================================== */
 
-async function copyName(
-    name
-){
+async function copyName(name){
 
     try{
 
@@ -2777,9 +2702,7 @@ async function copyName(
    FAVORITES
 ===================================================== */
 
-function toggleFavorite(
-    name
-){
+function toggleFavorite(name){
 
     const index =
     favorites.indexOf(
@@ -2833,7 +2756,7 @@ function toggleFavorite(
 
 
 /* =====================================================
-   REFRESH FAVORITE BUTTONS
+   REFRESH FAVORITES
 ===================================================== */
 
 function refreshFavoriteButtons(){
@@ -2959,9 +2882,7 @@ function renderFavorites(){
                 <div class="name-meta">
 
                     <span class="style-tag">
-
                         Favorite
-
                     </span>
 
 
@@ -2969,17 +2890,13 @@ function renderFavorites(){
 
                         <button
                         class="card-btn copy-btn">
-
                             Copy
-
                         </button>
 
 
                         <button
                         class="card-btn favorite-btn active">
-
                             ♥
-
                         </button>
 
                     </div>
@@ -3034,9 +2951,7 @@ function renderFavorites(){
 let toastTimer;
 
 
-function showToast(
-    message
-){
+function showToast(message){
 
     const toast =
     document.getElementById(
@@ -3077,9 +2992,7 @@ function showToast(
    DATABASE ERROR
 ===================================================== */
 
-function showDatabaseError(
-    message
-){
+function showDatabaseError(message){
 
     document
     .getElementById(
@@ -3102,8 +3015,8 @@ function showDatabaseError(
             <br><br>
 
             <small>
-                Supabase ke names table se
-                style column read nahi ho paaya.
+                Supabase ke names table me
+                name aur style columns check karo.
             </small>
 
         </div>
@@ -3133,9 +3046,7 @@ function showDatabaseError(
    ESCAPE HTML
 ===================================================== */
 
-function escapeHtml(
-    value
-){
+function escapeHtml(value){
 
     return String(value)
 
@@ -3180,7 +3091,4 @@ recordVisit();
 </script>
 
 </body>
-
 </html>
-
-
