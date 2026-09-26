@@ -814,8 +814,7 @@ async function recordVisit(){
 
         }
 
-    }
-    catch(error){
+    }catch(error){
 
         console.error(
             "Visit tracking failed:",
@@ -860,156 +859,396 @@ let currentMode = "database";
 const unicodeFonts = {
 
     bold:{
+        sample:"𝐀𝐛𝐜",
         upper:"𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙",
         lower:"𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳"
     },
 
     italic:{
-        upper:"𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
-        lower:"𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
+        sample:"𝑨𝒃𝒄",
+        upper:"𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁",
+        lower:"𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛"
     },
 
     boldItalic:{
+        sample:"𝑨𝒃𝒄",
         upper:"𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁",
         lower:"𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛"
     },
 
     script:{
+        sample:"𝒜𝒷𝒸",
         upper:"𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
         lower:"𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
     },
 
     boldScript:{
+        sample:"𝓐𝓫𝓬",
         upper:"𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩",
         lower:"𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃"
     },
 
     fraktur:{
+        sample:"𝔄𝔟𝔠",
         upper:"𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
         lower:"𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
     },
 
     boldFraktur:{
+        sample:"𝕬𝖇𝖈",
         upper:"𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅",
         lower:"𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟"
     },
 
     double:{
+        sample:"𝔸𝕓𝕔",
         upper:"𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
         lower:"𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
     },
 
     sans:{
+        sample:"𝖠𝖻𝖼",
         upper:"𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
         lower:"𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
     },
 
     sansBold:{
+        sample:"𝗔𝗯𝗰",
         upper:"𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭",
         lower:"𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇"
     },
 
     sansItalic:{
+        sample:"𝘈𝘣𝘤",
         upper:"𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡",
         lower:"𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻"
     },
 
     sansBoldItalic:{
+        sample:"𝘼𝙗𝙘",
         upper:"𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕",
         lower:"𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯"
     },
 
     monospace:{
+        sample:"𝙰𝚋𝚌",
         upper:"𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
         lower:"𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
     },
 
     fullwidth:{
+        sample:"Ａｂｃ",
         upper:"ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ",
         lower:"ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
+    },
+
+    circled:{
+        sample:"Ⓐⓑⓒ",
+        upper:"ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ",
+        lower:"ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"
+    },
+
+    squared:{
+        sample:"🅰🅱🅲",
+        upper:"🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉",
+        lower:"🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉"
+    },
+
+    smallcaps:{
+        sample:"ᴀʙᴄ",
+        upper:"ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ",
+        lower:"ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ"
+    },
+
+    superscript:{
+        sample:"ᴬᵇᶜ",
+        upper:"ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ",
+        lower:"ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ"
+    },
+
+    subscript:{
+        sample:"ₐᵦ𝒸",
+        upper:"ₐᵦ𝒸ᑯₑբgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz",
+        lower:"ₐᵦ𝒸ᑯₑբgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz"
     }
 
 };
 
 
 /* =========================================================
-   APPLY UNICODE FONT
+   FONT DETECTION
+   Exact sample is checked first.
 ========================================================= */
 
-function applyUnicodeFont(text,fontSample){
-
-    text =
-    String(text || "");
-
-    fontSample =
-    String(fontSample || "");
-
-    if(!text){
-        return "";
-    }
-
-    if(!fontSample){
-        return text;
-    }
+function detectUnicodeFont(fontSample){
 
     const sample =
-    fontSample.trim();
+    String(fontSample || "").trim();
+
+    if(!sample){
+        return unicodeFonts.bold;
+    }
+
+
+    for(
+        const key in unicodeFonts
+    ){
+
+        if(
+            unicodeFonts[key].sample === sample
+        ){
+
+            return unicodeFonts[key];
+
+        }
+
+    }
 
 
     /*
-       Detect font using sample characters.
+       Important special fonts.
+       These must be checked before generic
+       Unicode character matching.
     */
 
-    let selected = null;
-
-
-    for(const key in unicodeFonts){
-
-        const map =
-        unicodeFonts[key];
-
-        const combined =
-        map.upper + map.lower;
-
-        for(const ch of Array.from(sample)){
-
-            if(
-                combined.includes(ch)
-            ){
-
-                selected = map;
-                break;
-
-            }
-
-        }
-
-        if(selected){
-            break;
-        }
-
+    if(
+        sample.includes("𝓐") ||
+        sample.includes("𝓪")
+    ){
+        return unicodeFonts.boldScript;
     }
 
+    if(
+        sample.includes("𝔄") ||
+        sample.includes("𝔞")
+    ){
+        return unicodeFonts.fraktur;
+    }
 
-    /* FULLWIDTH */
+    if(
+        sample.includes("𝕬") ||
+        sample.includes("𝖆")
+    ){
+        return unicodeFonts.boldFraktur;
+    }
+
+    if(
+        sample.includes("𝔸") ||
+        sample.includes("𝕒")
+    ){
+        return unicodeFonts.double;
+    }
+
+    if(
+        sample.includes("𝙰") ||
+        sample.includes("𝚊")
+    ){
+        return unicodeFonts.monospace;
+    }
+
+    if(
+        sample.includes("𝘼") ||
+        sample.includes("𝙖")
+    ){
+        return unicodeFonts.sansBoldItalic;
+    }
+
+    if(
+        sample.includes("𝗔") ||
+        sample.includes("𝗮")
+    ){
+        return unicodeFonts.sansBold;
+    }
+
+    if(
+        sample.includes("𝘈") ||
+        sample.includes("𝘢")
+    ){
+        return unicodeFonts.sansItalic;
+    }
+
+    if(
+        sample.includes("𝖠") ||
+        sample.includes("𝖺")
+    ){
+        return unicodeFonts.sans;
+    }
+
+    if(
+        sample.includes("𝒜") ||
+        sample.includes("𝒶")
+    ){
+        return unicodeFonts.script;
+    }
+
+    if(
+        sample.includes("𝑨") ||
+        sample.includes("𝒂")
+    ){
+        return unicodeFonts.boldItalic;
+    }
+
+    if(
+        sample.includes("𝐴") ||
+        sample.includes("𝑎")
+    ){
+        return unicodeFonts.italic;
+    }
+
+    if(
+        sample.includes("𝐀") ||
+        sample.includes("𝐚")
+    ){
+        return unicodeFonts.bold;
+    }
 
     if(
         sample.includes("Ａ") ||
         sample.includes("ａ")
     ){
-
-        selected =
-        unicodeFonts.fullwidth;
-
+        return unicodeFonts.fullwidth;
     }
-
-
-    /* CIRCLED */
 
     if(
         sample.includes("Ⓐ") ||
         sample.includes("ⓐ")
     ){
+        return unicodeFonts.circled;
+    }
+
+    if(
+        sample.includes("🅰")
+    ){
+        return unicodeFonts.squared;
+    }
+
+    if(
+        sample.includes("ᴀ") ||
+        sample.includes("ʙ") ||
+        sample.includes("ᴄ")
+    ){
+        return unicodeFonts.smallcaps;
+    }
+
+    if(
+        sample.includes("ᵃ") ||
+        sample.includes("ᴬ")
+    ){
+        return unicodeFonts.superscript;
+    }
+
+    if(
+        sample.includes("ₐ") ||
+        sample.includes("ᵦ")
+    ){
+        return unicodeFonts.subscript;
+    }
+
+
+    return unicodeFonts.bold;
+
+}
+
+
+/* =========================================================
+   APPLY UNICODE FONT
+========================================================= */
+
+function applyUnicodeFont(
+    text,
+    fontSample
+){
+
+    text =
+    String(text ?? "");
+
+    if(!text){
+        return "";
+    }
+
+
+    const sample =
+    String(
+        fontSample || ""
+    ).trim();
+
+
+    if(!sample){
+        return text;
+    }
+
+
+    /*
+       CIRCLED
+    */
+
+    if(
+        sample.includes("Ⓐ") ||
+        sample.includes("ⓐ")
+    ){
+
+        const upper =
+        Array.from(
+            "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ"
+        );
+
+        const lower =
+        Array.from(
+            "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"
+        );
+
+        return Array.from(text)
+        .map(function(char){
+
+            const upperCode =
+            char.charCodeAt(0);
+
+            if(
+                upperCode >= 65 &&
+                upperCode <= 90
+            ){
+
+                return (
+                    upper[
+                        upperCode - 65
+                    ] || char
+                );
+
+            }
+
+            if(
+                upperCode >= 97 &&
+                upperCode <= 122
+            ){
+
+                return (
+                    lower[
+                        upperCode - 97
+                    ] || char
+                );
+
+            }
+
+            return char;
+
+        })
+        .join("");
+
+    }
+
+
+    /*
+       SQUARED
+    */
+
+    if(
+        sample.includes("🅰")
+    ){
+
+        const squared =
+        Array.from(
+            "🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉"
+        );
 
         return Array.from(text)
         .map(function(char){
@@ -1022,11 +1261,7 @@ function applyUnicodeFont(text,fontSample){
             .indexOf(lower);
 
             if(index >= 0){
-
-                return Array.from(
-                    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"
-                )[index];
-
+                return squared[index];
             }
 
             return char;
@@ -1037,7 +1272,9 @@ function applyUnicodeFont(text,fontSample){
     }
 
 
-    /* SMALL CAPS */
+    /*
+       SMALL CAPS
+    */
 
     if(
         sample.includes("ᴀ") ||
@@ -1046,7 +1283,9 @@ function applyUnicodeFont(text,fontSample){
     ){
 
         const smallCaps =
-        "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
+        Array.from(
+            "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ"
+        );
 
         return Array.from(text)
         .map(function(char){
@@ -1058,7 +1297,7 @@ function applyUnicodeFont(text,fontSample){
             );
 
             return index >= 0
-            ? Array.from(smallCaps)[index]
+            ? smallCaps[index]
             : char;
 
         })
@@ -1067,7 +1306,9 @@ function applyUnicodeFont(text,fontSample){
     }
 
 
-    /* SUPERSCRIPT */
+    /*
+       SUPERSCRIPT
+    */
 
     if(
         sample.includes("ᵃ") ||
@@ -1075,13 +1316,34 @@ function applyUnicodeFont(text,fontSample){
     ){
 
         const superMap = {
-            a:"ᵃ",b:"ᵇ",c:"ᶜ",d:"ᵈ",
-            e:"ᵉ",f:"ᶠ",g:"ᵍ",h:"ʰ",
-            i:"ⁱ",j:"ʲ",k:"ᵏ",l:"ˡ",
-            m:"ᵐ",n:"ⁿ",o:"ᵒ",p:"ᵖ",
-            q:"q",r:"ʳ",s:"ˢ",t:"ᵗ",
-            u:"ᵘ",v:"ᵛ",w:"ʷ",x:"ˣ",
-            y:"ʸ",z:"ᶻ"
+
+            a:"ᵃ",
+            b:"ᵇ",
+            c:"ᶜ",
+            d:"ᵈ",
+            e:"ᵉ",
+            f:"ᶠ",
+            g:"ᵍ",
+            h:"ʰ",
+            i:"ⁱ",
+            j:"ʲ",
+            k:"ᵏ",
+            l:"ˡ",
+            m:"ᵐ",
+            n:"ⁿ",
+            o:"ᵒ",
+            p:"ᵖ",
+            q:"q",
+            r:"ʳ",
+            s:"ˢ",
+            t:"ᵗ",
+            u:"ᵘ",
+            v:"ᵛ",
+            w:"ʷ",
+            x:"ˣ",
+            y:"ʸ",
+            z:"ᶻ"
+
         };
 
         return Array.from(text)
@@ -1099,7 +1361,9 @@ function applyUnicodeFont(text,fontSample){
     }
 
 
-    /* SUBSCRIPT */
+    /*
+       SUBSCRIPT
+    */
 
     if(
         sample.includes("ₐ") ||
@@ -1107,13 +1371,34 @@ function applyUnicodeFont(text,fontSample){
     ){
 
         const subMap = {
-            a:"ₐ",b:"ᵦ",c:"𝒸",d:"𝒹",
-            e:"ₑ",f:"𝒻",g:"𝓰",h:"ₕ",
-            i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",
-            m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",
-            q:"q",r:"ᵣ",s:"ₛ",t:"ₜ",
-            u:"ᵤ",v:"ᵥ",w:"𝓌",x:"ₓ",
-            y:"ᵧ",z:"𝓏"
+
+            a:"ₐ",
+            b:"ᵦ",
+            c:"𝒸",
+            d:"𝒹",
+            e:"ₑ",
+            f:"𝒻",
+            g:"𝓰",
+            h:"ₕ",
+            i:"ᵢ",
+            j:"ⱼ",
+            k:"ₖ",
+            l:"ₗ",
+            m:"ₘ",
+            n:"ₙ",
+            o:"ₒ",
+            p:"ₚ",
+            q:"q",
+            r:"ᵣ",
+            s:"ₛ",
+            t:"ₜ",
+            u:"ᵤ",
+            v:"ᵥ",
+            w:"𝓌",
+            x:"ₓ",
+            y:"ᵧ",
+            z:"𝓏"
+
         };
 
         return Array.from(text)
@@ -1131,16 +1416,22 @@ function applyUnicodeFont(text,fontSample){
     }
 
 
-    if(!selected){
-        return text;
-    }
+    const font =
+    detectUnicodeFont(
+        sample
+    );
 
 
     const upper =
-    Array.from(selected.upper);
+    Array.from(
+        font.upper
+    );
 
     const lower =
-    Array.from(selected.lower);
+    Array.from(
+        font.lower
+    );
+
 
     return Array.from(text)
     .map(function(char){
@@ -1155,8 +1446,9 @@ function applyUnicodeFont(text,fontSample){
         ){
 
             return (
-                upper[code - 65] ||
-                char
+                upper[
+                    code - 65
+                ] || char
             );
 
         }
@@ -1168,8 +1460,9 @@ function applyUnicodeFont(text,fontSample){
         ){
 
             return (
-                lower[code - 97] ||
-                char
+                lower[
+                    code - 97
+                ] || char
             );
 
         }
@@ -1190,14 +1483,19 @@ function applyUnicodeFont(text,fontSample){
 async function loadDatabaseNames(){
 
     currentPage = 0;
+
     generatedResults = [];
+
     generatedPage = 0;
+
     currentMode = "database";
+
 
     const grid =
     document.getElementById(
         "nameGrid"
     );
+
 
     grid.innerHTML = `
         <div class="loading">
@@ -1243,7 +1541,9 @@ async function loadDatabaseNames(){
             } =
             await supabaseClient
             .from("names")
-            .select("id, name, style, font")
+            .select(
+                "id, name, style, font"
+            )
             .order(
                 "id",
                 {
@@ -1291,7 +1591,7 @@ async function loadDatabaseNames(){
 
 
             if(
-                start >= 10000
+                start >= 20000
             ){
                 break;
             }
@@ -1383,11 +1683,6 @@ async function loadDatabaseNames(){
 
                     <b>font</b>
 
-                    <br><br>
-
-                    Check that your CSV was imported
-                    with all required columns.
-
                 </div>
 
             `;
@@ -1403,6 +1698,8 @@ async function loadDatabaseNames(){
 
 
         renderDatabasePage();
+
+        updateLivePreview();
 
     }
     catch(error){
@@ -1423,7 +1720,7 @@ async function loadDatabaseNames(){
 
 
 /* =========================================================
-   RENDER ALL
+   SHOW ALL
 ========================================================= */
 
 function showAllStyles(){
@@ -1433,9 +1730,16 @@ function showAllStyles(){
     ).textContent =
     "All Stylish Names";
 
+
     currentPage = 0;
 
     currentMode = "database";
+
+
+    document.getElementById(
+        "nameGrid"
+    ).innerHTML = "";
+
 
     renderDatabasePage();
 
@@ -1450,11 +1754,15 @@ function renderDatabasePage(){
 
     currentMode = "database";
 
+
     const data =
     allDatabaseNames;
 
+
     const start =
-    currentPage * PAGE_SIZE;
+    currentPage *
+    PAGE_SIZE;
+
 
     const end =
     Math.min(
@@ -1524,7 +1832,7 @@ function renderDatabasePage(){
 
 
 /* =========================================================
-   RENDER DATABASE CARD
+   DATABASE CARD
 ========================================================= */
 
 function createDatabaseCard(item){
@@ -1560,25 +1868,11 @@ function createDatabaseCard(item){
 
     card.innerHTML = `
 
-        <div class="name-text">
-
-            ${escapeHtml(
-                preview || item.style
-            )}
-
-        </div>
-
+        <div class="name-text"></div>
 
         <div class="name-meta">
 
-            <span class="style-tag">
-
-                ${escapeHtml(
-                    item.font || "𝐀𝐛𝐜"
-                )}
-
-            </span>
-
+            <span class="style-tag"></span>
 
             <div class="card-actions">
 
@@ -1587,13 +1881,10 @@ function createDatabaseCard(item){
                     Copy
                 </button>
 
-
                 <button
                 class="card-btn favorite-btn
                 ${active ? "active" : ""}">
-
                     ${active ? "♥" : "♡"}
-
                 </button>
 
             </div>
@@ -1601,6 +1892,18 @@ function createDatabaseCard(item){
         </div>
 
     `;
+
+
+    card.querySelector(
+        ".name-text"
+    ).textContent =
+    preview || item.style;
+
+
+    card.querySelector(
+        ".style-tag"
+    ).textContent =
+    item.font || "Unicode";
 
 
     card.querySelector(
@@ -1635,7 +1938,7 @@ function createDatabaseCard(item){
 
 
 /* =========================================================
-   RENDER DATABASE STYLE + FONT
+   DATABASE STYLE ENGINE
 ========================================================= */
 
 function renderDatabaseStyle(
@@ -1648,10 +1951,14 @@ function renderDatabaseStyle(
         item.style || ""
     ).trim();
 
+
     const originalName =
     String(
-        item.originalName || ""
+        item.originalName ||
+        item.name ||
+        ""
     ).trim();
+
 
     input =
     String(
@@ -1659,36 +1966,55 @@ function renderDatabaseStyle(
     ).trim();
 
 
-    if(!style || !input){
+    if(
+        !style
+    ){
+
         return input;
+
     }
+
+
+    if(
+        !input
+    ){
+
+        return "";
+
+    }
+
+
+    const font =
+    String(
+        item.font || "𝐀𝐛𝐜"
+    ).trim();
 
 
     const fontedInput =
     applyUnicodeFont(
         input,
-        item.font
+        font
     );
 
 
     /*
-       Most important case:
-       style contains normal original name.
+       STEP 1:
+       Database style contains normal original name.
 
        Example:
 
-       name  = Killer Shadow
+       Killer Shadow
 
-       style = ꧁༺ Killer Shadow ༻꧂
+       becomes:
 
-       output:
-
-       ꧁༺ 𝓚𝓲𝓵𝓵𝓮𝓻 𝓢𝓱𝓪𝓭𝓸𝔀 ༻꧂
+       𝓚𝓲𝓵𝓵𝓮𝓻 𝓢𝓱𝓪𝓭𝓸𝔀
     */
 
     if(
         originalName &&
-        style.includes(originalName)
+        style.includes(
+            originalName
+        )
     ){
 
         return style.replaceAll(
@@ -1700,7 +2026,82 @@ function renderDatabaseStyle(
 
 
     /*
-       Existing Unicode/decorative style engine.
+       STEP 2:
+       Database style already contains
+       Unicode version of original name.
+
+       Example:
+
+       𝓚𝓲𝓵𝓵𝓮𝓻 Shadow
+
+       This is important for your CSV.
+    */
+
+    if(
+        originalName
+    ){
+
+        const fontedOriginal =
+        applyUnicodeFont(
+            originalName,
+            font
+        );
+
+
+        if(
+            fontedOriginal &&
+            fontedOriginal !== originalName &&
+            style.includes(
+                fontedOriginal
+            )
+        ){
+
+            return style.replaceAll(
+                fontedOriginal,
+                fontedInput
+            );
+
+        }
+
+    }
+
+
+    /*
+       STEP 3:
+       Placeholder support.
+    */
+
+    if(
+        style.includes(
+            "{name}"
+        )
+    ){
+
+        return style.replaceAll(
+            "{name}",
+            fontedInput
+        );
+
+    }
+
+
+    if(
+        style.includes(
+            "{n}"
+        )
+    ){
+
+        return style.replaceAll(
+            "{n}",
+            fontedInput
+        );
+
+    }
+
+
+    /*
+       STEP 4:
+       Existing template engine.
     */
 
     const decorated =
@@ -1711,22 +2112,42 @@ function renderDatabaseStyle(
     );
 
 
-    if(!decorated){
-        return fontedInput;
+    if(
+        decorated &&
+        decorated !== input
+    ){
+
+        if(
+            decorated.includes(
+                input
+            )
+        ){
+
+            return decorated.replaceAll(
+                input,
+                fontedInput
+            );
+
+        }
+
+
+        return decorated;
+
     }
 
 
     /*
-       If the generated result still contains
-       the normal input, replace only that part
-       with the selected Unicode font.
+       STEP 5:
+       Plain input inside style.
     */
 
     if(
-        decorated.includes(input)
+        style.includes(
+            input
+        )
     ){
 
-        return decorated.replaceAll(
+        return style.replaceAll(
             input,
             fontedInput
         );
@@ -1735,149 +2156,18 @@ function renderDatabaseStyle(
 
 
     /*
-       Final fallback:
-       try the Unicode-fonted name directly
-       through the existing template engine.
+       STEP 6:
+       If nothing matches,
+       return actual Unicode font.
     */
 
-    const fallback =
-    createNameFromTemplate(
-        style,
-        fontedInput,
-        originalName
-    );
-
-
-    return fallback || decorated || fontedInput;
+    return fontedInput;
 
 }
 
 
 /* =========================================================
-   GENERATOR
-========================================================= */
-
-function generateName(input){
-
-    input =
-    String(
-        input || ""
-    ).trim();
-
-
-    if(!input){
-
-        showToast(
-            "Pehle name enter karo"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        allDatabaseNames.length === 0
-    ){
-
-        showToast(
-            "Database load ho raha hai..."
-        );
-
-        loadDatabaseNames();
-
-        return;
-
-    }
-
-
-    generatedResults = [];
-
-    generatedPage = 0;
-
-    currentMode = "generated";
-
-
-    const source =
-    allDatabaseNames;
-
-
-    source.forEach(
-        function(item){
-
-            const result =
-            renderDatabaseStyle(
-                item,
-                input
-            );
-
-
-            if(!result){
-                return;
-            }
-
-
-            generatedResults.push({
-
-                name:
-                result,
-
-                font:
-                String(
-                    item.font || "𝐀𝐛𝐜"
-                ).trim(),
-
-                category:
-                "Database",
-
-                source:
-                item.style
-
-            });
-
-        }
-    );
-
-
-    console.log(
-        "TOTAL GENERATED:",
-        generatedResults.length
-    );
-
-
-    if(
-        generatedResults.length === 0
-    ){
-
-        showToast(
-            "Styles generate nahi ho paaye"
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "resultTitle"
-    ).textContent =
-    "Stylish Names for " + input;
-
-
-    renderGeneratedPage();
-
-
-    document.getElementById(
-        "nameGrid"
-    ).scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================================================
-   OLD TEMPLATE ENGINE
+   TEMPLATE ENGINE
 ========================================================= */
 
 function createNameFromTemplate(
@@ -1887,31 +2177,38 @@ function createNameFromTemplate(
 ){
 
     style =
-    String(style || "").trim();
+    String(
+        style || ""
+    ).trim();
+
 
     input =
-    String(input || "").trim();
+    String(
+        input || ""
+    ).trim();
+
 
     originalName =
-    String(originalName || "").trim();
+    String(
+        originalName || ""
+    ).trim();
 
-
-    if(!style || !input){
-        return null;
-    }
-
-
-    if(!originalName){
-        return input;
-    }
-
-
-    /*
-       Normal direct replacement
-    */
 
     if(
-        style.includes(originalName)
+        !style ||
+        !input
+    ){
+
+        return input;
+
+    }
+
+
+    if(
+        originalName &&
+        style.includes(
+            originalName
+        )
     ){
 
         return style.replaceAll(
@@ -1921,10 +2218,6 @@ function createNameFromTemplate(
 
     }
 
-
-    /*
-       Mathematical Unicode maps
-    */
 
     const maps = {
 
@@ -1972,10 +2265,14 @@ function createNameFromTemplate(
     ){
 
         const upper =
-        Array.from(map.upper);
+        Array.from(
+            map.upper
+        );
 
         const lower =
-        Array.from(map.lower);
+        Array.from(
+            map.lower
+        );
 
 
         return Array.from(text)
@@ -2021,10 +2318,6 @@ function createNameFromTemplate(
     }
 
 
-    /*
-       Mathematical style fallback
-    */
-
     for(
         const key in maps
     ){
@@ -2037,7 +2330,9 @@ function createNameFromTemplate(
 
 
         if(
-            style.includes(oldStyled)
+            style.includes(
+                oldStyled
+            )
         ){
 
             return style.replaceAll(
@@ -2053,129 +2348,28 @@ function createNameFromTemplate(
     }
 
 
-    /*
-       Circled
-    */
-
-    const circledLower =
-    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
-
-
-    function circledText(text){
-
-        return Array.from(text)
-        .map(function(char){
-
-            const index =
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(
-                char.toLowerCase()
-            );
-
-
-            return index >= 0
-            ? Array.from(
-                circledLower
-            )[index]
-            : char;
-
-        })
-        .join("");
-
-    }
-
-
-    const oldCircled =
-    circledText(
-        originalName
-    );
-
-
     if(
-        style.includes(oldCircled)
-    ){
-
-        return style.replaceAll(
-            oldCircled,
-            circledText(input)
-        );
-
-    }
-
-
-    /*
-       Fullwidth
-    */
-
-    function fullwidth(text){
-
-        return Array.from(text)
-        .map(function(char){
-
-            const code =
-            char.charCodeAt(0);
-
-
-            if(
-                code >= 65 &&
-                code <= 90
-            ){
-
-                return String.fromCodePoint(
-                    0xFF21 + code - 65
-                );
-
-            }
-
-
-            if(
-                code >= 97 &&
-                code <= 122
-            ){
-
-                return String.fromCodePoint(
-                    0xFF41 + code - 97
-                );
-
-            }
-
-
-            return char;
-
-        })
-        .join("");
-
-    }
-
-
-    const oldFullwidth =
-    fullwidth(
-        originalName
-    );
-
-
-    if(
-        style.includes(oldFullwidth)
-    ){
-
-        return style.replaceAll(
-            oldFullwidth,
-            fullwidth(input)
-        );
-
-    }
-
-
-    /*
-       {name}
-    */
-
-    if(
-        style.includes("{name}")
+        style.includes(
+            "{name}"
+        )
     ){
 
         return style.replaceAll(
             "{name}",
+            input
+        );
+
+    }
+
+
+    if(
+        style.includes(
+            "{n}"
+        )
+    ){
+
+        return style.replaceAll(
+            "{n}",
             input
         );
 
@@ -2188,12 +2382,109 @@ function createNameFromTemplate(
 
 
 /* =========================================================
+   GENERATE
+========================================================= */
+
+function generateName(
+    input
+){
+
+    input =
+    String(
+        input || ""
+    ).trim();
+
+
+    if(!input){
+
+        showToast(
+            "Pehle name enter karo"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        allDatabaseNames.length === 0
+    ){
+
+        showToast(
+            "Database load ho raha hai..."
+        );
+
+        return;
+
+    }
+
+
+    generatedResults = [];
+
+    generatedPage = 0;
+
+    currentMode = "generated";
+
+
+    allDatabaseNames.forEach(
+        function(item){
+
+            const result =
+            renderDatabaseStyle(
+                item,
+                input
+            );
+
+
+            if(
+                result
+            ){
+
+                generatedResults.push({
+
+                    name:
+                    result,
+
+                    font:
+                    item.font,
+
+                    source:
+                    item.style
+
+                });
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "resultTitle"
+    ).textContent =
+    "Stylish Names for " + input;
+
+
+    renderGeneratedPage();
+
+
+    document.getElementById(
+        "nameGrid"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
    GENERATED PAGE
 ========================================================= */
 
 function renderGeneratedPage(){
 
     currentMode = "generated";
+
 
     const grid =
     document.getElementById(
@@ -2260,7 +2551,9 @@ function renderGeneratedPage(){
    GENERATED CARD
 ========================================================= */
 
-function createGeneratedCard(item){
+function createGeneratedCard(
+    item
+){
 
     const grid =
     document.getElementById(
@@ -2286,25 +2579,11 @@ function createGeneratedCard(item){
 
     card.innerHTML = `
 
-        <div class="name-text">
-
-            ${escapeHtml(
-                item.name
-            )}
-
-        </div>
-
+        <div class="name-text"></div>
 
         <div class="name-meta">
 
-            <span class="style-tag">
-
-                ${escapeHtml(
-                    item.font || "𝐀𝐛𝐜"
-                )}
-
-            </span>
-
+            <span class="style-tag"></span>
 
             <div class="card-actions">
 
@@ -2313,13 +2592,10 @@ function createGeneratedCard(item){
                     Copy
                 </button>
 
-
                 <button
                 class="card-btn favorite-btn
                 ${active ? "active" : ""}">
-
                     ${active ? "♥" : "♡"}
-
                 </button>
 
             </div>
@@ -2327,6 +2603,18 @@ function createGeneratedCard(item){
         </div>
 
     `;
+
+
+    card.querySelector(
+        ".name-text"
+    ).textContent =
+    item.name;
+
+
+    card.querySelector(
+        ".style-tag"
+    ).textContent =
+    item.font || "Unicode";
 
 
     card.querySelector(
@@ -2368,17 +2656,17 @@ function generateCategory(
     category
 ){
 
-    if(
-        allDatabaseNames.length === 0
-    ){
+    /*
+       Tumhare current database me category column
+       nahi hai, isliye category buttons existing
+       database styles ko hi show karenge.
+    */
 
-        showToast(
-            "Database abhi load ho raha hai..."
-        );
-
-        return;
-
-    }
+    document.getElementById(
+        "resultTitle"
+    ).textContent =
+    category +
+    " Stylish Names";
 
 
     currentPage = 0;
@@ -2387,10 +2675,8 @@ function generateCategory(
 
 
     document.getElementById(
-        "resultTitle"
-    ).textContent =
-    category +
-    " Stylish Names";
+        "nameGrid"
+    ).innerHTML = "";
 
 
     renderDatabasePage();
@@ -2432,6 +2718,7 @@ function loadMore(){
             generatedPage =
             nextPage;
 
+
             renderGeneratedPage();
 
         }
@@ -2457,6 +2744,7 @@ function loadMore(){
 
         currentPage =
         nextPage;
+
 
         renderDatabasePage();
 
@@ -2527,19 +2815,31 @@ document.getElementById(
         "Your Name";
 
 
-        const firstFont =
-        allDatabaseNames.length
-        ? allDatabaseNames[0].font
-        : "𝐀𝐛𝐜";
+        if(
+            allDatabaseNames.length > 0
+        ){
+
+            const item =
+            allDatabaseNames[0];
 
 
-        document.getElementById(
-            "livePreview"
-        ).textContent =
-        applyUnicodeFont(
-            text,
-            firstFont
-        );
+            document.getElementById(
+                "livePreview"
+            ).textContent =
+            renderDatabaseStyle(
+                item,
+                text
+            );
+
+        }
+        else{
+
+            document.getElementById(
+                "livePreview"
+            ).textContent =
+            text;
+
+        }
 
     }
 );
@@ -2663,7 +2963,7 @@ function toggleFavorite(
 
 
 /* =========================================================
-   REFRESH FAVORITE BUTTONS
+   REFRESH FAVORITES
 ========================================================= */
 
 function refreshFavoriteButtons(){
@@ -2725,7 +3025,7 @@ function refreshFavoriteButtons(){
 
 
 /* =========================================================
-   RENDER FAVORITES
+   FAVORITES LIST
 ========================================================= */
 
 function renderFavorites(){
@@ -2775,14 +3075,7 @@ function renderFavorites(){
 
             card.innerHTML = `
 
-                <div class="name-text">
-
-                    ${escapeHtml(
-                        name
-                    )}
-
-                </div>
-
+                <div class="name-text"></div>
 
                 <div class="name-meta">
 
@@ -2790,14 +3083,12 @@ function renderFavorites(){
                         Favorite
                     </span>
 
-
                     <div class="card-actions">
 
                         <button
                         class="card-btn copy-btn">
                             Copy
                         </button>
-
 
                         <button
                         class="card-btn favorite-btn active">
@@ -2809,6 +3100,12 @@ function renderFavorites(){
                 </div>
 
             `;
+
+
+            card.querySelector(
+                ".name-text"
+            ).textContent =
+            name;
 
 
             card.querySelector(
