@@ -2802,48 +2802,42 @@ document.getElementById(
 /* =========================================================
    LIVE PREVIEW
 ========================================================= */
+function updateLivePreview(){
 
-document.getElementById(
-    "nameInput"
-)
-.addEventListener(
-    "input",
-    function(){
+    const input =
+    document.getElementById("nameInput");
 
-        const text =
-        this.value ||
-        "Your Name";
+    const preview =
+    document.getElementById("livePreview");
 
+    if(!input || !preview){
+        return;
+    }
 
-        if(
-            allDatabaseNames.length > 0
-        ){
+    const text =
+    input.value.trim() || "Your Name";
 
-            const item =
-            allDatabaseNames[0];
+    if(allDatabaseNames.length > 0){
 
+        preview.textContent =
+        renderDatabaseStyle(
+            allDatabaseNames[0],
+            text
+        );
 
-            document.getElementById(
-                "livePreview"
-            ).textContent =
-            renderDatabaseStyle(
-                item,
-                text
-            );
+    }else{
 
-        }
-        else{
-
-            document.getElementById(
-                "livePreview"
-            ).textContent =
-            text;
-
-        }
+        preview.textContent =
+        text;
 
     }
-);
+}
 
+document.getElementById("nameInput")
+.addEventListener(
+    "input",
+    updateLivePreview
+);
 
 /* =========================================================
    COPY
