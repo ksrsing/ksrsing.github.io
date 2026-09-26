@@ -5,12 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#080b22">
-<meta name="description" content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
+
+<meta name="description"
+content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
 
 <title>NameCraft - Stylish Name Generator</title>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7634997668299480"
- crossorigin="anonymous"></script>
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7634997668299480"
+crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -507,11 +510,6 @@ footer{
         grid-template-columns:1fr;
     }
 
-    .section{
-        padding-left:15px;
-        padding-right:15px;
-    }
-
     .name-text{
         font-size:25px;
     }
@@ -527,30 +525,24 @@ footer{
 
 <div class="nav-container">
 
-<div class="logo">
-NameCraft
-</div>
+<div class="logo">NameCraft</div>
 
 <div class="nav-links">
-
 <a href="#home">Home</a>
 <a href="#styles">Styles</a>
 <a href="#favorites">Favorites</a>
 <a href="#about">About</a>
-
 </div>
 
 <button
 class="get-started"
 onclick="document.getElementById('nameInput').focus()">
-
 Get Started
-
 </button>
 
 </div>
-
 </nav>
+
 
 <section class="hero" id="home">
 
@@ -597,13 +589,12 @@ Your Name
 
 </section>
 
+
 <section class="section" id="styles">
 
 <div class="section-heading">
 
-<h2>
-Choose a Style
-</h2>
+<h2>Choose a Style</h2>
 
 <p>
 Generate names from your database styles.
@@ -649,8 +640,8 @@ Generate names from your database styles.
 </div>
 
 </div>
-
 </section>
+
 
 <section class="section">
 
@@ -678,9 +669,12 @@ Loading stylish names...
 
 </div>
 
-<div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+<div class="load-more-wrap"
+id="loadMoreWrap"
+style="display:none;">
 
-<button class="load-more" onclick="loadMore()">
+<button class="load-more"
+onclick="loadMore()">
 Load More
 </button>
 
@@ -688,13 +682,12 @@ Load More
 
 </section>
 
+
 <section class="section" id="favorites">
 
 <div class="section-heading">
 
-<h2>
-❤️ Your Favorites
-</h2>
+<h2>❤️ Your Favorites</h2>
 
 <p>
 Your saved names are stored on this device.
@@ -707,13 +700,12 @@ Your saved names are stored on this device.
 
 </section>
 
+
 <section class="section" id="about">
 
 <div class="section-heading">
 
-<h2>
-Why NameCraft?
-</h2>
+<h2>Why NameCraft?</h2>
 
 <p>
 Simple, fast and stylish.
@@ -727,9 +719,7 @@ Simple, fast and stylish.
 
 <div class="feature-icon">⚡</div>
 
-<h3>
-4000+ Database Styles
-</h3>
+<h3>4000+ Database Styles</h3>
 
 <p>
 Generate your own name using
@@ -742,9 +732,7 @@ the styles stored in your database.
 
 <div class="feature-icon">🎨</div>
 
-<h3>
-Multiple Unicode Styles
-</h3>
+<h3>Multiple Unicode Styles</h3>
 
 <p>
 Italic, script, gothic, double,
@@ -757,9 +745,7 @@ monospace and many decorative styles.
 
 <div class="feature-icon">❤️</div>
 
-<h3>
-Favorites
-</h3>
+<h3>Favorites</h3>
 
 <p>
 Save your favorite generated names
@@ -772,17 +758,21 @@ directly on your device.
 
 </section>
 
+
 <footer>
-
 © 2026 NameCraft | Stylish Name Generator
-
 </footer>
 
 <div class="toast" id="toast">
 Copied!
 </div>
 
+
 <script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
 "https://ujpzkpeslemcuizylymi.supabase.co";
@@ -796,6 +786,10 @@ window.supabase.createClient(
     SUPABASE_PUBLISHABLE_KEY
 );
 
+
+/* =========================================================
+   VISIT TRACKING
+========================================================= */
 
 async function recordVisit(){
 
@@ -812,10 +806,12 @@ async function recordVisit(){
         ]);
 
         if(error){
+
             console.error(
                 "Visit insert error:",
                 error
             );
+
         }
 
     }
@@ -830,6 +826,10 @@ async function recordVisit(){
 
 }
 
+
+/* =========================================================
+   VARIABLES
+========================================================= */
 
 let favorites =
 JSON.parse(
@@ -853,6 +853,340 @@ const GENERATED_PAGE_SIZE = 80;
 let currentMode = "database";
 
 
+/* =========================================================
+   UNICODE FONT MAPS
+========================================================= */
+
+const unicodeFonts = {
+
+    bold:{
+        upper:"𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙",
+        lower:"𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳"
+    },
+
+    italic:{
+        upper:"𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
+        lower:"𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
+    },
+
+    boldItalic:{
+        upper:"𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁",
+        lower:"𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛"
+    },
+
+    script:{
+        upper:"𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
+        lower:"𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
+    },
+
+    boldScript:{
+        upper:"𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩",
+        lower:"𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃"
+    },
+
+    fraktur:{
+        upper:"𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
+        lower:"𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
+    },
+
+    boldFraktur:{
+        upper:"𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅",
+        lower:"𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟"
+    },
+
+    double:{
+        upper:"𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
+        lower:"𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
+    },
+
+    sans:{
+        upper:"𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
+        lower:"𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
+    },
+
+    sansBold:{
+        upper:"𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭",
+        lower:"𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇"
+    },
+
+    sansItalic:{
+        upper:"𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡",
+        lower:"𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻"
+    },
+
+    sansBoldItalic:{
+        upper:"𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕",
+        lower:"𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯"
+    },
+
+    monospace:{
+        upper:"𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
+        lower:"𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
+    },
+
+    fullwidth:{
+        upper:"ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ",
+        lower:"ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
+    }
+
+};
+
+
+/* =========================================================
+   APPLY UNICODE FONT
+========================================================= */
+
+function applyUnicodeFont(text,fontSample){
+
+    text =
+    String(text || "");
+
+    fontSample =
+    String(fontSample || "");
+
+    if(!text){
+        return "";
+    }
+
+    if(!fontSample){
+        return text;
+    }
+
+    const sample =
+    fontSample.trim();
+
+
+    /*
+       Detect font using sample characters.
+    */
+
+    let selected = null;
+
+
+    for(const key in unicodeFonts){
+
+        const map =
+        unicodeFonts[key];
+
+        const combined =
+        map.upper + map.lower;
+
+        for(const ch of Array.from(sample)){
+
+            if(
+                combined.includes(ch)
+            ){
+
+                selected = map;
+                break;
+
+            }
+
+        }
+
+        if(selected){
+            break;
+        }
+
+    }
+
+
+    /* FULLWIDTH */
+
+    if(
+        sample.includes("Ａ") ||
+        sample.includes("ａ")
+    ){
+
+        selected =
+        unicodeFonts.fullwidth;
+
+    }
+
+
+    /* CIRCLED */
+
+    if(
+        sample.includes("Ⓐ") ||
+        sample.includes("ⓐ")
+    ){
+
+        return Array.from(text)
+        .map(function(char){
+
+            const lower =
+            char.toLowerCase();
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(lower);
+
+            if(index >= 0){
+
+                return Array.from(
+                    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"
+                )[index];
+
+            }
+
+            return char;
+
+        })
+        .join("");
+
+    }
+
+
+    /* SMALL CAPS */
+
+    if(
+        sample.includes("ᴀ") ||
+        sample.includes("ʙ") ||
+        sample.includes("ᴄ")
+    ){
+
+        const smallCaps =
+        "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
+
+        return Array.from(text)
+        .map(function(char){
+
+            const index =
+            "abcdefghijklmnopqrstuvwxyz"
+            .indexOf(
+                char.toLowerCase()
+            );
+
+            return index >= 0
+            ? Array.from(smallCaps)[index]
+            : char;
+
+        })
+        .join("");
+
+    }
+
+
+    /* SUPERSCRIPT */
+
+    if(
+        sample.includes("ᵃ") ||
+        sample.includes("ᴬ")
+    ){
+
+        const superMap = {
+            a:"ᵃ",b:"ᵇ",c:"ᶜ",d:"ᵈ",
+            e:"ᵉ",f:"ᶠ",g:"ᵍ",h:"ʰ",
+            i:"ⁱ",j:"ʲ",k:"ᵏ",l:"ˡ",
+            m:"ᵐ",n:"ⁿ",o:"ᵒ",p:"ᵖ",
+            q:"q",r:"ʳ",s:"ˢ",t:"ᵗ",
+            u:"ᵘ",v:"ᵛ",w:"ʷ",x:"ˣ",
+            y:"ʸ",z:"ᶻ"
+        };
+
+        return Array.from(text)
+        .map(function(char){
+
+            return (
+                superMap[
+                    char.toLowerCase()
+                ] || char
+            );
+
+        })
+        .join("");
+
+    }
+
+
+    /* SUBSCRIPT */
+
+    if(
+        sample.includes("ₐ") ||
+        sample.includes("ᵦ")
+    ){
+
+        const subMap = {
+            a:"ₐ",b:"ᵦ",c:"𝒸",d:"𝒹",
+            e:"ₑ",f:"𝒻",g:"𝓰",h:"ₕ",
+            i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",
+            m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",
+            q:"q",r:"ᵣ",s:"ₛ",t:"ₜ",
+            u:"ᵤ",v:"ᵥ",w:"𝓌",x:"ₓ",
+            y:"ᵧ",z:"𝓏"
+        };
+
+        return Array.from(text)
+        .map(function(char){
+
+            return (
+                subMap[
+                    char.toLowerCase()
+                ] || char
+            );
+
+        })
+        .join("");
+
+    }
+
+
+    if(!selected){
+        return text;
+    }
+
+
+    const upper =
+    Array.from(selected.upper);
+
+    const lower =
+    Array.from(selected.lower);
+
+    return Array.from(text)
+    .map(function(char){
+
+        const code =
+        char.charCodeAt(0);
+
+
+        if(
+            code >= 65 &&
+            code <= 90
+        ){
+
+            return (
+                upper[code - 65] ||
+                char
+            );
+
+        }
+
+
+        if(
+            code >= 97 &&
+            code <= 122
+        ){
+
+            return (
+                lower[code - 97] ||
+                char
+            );
+
+        }
+
+
+        return char;
+
+    })
+    .join("");
+
+}
+
+
+/* =========================================================
+   LOAD DATABASE
+========================================================= */
+
 async function loadDatabaseNames(){
 
     currentPage = 0;
@@ -866,35 +1200,31 @@ async function loadDatabaseNames(){
     );
 
     grid.innerHTML = `
-
         <div class="loading">
-
             Loading database styles...
-
             <br><br>
-
-            <small>
-                Please wait...
-            </small>
-
+            <small>Please wait...</small>
         </div>
-
     `;
+
 
     document.getElementById(
         "resultTitle"
     ).textContent =
     "All Stylish Names";
 
+
     document.getElementById(
         "resultInfo"
     ).textContent =
     "Loading database...";
 
+
     document.getElementById(
         "loadMoreWrap"
     ).style.display =
     "none";
+
 
     try{
 
@@ -903,6 +1233,7 @@ async function loadDatabaseNames(){
         let start = 0;
 
         const batchSize = 1000;
+
 
         while(true){
 
@@ -924,6 +1255,7 @@ async function loadDatabaseNames(){
                 start + batchSize - 1
             );
 
+
             if(error){
 
                 console.error(
@@ -939,11 +1271,14 @@ async function loadDatabaseNames(){
 
             }
 
+
             const rows =
             data || [];
 
+
             allRows =
             allRows.concat(rows);
+
 
             if(
                 rows.length < batchSize
@@ -951,7 +1286,9 @@ async function loadDatabaseNames(){
                 break;
             }
 
+
             start += batchSize;
+
 
             if(
                 start >= 10000
@@ -988,7 +1325,7 @@ async function loadDatabaseNames(){
 
                 font:
                 String(
-                    item.font || "Arial"
+                    item.font || "𝐀𝐛𝐜"
                 ).trim(),
 
                 category:
@@ -1064,6 +1401,7 @@ async function loadDatabaseNames(){
 
         }
 
+
         renderDatabasePage();
 
     }
@@ -1084,6 +1422,10 @@ async function loadDatabaseNames(){
 }
 
 
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
 function showAllStyles(){
 
     document.getElementById(
@@ -1092,12 +1434,17 @@ function showAllStyles(){
     "All Stylish Names";
 
     currentPage = 0;
+
     currentMode = "database";
 
     renderDatabasePage();
 
 }
 
+
+/* =========================================================
+   DATABASE PAGE
+========================================================= */
 
 function renderDatabasePage(){
 
@@ -1115,6 +1462,7 @@ function renderDatabasePage(){
         data.length
     );
 
+
     if(
         currentPage === 0
     ){
@@ -1124,6 +1472,7 @@ function renderDatabasePage(){
         ).innerHTML = "";
 
     }
+
 
     for(
         let i = start;
@@ -1137,6 +1486,7 @@ function renderDatabasePage(){
 
     }
 
+
     document.getElementById(
         "resultInfo"
     ).textContent =
@@ -1145,12 +1495,14 @@ function renderDatabasePage(){
     data.length +
     " styles";
 
+
     document.getElementById(
         "loadMoreWrap"
     ).style.display =
     end < data.length
     ? "block"
     : "none";
+
 
     if(
         data.length === 0
@@ -1171,6 +1523,10 @@ function renderDatabasePage(){
 }
 
 
+/* =========================================================
+   RENDER DATABASE CARD
+========================================================= */
+
 function createDatabaseCard(item){
 
     const grid =
@@ -1178,44 +1534,33 @@ function createDatabaseCard(item){
         "nameGrid"
     );
 
+
     const card =
     document.createElement(
         "div"
     );
+
 
     card.className =
     "name-card";
 
 
     const preview =
-    createNameFromTemplate(
-        item.style,
-        item.originalName,
+    renderDatabaseStyle(
+        item,
         item.originalName
     );
+
 
     const active =
     favorites.includes(
         preview
     );
 
-    const safeFont =
-    String(
-        item.font || "Arial"
-    )
-    .replace(
-        /["']/g,
-        ""
-    )
-    .trim() || "Arial";
-
 
     card.innerHTML = `
 
-        <div
-        class="name-text"
-        style="font-family:'${escapeHtml(safeFont)}',Arial,sans-serif;"
-        >
+        <div class="name-text">
 
             ${escapeHtml(
                 preview || item.style
@@ -1223,11 +1568,17 @@ function createDatabaseCard(item){
 
         </div>
 
+
         <div class="name-meta">
 
             <span class="style-tag">
-                ${escapeHtml(safeFont)}
+
+                ${escapeHtml(
+                    item.font || "𝐀𝐛𝐜"
+                )}
+
             </span>
+
 
             <div class="card-actions">
 
@@ -1235,6 +1586,7 @@ function createDatabaseCard(item){
                 class="card-btn copy-btn">
                     Copy
                 </button>
+
 
                 <button
                 class="card-btn favorite-btn
@@ -1250,6 +1602,7 @@ function createDatabaseCard(item){
 
     `;
 
+
     card.querySelector(
         ".copy-btn"
     ).onclick =
@@ -1260,6 +1613,7 @@ function createDatabaseCard(item){
         );
 
     };
+
 
     card.querySelector(
         ".favorite-btn"
@@ -1272,6 +1626,7 @@ function createDatabaseCard(item){
 
     };
 
+
     grid.appendChild(
         card
     );
@@ -1280,7 +1635,126 @@ function createDatabaseCard(item){
 
 
 /* =========================================================
-   MAIN GENERATOR
+   RENDER DATABASE STYLE + FONT
+========================================================= */
+
+function renderDatabaseStyle(
+    item,
+    input
+){
+
+    const style =
+    String(
+        item.style || ""
+    ).trim();
+
+    const originalName =
+    String(
+        item.originalName || ""
+    ).trim();
+
+    input =
+    String(
+        input || ""
+    ).trim();
+
+
+    if(!style || !input){
+        return input;
+    }
+
+
+    const fontedInput =
+    applyUnicodeFont(
+        input,
+        item.font
+    );
+
+
+    /*
+       Most important case:
+       style contains normal original name.
+
+       Example:
+
+       name  = Killer Shadow
+
+       style = ꧁༺ Killer Shadow ༻꧂
+
+       output:
+
+       ꧁༺ 𝓚𝓲𝓵𝓵𝓮𝓻 𝓢𝓱𝓪𝓭𝓸𝔀 ༻꧂
+    */
+
+    if(
+        originalName &&
+        style.includes(originalName)
+    ){
+
+        return style.replaceAll(
+            originalName,
+            fontedInput
+        );
+
+    }
+
+
+    /*
+       Existing Unicode/decorative style engine.
+    */
+
+    const decorated =
+    createNameFromTemplate(
+        style,
+        input,
+        originalName
+    );
+
+
+    if(!decorated){
+        return fontedInput;
+    }
+
+
+    /*
+       If the generated result still contains
+       the normal input, replace only that part
+       with the selected Unicode font.
+    */
+
+    if(
+        decorated.includes(input)
+    ){
+
+        return decorated.replaceAll(
+            input,
+            fontedInput
+        );
+
+    }
+
+
+    /*
+       Final fallback:
+       try the Unicode-fonted name directly
+       through the existing template engine.
+    */
+
+    const fallback =
+    createNameFromTemplate(
+        style,
+        fontedInput,
+        originalName
+    );
+
+
+    return fallback || decorated || fontedInput;
+
+}
+
+
+/* =========================================================
+   GENERATOR
 ========================================================= */
 
 function generateName(input){
@@ -1289,6 +1763,7 @@ function generateName(input){
     String(
         input || ""
     ).trim();
+
 
     if(!input){
 
@@ -1299,6 +1774,7 @@ function generateName(input){
         return;
 
     }
+
 
     if(
         allDatabaseNames.length === 0
@@ -1314,9 +1790,13 @@ function generateName(input){
 
     }
 
+
     generatedResults = [];
+
     generatedPage = 0;
+
     currentMode = "generated";
+
 
     const source =
     allDatabaseNames;
@@ -1326,10 +1806,9 @@ function generateName(input){
         function(item){
 
             const result =
-            createNameFromTemplate(
-                item.style,
-                input,
-                item.originalName
+            renderDatabaseStyle(
+                item,
+                input
             );
 
 
@@ -1345,7 +1824,7 @@ function generateName(input){
 
                 font:
                 String(
-                    item.font || "Arial"
+                    item.font || "𝐀𝐛𝐜"
                 ).trim(),
 
                 category:
@@ -1398,7 +1877,7 @@ function generateName(input){
 
 
 /* =========================================================
-   UNIVERSAL CSV STYLE REPLACER
+   OLD TEMPLATE ENGINE
 ========================================================= */
 
 function createNameFromTemplate(
@@ -1407,24 +1886,33 @@ function createNameFromTemplate(
     originalName
 ){
 
-    style = String(style || "").trim();
-    input = String(input || "").trim();
-    originalName = String(originalName || "").trim();
+    style =
+    String(style || "").trim();
+
+    input =
+    String(input || "").trim();
+
+    originalName =
+    String(originalName || "").trim();
+
 
     if(!style || !input){
         return null;
     }
+
 
     if(!originalName){
         return input;
     }
 
 
-    /* -----------------------------------------------------
-       DIRECT NORMAL TEXT
-    ----------------------------------------------------- */
+    /*
+       Normal direct replacement
+    */
 
-    if(style.includes(originalName)){
+    if(
+        style.includes(originalName)
+    ){
 
         return style.replaceAll(
             originalName,
@@ -1434,152 +1922,46 @@ function createNameFromTemplate(
     }
 
 
-    /* -----------------------------------------------------
-       MAPS
-    ----------------------------------------------------- */
+    /*
+       Mathematical Unicode maps
+    */
 
     const maps = {
 
-        italic: {
-
-            upper:
-            "𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
-
-            lower:
-            "𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
-
+        italic:{
+            upper:"𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍",
+            lower:"𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
         },
 
-        script: {
-
-            upper:
-            "𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
-
-            lower:
-            "𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
-
+        script:{
+            upper:"𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵",
+            lower:"𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
         },
 
-        fraktur: {
-
-            upper:
-            "𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
-
-            lower:
-            "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
-
+        fraktur:{
+            upper:"𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ",
+            lower:"𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
         },
 
-        double: {
-
-            upper:
-            "𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
-
-            lower:
-            "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
-
+        double:{
+            upper:"𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ",
+            lower:"𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
         },
 
-        monospace: {
-
-            upper:
-            "𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
-
-            lower:
-            "𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
-
+        monospace:{
+            upper:"𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉",
+            lower:"𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
         },
 
-        sans: {
-
-            upper:
-            "𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
-
-            lower:
-            "𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
-
+        sans:{
+            upper:"𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹",
+            lower:"𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓"
         },
 
-        sansItalic: {
-
-            upper:
-            "𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡",
-
-            lower:
-            "𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻"
-
+        sansItalic:{
+            upper:"𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡",
+            lower:"𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻"
         }
-
-    };
-
-
-    /* -----------------------------------------------------
-       SQUARED
-    ----------------------------------------------------- */
-
-    const squared = {
-
-        A:"🅰",B:"🅱",C:"🅲",D:"🅳",
-        E:"🅴",F:"🅵",G:"🅶",H:"🅷",
-        I:"🅸",J:"🅹",K:"🅺",L:"🅻",
-        M:"🅼",N:"🅽",O:"🅾",P:"🅿",
-        Q:"🆀",R:"🆁",S:"🆂",T:"🆃",
-        U:"🆄",V:"🆅",W:"🆆",X:"🆇",
-        Y:"🆈",Z:"🆉"
-
-    };
-
-
-    const squaredAlt = {
-
-        A:"🄰",B:"🄱",C:"🄲",D:"🄳",
-        E:"🄴",F:"🄵",G:"🄶",H:"🄷",
-        I:"🄸",J:"🄹",K:"🄺",L:"🄻",
-        M:"🄼",N:"🄽",O:"🄾",P:"🄿",
-        Q:"🅀",R:"🅁",S:"🅂",T:"🅃",
-        U:"🅄",V:"🅅",W:"🅆",X:"🅇",
-        Y:"🅈",Z:"🅉"
-
-    };
-
-
-    const smallCaps =
-    "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
-
-
-    const circledUpper =
-    "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
-
-    const circledLower =
-    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
-
-
-    /* -----------------------------------------------------
-       SUPERSCRIPT / SUBSCRIPT
-    ----------------------------------------------------- */
-
-    const superscript = {
-
-        a:"ᵃ",b:"ᵇ",c:"ᶜ",d:"ᵈ",
-        e:"ᵉ",f:"ᶠ",g:"ᵍ",h:"ʰ",
-        i:"ⁱ",j:"ʲ",k:"ᵏ",l:"ˡ",
-        m:"ᵐ",n:"ⁿ",o:"ᵒ",p:"ᵖ",
-        q:"q",r:"ʳ",s:"ˢ",t:"ᵗ",
-        u:"ᵘ",v:"ᵛ",w:"ʷ",x:"ˣ",
-        y:"ʸ",z:"ᶻ"
-
-    };
-
-
-    const subscript = {
-
-        a:"ₐ",b:"ᵦ",c:"𝒸",d:"𝒹",
-        e:"ₑ",f:"𝒻",g:"𝓰",h:"ₕ",
-        i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",
-        m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",
-        q:"q",r:"ᵣ",s:"ₛ",t:"ₜ",
-        u:"ᵤ",v:"ᵥ",w:"𝓌",x:"ₓ",
-        y:"ᵧ",z:"𝓏"
 
     };
 
@@ -1595,12 +1977,13 @@ function createNameFromTemplate(
         const lower =
         Array.from(map.lower);
 
-        return Array
-        .from(text)
+
+        return Array.from(text)
         .map(function(char){
 
             const code =
             char.charCodeAt(0);
+
 
             if(
                 code >= 65 &&
@@ -1608,11 +1991,13 @@ function createNameFromTemplate(
             ){
 
                 return (
-                    upper[code - 65] ||
-                    char
+                    upper[
+                        code - 65
+                    ] || char
                 );
 
             }
+
 
             if(
                 code >= 97 &&
@@ -1620,11 +2005,13 @@ function createNameFromTemplate(
             ){
 
                 return (
-                    lower[code - 97] ||
-                    char
+                    lower[
+                        code - 97
+                    ] || char
                 );
 
             }
+
 
             return char;
 
@@ -1634,585 +2021,9 @@ function createNameFromTemplate(
     }
 
 
-    /* -----------------------------------------------------
-       APPLY STYLE
-    ----------------------------------------------------- */
-
-    function applyStyle(
-        char,
-        mode
-    ){
-
-        if(mode === "normal"){
-            return char;
-        }
-
-        const lower =
-        char.toLowerCase();
-
-        const upper =
-        char.toUpperCase();
-
-
-        if(mode === "squared"){
-            return squared[upper] || char;
-        }
-
-
-        if(mode === "squaredAlt"){
-            return squaredAlt[upper] || char;
-        }
-
-
-        if(mode === "smallCaps"){
-
-            const index =
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(lower);
-
-            return index >= 0
-            ? Array.from(smallCaps)[index]
-            : char;
-
-        }
-
-
-        if(mode === "circled"){
-
-            const index =
-            "abcdefghijklmnopqrstuvwxyz"
-            .indexOf(lower);
-
-            return index >= 0
-            ? Array.from(circledLower)[index]
-            : char;
-
-        }
-
-
-        if(mode === "superscript"){
-            return superscript[lower] || char;
-        }
-
-
-        if(mode === "subscript"){
-            return subscript[lower] || char;
-        }
-
-
-        if(maps[mode]){
-            return transform(char,maps[mode]);
-        }
-
-
-        return char;
-
-    }
-
-
-    /* -----------------------------------------------------
-       REVERSE LOOKUP
-    ----------------------------------------------------- */
-
-    const reverse = {};
-
-    function addReverse(obj){
-
-        Object.keys(obj).forEach(function(key){
-
-            if(obj[key]){
-                reverse[obj[key]] =
-                key.toLowerCase();
-            }
-
-        });
-
-    }
-
-
-    addReverse(squared);
-    addReverse(squaredAlt);
-    addReverse(superscript);
-    addReverse(subscript);
-
-
-    Array.from(smallCaps).forEach(
-        function(value,index){
-
-            reverse[value] =
-            "abcdefghijklmnopqrstuvwxyz"[index];
-
-        }
-    );
-
-
-    Array.from(circledUpper).forEach(
-        function(value,index){
-
-            reverse[value] =
-            "abcdefghijklmnopqrstuvwxyz"[index];
-
-        }
-    );
-
-
-    Array.from(circledLower).forEach(
-        function(value,index){
-
-            reverse[value] =
-            "abcdefghijklmnopqrstuvwxyz"[index];
-
-        }
-    );
-
-
-    Object.keys(maps).forEach(function(key){
-
-        Array.from(maps[key].upper)
-        .forEach(function(value,index){
-
-            reverse[value] =
-            "abcdefghijklmnopqrstuvwxyz"[index];
-
-        });
-
-
-        Array.from(maps[key].lower)
-        .forEach(function(value,index){
-
-            reverse[value] =
-            "abcdefghijklmnopqrstuvwxyz"[index];
-
-        });
-
-    });
-
-
-    /* -----------------------------------------------------
-       NORMAL CHARACTER
-    ----------------------------------------------------- */
-
-    function normalChar(
-        cluster
-    ){
-
-        if(!cluster){
-            return null;
-        }
-
-
-        for(
-            const ch of Array.from(cluster)
-        ){
-
-            if(reverse[ch]){
-                return reverse[ch];
-            }
-
-
-            try{
-
-                const normalized =
-                ch.normalize("NFKD")
-                .replace(
-                    /[\u0300-\u036f]/g,
-                    ""
-                );
-
-
-                const match =
-                normalized.match(
-                    /[A-Za-z0-9]/
-                );
-
-
-                if(match){
-                    return match[0].toLowerCase();
-                }
-
-            }
-            catch(e){}
-
-
-            if(
-                /^[A-Za-z0-9]$/.test(ch)
-            ){
-
-                return ch.toLowerCase();
-
-            }
-
-        }
-
-
-        return null;
-
-    }
-
-
-    /* -----------------------------------------------------
-       GRAPHEME SEGMENTS
-    ----------------------------------------------------- */
-
-    function graphemes(
-        text
-    ){
-
-        try{
-
-            if(
-                typeof Intl !== "undefined" &&
-                Intl.Segmenter
-            ){
-
-                const segmenter =
-                new Intl.Segmenter(
-                    undefined,
-                    {
-                        granularity:"grapheme"
-                    }
-                );
-
-
-                return Array
-                .from(
-                    segmenter.segment(text)
-                )
-                .map(
-                    function(item){
-                        return item.segment;
-                    }
-                );
-
-            }
-
-        }
-        catch(e){}
-
-
-        return Array.from(text);
-
-    }
-
-
-    /* -----------------------------------------------------
-       FIND ORIGINAL NAME INSIDE STYLE
-    ----------------------------------------------------- */
-
-    const sourceChars =
-    Array.from(originalName);
-
-    const segments =
-    graphemes(style);
-
-
-    let matches = null;
-
-
-    for(
-        let start = 0;
-        start < segments.length;
-        start++
-    ){
-
-        let position =
-        start;
-
-        const found = [];
-
-        let success = true;
-
-
-        for(
-            let i = 0;
-            i < sourceChars.length;
-            i++
-        ){
-
-            const wanted =
-            sourceChars[i].toLowerCase();
-
-            let matched = false;
-
-
-            while(
-                position < segments.length
-            ){
-
-                const normal =
-                normalChar(
-                    segments[position]
-                );
-
-
-                if(
-                    normal === wanted
-                ){
-
-                    found.push({
-
-                        index:
-                        position,
-
-                        segment:
-                        segments[position]
-
-                    });
-
-                    position++;
-                    matched = true;
-
-                    break;
-
-                }
-
-
-                position++;
-
-            }
-
-
-            if(!matched){
-
-                success = false;
-                break;
-
-            }
-
-        }
-
-
-        if(
-            success &&
-            found.length === sourceChars.length
-        ){
-
-            matches = found;
-            break;
-
-        }
-
-    }
-
-
-    /* -----------------------------------------------------
-       NAME FOUND
-    ----------------------------------------------------- */
-
-    if(matches){
-
-        const firstIndex =
-        matches[0].index;
-
-        const lastIndex =
-        matches[matches.length - 1].index;
-
-
-        const prefix =
-        segments
-        .slice(0,firstIndex)
-        .join("");
-
-
-        const suffix =
-        segments
-        .slice(lastIndex + 1)
-        .join("");
-
-
-        const modes = [];
-
-
-        for(
-            let i = 0;
-            i < matches.length;
-            i++
-        ){
-
-            const originalChar =
-            sourceChars[i];
-
-            const segment =
-            matches[i].segment;
-
-
-            const first =
-            Array.from(segment)[0];
-
-
-            let mode = "normal";
-
-
-            const upper =
-            originalChar.toUpperCase();
-
-            const lower =
-            originalChar.toLowerCase();
-
-
-            if(
-                squared[upper] === first
-            ){
-
-                mode = "squared";
-
-            }
-
-            else if(
-                squaredAlt[upper] === first
-            ){
-
-                mode = "squaredAlt";
-
-            }
-
-            else if(
-                superscript[lower] === first
-            ){
-
-                mode = "superscript";
-
-            }
-
-            else if(
-                subscript[lower] === first
-            ){
-
-                mode = "subscript";
-
-            }
-
-            else{
-
-                const smallIndex =
-                Array.from(smallCaps)
-                .indexOf(first);
-
-
-                if(
-                    smallIndex !== -1 &&
-                    smallIndex ===
-                    "abcdefghijklmnopqrstuvwxyz"
-                    .indexOf(lower)
-                ){
-
-                    mode = "smallCaps";
-
-                }
-
-                else{
-
-                    const circledIndex =
-                    Array.from(circledLower)
-                    .indexOf(first);
-
-
-                    if(
-                        circledIndex !== -1 &&
-                        circledIndex ===
-                        "abcdefghijklmnopqrstuvwxyz"
-                        .indexOf(lower)
-                    ){
-
-                        mode = "circled";
-
-                    }
-
-                    else{
-
-                        for(
-                            const key in maps
-                        ){
-
-                            if(
-                                transform(
-                                    originalChar,
-                                    maps[key]
-                                ) === first
-                            ){
-
-                                mode = key;
-                                break;
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-
-            modes.push({
-
-                mode:
-                mode,
-
-                decoration:
-                Array.from(segment)
-                .slice(1)
-                .join("")
-
-            });
-
-        }
-
-
-        const inputChars =
-        Array.from(input);
-
-
-        let replacement = "";
-
-
-        for(
-            let i = 0;
-            i < inputChars.length;
-            i++
-        ){
-
-            const pattern =
-            modes[
-                i % modes.length
-            ];
-
-
-            let styled =
-            applyStyle(
-                inputChars[i],
-                pattern.mode
-            );
-
-
-            if(
-                pattern.decoration
-            ){
-
-                styled +=
-                pattern.decoration;
-
-            }
-
-
-            replacement += styled;
-
-        }
-
-
-        return (
-            prefix +
-            replacement +
-            suffix
-        );
-
-    }
-
-
-    /* -----------------------------------------------------
-       FALLBACK: MATHEMATICAL STYLES
-    ----------------------------------------------------- */
+    /*
+       Mathematical style fallback
+    */
 
     for(
         const key in maps
@@ -2242,53 +2053,17 @@ function createNameFromTemplate(
     }
 
 
-    /* -----------------------------------------------------
-       FALLBACK: SQUARED
-    ----------------------------------------------------- */
+    /*
+       Circled
+    */
 
-    function squaredText(text){
+    const circledLower =
+    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
 
-        return Array
-        .from(text)
-        .map(function(char){
-
-            return (
-                squared[
-                    char.toUpperCase()
-                ] ||
-                char
-            );
-
-        })
-        .join("");
-
-    }
-
-
-    const oldSquared =
-    squaredText(originalName);
-
-
-    if(
-        style.includes(oldSquared)
-    ){
-
-        return style.replaceAll(
-            oldSquared,
-            squaredText(input)
-        );
-
-    }
-
-
-    /* -----------------------------------------------------
-       FALLBACK: CIRCLED
-    ----------------------------------------------------- */
 
     function circledText(text){
 
-        return Array
-        .from(text)
+        return Array.from(text)
         .map(function(char){
 
             const index =
@@ -2298,14 +2073,11 @@ function createNameFromTemplate(
             );
 
 
-            if(index >= 0){
-                return Array.from(
-                    circledLower
-                )[index];
-            }
-
-
-            return char;
+            return index >= 0
+            ? Array.from(
+                circledLower
+            )[index]
+            : char;
 
         })
         .join("");
@@ -2314,7 +2086,9 @@ function createNameFromTemplate(
 
 
     const oldCircled =
-    circledText(originalName);
+    circledText(
+        originalName
+    );
 
 
     if(
@@ -2329,14 +2103,13 @@ function createNameFromTemplate(
     }
 
 
-    /* -----------------------------------------------------
-       FALLBACK: FULLWIDTH
-    ----------------------------------------------------- */
+    /*
+       Fullwidth
+    */
 
     function fullwidth(text){
 
-        return Array
-        .from(text)
+        return Array.from(text)
         .map(function(char){
 
             const code =
@@ -2376,7 +2149,9 @@ function createNameFromTemplate(
 
 
     const oldFullwidth =
-    fullwidth(originalName);
+    fullwidth(
+        originalName
+    );
 
 
     if(
@@ -2391,9 +2166,9 @@ function createNameFromTemplate(
     }
 
 
-    /* -----------------------------------------------------
+    /*
        {name}
-    ----------------------------------------------------- */
+    */
 
     if(
         style.includes("{name}")
@@ -2424,6 +2199,7 @@ function renderGeneratedPage(){
     document.getElementById(
         "nameGrid"
     );
+
 
     if(
         generatedPage === 0
@@ -2480,6 +2256,10 @@ function renderGeneratedPage(){
 }
 
 
+/* =========================================================
+   GENERATED CARD
+========================================================= */
+
 function createGeneratedCard(item){
 
     const grid =
@@ -2487,10 +2267,12 @@ function createGeneratedCard(item){
         "nameGrid"
     );
 
+
     const card =
     document.createElement(
         "div"
     );
+
 
     card.className =
     "name-card";
@@ -2502,23 +2284,9 @@ function createGeneratedCard(item){
     );
 
 
-    const safeFont =
-    String(
-        item.font || "Arial"
-    )
-    .replace(
-        /["']/g,
-        ""
-    )
-    .trim() || "Arial";
-
-
     card.innerHTML = `
 
-        <div
-        class="name-text"
-        style="font-family:'${escapeHtml(safeFont)}',Arial,sans-serif;"
-        >
+        <div class="name-text">
 
             ${escapeHtml(
                 item.name
@@ -2526,11 +2294,17 @@ function createGeneratedCard(item){
 
         </div>
 
+
         <div class="name-meta">
 
             <span class="style-tag">
-                ${escapeHtml(safeFont)}
+
+                ${escapeHtml(
+                    item.font || "𝐀𝐛𝐜"
+                )}
+
             </span>
+
 
             <div class="card-actions">
 
@@ -2538,6 +2312,7 @@ function createGeneratedCard(item){
                 class="card-btn copy-btn">
                     Copy
                 </button>
+
 
                 <button
                 class="card-btn favorite-btn
@@ -2585,6 +2360,10 @@ function createGeneratedCard(item){
 }
 
 
+/* =========================================================
+   CATEGORY
+========================================================= */
+
 function generateCategory(
     category
 ){
@@ -2603,6 +2382,7 @@ function generateCategory(
 
 
     currentPage = 0;
+
     currentMode = "database";
 
 
@@ -2624,6 +2404,10 @@ function generateCategory(
 
 }
 
+
+/* =========================================================
+   LOAD MORE
+========================================================= */
 
 function loadMore(){
 
@@ -2681,6 +2465,10 @@ function loadMore(){
 }
 
 
+/* =========================================================
+   GENERATE BUTTON
+========================================================= */
+
 document.getElementById(
     "generateBtn"
 )
@@ -2697,6 +2485,10 @@ document.getElementById(
     }
 );
 
+
+/* =========================================================
+   ENTER KEY
+========================================================= */
 
 document.getElementById(
     "nameInput"
@@ -2719,6 +2511,10 @@ document.getElementById(
 );
 
 
+/* =========================================================
+   LIVE PREVIEW
+========================================================= */
+
 document.getElementById(
     "nameInput"
 )
@@ -2726,15 +2522,32 @@ document.getElementById(
     "input",
     function(){
 
+        const text =
+        this.value ||
+        "Your Name";
+
+
+        const firstFont =
+        allDatabaseNames.length
+        ? allDatabaseNames[0].font
+        : "𝐀𝐛𝐜";
+
+
         document.getElementById(
             "livePreview"
         ).textContent =
-        this.value ||
-        "Your Name";
+        applyUnicodeFont(
+            text,
+            firstFont
+        );
 
     }
 );
 
+
+/* =========================================================
+   COPY
+========================================================= */
 
 async function copyName(
     name
@@ -2754,7 +2567,6 @@ async function copyName(
         );
 
     }
-
     catch(error){
 
         const textarea =
@@ -2792,6 +2604,10 @@ async function copyName(
 }
 
 
+/* =========================================================
+   FAVORITES
+========================================================= */
+
 function toggleFavorite(
     name
 ){
@@ -2816,7 +2632,6 @@ function toggleFavorite(
         );
 
     }
-
     else{
 
         favorites.splice(
@@ -2846,6 +2661,10 @@ function toggleFavorite(
 
 }
 
+
+/* =========================================================
+   REFRESH FAVORITE BUTTONS
+========================================================= */
 
 function refreshFavoriteButtons(){
 
@@ -2905,6 +2724,10 @@ function refreshFavoriteButtons(){
 }
 
 
+/* =========================================================
+   RENDER FAVORITES
+========================================================= */
+
 function renderFavorites(){
 
     const container =
@@ -2923,9 +2746,7 @@ function renderFavorites(){
         container.innerHTML = `
 
             <div class="empty">
-
                 No favorite names yet ❤️
-
             </div>
 
         `;
@@ -2962,11 +2783,13 @@ function renderFavorites(){
 
                 </div>
 
+
                 <div class="name-meta">
 
                     <span class="style-tag">
                         Favorite
                     </span>
+
 
                     <div class="card-actions">
 
@@ -2974,6 +2797,7 @@ function renderFavorites(){
                         class="card-btn copy-btn">
                             Copy
                         </button>
+
 
                         <button
                         class="card-btn favorite-btn active">
@@ -3021,6 +2845,10 @@ function renderFavorites(){
 }
 
 
+/* =========================================================
+   TOAST
+========================================================= */
+
 let toastTimer;
 
 
@@ -3062,6 +2890,10 @@ function showToast(
 
 }
 
+
+/* =========================================================
+   DATABASE ERROR
+========================================================= */
 
 function showDatabaseError(
     message
@@ -3109,6 +2941,10 @@ function showDatabaseError(
 }
 
 
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
 function escapeHtml(
     value
 ){
@@ -3142,6 +2978,10 @@ function escapeHtml(
 
 }
 
+
+/* =========================================================
+   START
+========================================================= */
 
 renderFavorites();
 
