@@ -8,8 +8,9 @@
 <meta name="description" content="NameCraft - Free stylish name generator with thousands of gaming, cool, royal, fire and danger names.">
 
 <title>NameCraft - Stylish Name Generator</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7634997668299480"
-     crossorigin="anonymous"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7634997668299480"
+ crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -911,7 +912,7 @@ async function loadDatabaseNames(){
             } =
             await supabaseClient
             .from("names")
-            .select("id, name, style")
+            .select("id, name, style, font")
             .order(
                 "id",
                 {
@@ -986,7 +987,9 @@ async function loadDatabaseNames(){
                 ).trim(),
 
                 font:
-                "Database Style",
+                String(
+                    item.font || "Arial"
+                ).trim(),
 
                 category:
                 "All"
@@ -1039,10 +1042,14 @@ async function loadDatabaseNames(){
 
                     <b>style</b>
 
+                    <br>
+
+                    <b>font</b>
+
                     <br><br>
 
                     Check that your CSV was imported
-                    with both columns.
+                    with all required columns.
 
                 </div>
 
@@ -1192,9 +1199,23 @@ function createDatabaseCard(item){
         preview
     );
 
+    const safeFont =
+    String(
+        item.font || "Arial"
+    )
+    .replace(
+        /["']/g,
+        ""
+    )
+    .trim() || "Arial";
+
+
     card.innerHTML = `
 
-        <div class="name-text">
+        <div
+        class="name-text"
+        style="font-family:'${escapeHtml(safeFont)}',Arial,sans-serif;"
+        >
 
             ${escapeHtml(
                 preview || item.style
@@ -1205,7 +1226,7 @@ function createDatabaseCard(item){
         <div class="name-meta">
 
             <span class="style-tag">
-                Database Style
+                ${escapeHtml(safeFont)}
             </span>
 
             <div class="card-actions">
@@ -1323,7 +1344,9 @@ function generateName(input){
                 result,
 
                 font:
-                "Database Style",
+                String(
+                    item.font || "Arial"
+                ).trim(),
 
                 category:
                 "Database",
@@ -2163,11 +2186,6 @@ function createNameFromTemplate(
             );
 
 
-            /*
-            Original character ke extra
-            combining/decorative marks preserve.
-            */
-
             if(
                 pattern.decoration
             ){
@@ -2389,13 +2407,6 @@ function createNameFromTemplate(
     }
 
 
-    /*
-    IMPORTANT:
-    Purana CSV name kabhi return nahi hoga.
-    Agar exact style identify na ho paye,
-    user ka entered name return hoga.
-    */
-
     return input;
 
 }
@@ -2491,9 +2502,23 @@ function createGeneratedCard(item){
     );
 
 
+    const safeFont =
+    String(
+        item.font || "Arial"
+    )
+    .replace(
+        /["']/g,
+        ""
+    )
+    .trim() || "Arial";
+
+
     card.innerHTML = `
 
-        <div class="name-text">
+        <div
+        class="name-text"
+        style="font-family:'${escapeHtml(safeFont)}',Arial,sans-serif;"
+        >
 
             ${escapeHtml(
                 item.name
@@ -2504,7 +2529,7 @@ function createGeneratedCard(item){
         <div class="name-meta">
 
             <span class="style-tag">
-                Database Style
+                ${escapeHtml(safeFont)}
             </span>
 
             <div class="card-actions">
@@ -3062,7 +3087,7 @@ function showDatabaseError(
 
             <small>
                 Supabase ke names table me
-                name aur style columns check karo.
+                name, style aur font columns check karo.
             </small>
 
         </div>
