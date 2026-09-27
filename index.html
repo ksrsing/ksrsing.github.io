@@ -1936,125 +1936,89 @@ function createDatabaseCard(item){
 
 }
 
-
 /* =========================================================
-   DATABASE STYLE ENGINE
+   DATABASE STYLE ENGINE - FIXED
+   Preserves database decorations such as:
+   single strike  → m̶o̶n̶u̶
+   double strike  → m̷o̷n̷u̷
+   underline      → m̲o̲n̲u̲
+   multiple marks → m̶̷o̶̷n̶̷u̶̷
 ========================================================= */
 
-function renderDatabaseStyle(
-    item,
-    input
-){
+function renderDatabaseStyle(item, input){
 
     const style =
-    String(
-        item.style || ""
-    ).trim();
-
+        String(item.style || "").trim();
 
     const originalName =
-    String(
-        item.originalName ||
-        item.name ||
-        ""
-    ).trim();
-
+        String(
+            item.originalName ||
+            item.name ||
+            ""
+        ).trim();
 
     input =
-    String(
-        input || ""
-    ).trim();
+        String(input || "").trim();
 
-
-    if(
-        !style
-    ){
-
+    if(!style || !input){
         return input;
-
     }
-
-
-    if(
-        !input
-    ){
-
-        return "";
-
-    }
-
-
-    const font =
-    String(
-        item.font || "𝐀𝐛𝐜"
-    ).trim();
-
-
-    const fontedInput =
-    applyUnicodeFont(
-        input,
-        font
-    );
 
 
     /*
-       STEP 1:
-       Database style contains normal original name.
-
-       Example:
-
-       Killer Shadow
-
-       becomes:
-
-       𝓚𝓲𝓵𝓵𝓮𝓻 𝓢𝓱𝓪𝓭𝓸𝔀
+       -----------------------------------------------------
+       STEP 1
+       Exact normal-name replacement
+       -----------------------------------------------------
     */
 
     if(
         originalName &&
-        style.includes(
-            originalName
-        )
+        style.includes(originalName)
     ){
 
         return style.replaceAll(
             originalName,
-            fontedInput
+            input
         );
 
     }
 
 
     /*
-       STEP 2:
-       Database style already contains
-       Unicode version of original name.
-
-       Example:
-
-       𝓚𝓲𝓵𝓵𝓮𝓻 Shadow
-
-       This is important for your CSV.
+       -----------------------------------------------------
+       STEP 2
+       Exact Unicode-font replacement
+       -----------------------------------------------------
     */
 
+    const font =
+        String(
+            item.font || ""
+        ).trim();
+
     if(
-        originalName
+        originalName &&
+        font
     ){
 
         const fontedOriginal =
-        applyUnicodeFont(
-            originalName,
-            font
-        );
-
+            applyUnicodeFont(
+                originalName,
+                font
+            );
 
         if(
             fontedOriginal &&
             fontedOriginal !== originalName &&
-            style.includes(
-                fontedOriginal
-            )
+            style.includes(fontedOriginal)
         ){
+
+            const fontedInput =
+                applyUnicodeFont(
+                    input,
+                    font
+                );
 
             return style.replaceAll(
                 fontedOriginal,
@@ -2067,69 +2031,95 @@ function renderDatabaseStyle(
 
 
     /*
-       STEP 3:
-       Placeholder support.
+       -----------------------------------------------------
+       STEP 3
+       {name} placeholder
+       -----------------------------------------------------
     */
 
-    if(
-        style.includes(
-            "{name}"
-        )
-    ){
+    if(style.includes("{name}")){
 
         return style.replaceAll(
             "{name}",
-            fontedInput
-        );
-
-    }
-
-
-    if(
-        style.includes(
-            "{n}"
-        )
-    ){
-
-        return style.replaceAll(
-            "{n}",
-            fontedInput
+            input
         );
 
     }
 
 
     /*
-       STEP 4:
-       Existing template engine.
+       -----------------------------------------------------
+       STEP 4
+       {n} placeholder
+       -----------------------------------------------------
+    */
+
+    if(style.includes("{n}")){
+
+        return style.replaceAll(
+            "{n}",
+            input
+        );
+
+    }
+
+
+    /*
+       -----------------------------------------------------
+       STEP 5
+       PRESERVE UNICODE COMBINING DECORATIONS
+       
+       Example database:
+
+       m̶o̶n̶u̶
+       m̷o̷n̷u̷
+       m̲o̲n̲u̲
+       m̶̷o̶̷n̶̷u̶̷
+
+       Instead of removing the decorations,
+       copy them to the new name.
+       -----------------------------------------------------
+    */
+
+    if(originalName){
+
+        const decorated =
+            applyDatabaseDecorations(
+                style,
+                originalName,
+                input
+            );
+
+        if(
+            decorated &&
+            decorated !== input
+        ){
+
+            return decorated;
+
+        }
+
+    }
+
+
+    /*
+       -----------------------------------------------------
+       STEP 6
+       Existing template engine
+       -----------------------------------------------------
     */
 
     const decorated =
-    createNameFromTemplate(
-        style,
-        input,
-        originalName
-    );
-
+        createNameFromTemplate(
+            style,
+            input,
+            originalName
+        );
 
     if(
         decorated &&
         decorated !== input
     ){
-
-        if(
-            decorated.includes(
-                input
-            )
-        ){
-
-            return decorated.replaceAll(
-                input,
-                fontedInput
-            );
-
-        }
-
 
         return decorated;
 
@@ -2137,35 +2127,348 @@ function renderDatabaseStyle(
 
 
     /*
-       STEP 5:
-       Plain input inside style.
+       -----------------------------------------------------
+       STEP 7
+       Plain input replacement
+       -----------------------------------------------------
     */
 
-    if(
-        style.includes(
-            input
-        )
-    ){
+    if(style.includes(input)){
 
         return style.replaceAll(
             input,
-            fontedInput
+            input
         );
 
     }
 
 
     /*
-       STEP 6:
-       If nothing matches,
-       return actual Unicode font.
+       -----------------------------------------------------
+       STEP 8
+       Only when database style cannot be detected,
+       use font column.
+       -----------------------------------------------------
     */
 
-    return fontedInput;
+    if(font){
 
+        return applyUnicodeFont(
+            input,
+            font
+        );
+
+    }
+
+
+    return input;
 }
 
 
+/* =========================================================
+   PRESERVE DATABASE DECORATIONS
+========================================================= */
+
+function applyDatabaseDecorations(
+    styledName,
+    originalName,
+    newName
+){
+
+    styledName =
+        String(styledName || "");
+
+    originalName =
+        String(originalName || "");
+
+    newName =
+        String(newName || "");
+
+
+    if(
+        !styledName ||
+        !originalName ||
+        !newName
+    ){
+
+        return newName;
+
+    }
+
+
+    /*
+       Convert text into Unicode code points.
+    */
+
+    const originalChars =
+        Array.from(originalName);
+
+    const newChars =
+        Array.from(newName);
+
+
+    if(
+        originalChars.length === 0 ||
+        newChars.length === 0
+    ){
+
+        return newName;
+
+    }
+
+
+    /*
+       Read the database style character-by-character.
+
+       Combining Unicode marks such as:
+
+       ̶  U+0336
+       ̷  U+0337
+       ̸  U+0338
+       ̲  U+0332
+       ̳  U+0333
+       ̅  U+0305
+       ͟  U+035F
+
+       are kept.
+    */
+
+    const combiningMarks = new Set([
+
+        "\u0300",
+        "\u0301",
+        "\u0302",
+        "\u0303",
+        "\u0304",
+        "\u0305",
+        "\u0306",
+        "\u0307",
+        "\u0308",
+        "\u0309",
+        "\u030A",
+        "\u030B",
+        "\u030C",
+        "\u030D",
+        "\u030E",
+        "\u030F",
+
+        "\u0310",
+        "\u0311",
+        "\u0312",
+        "\u0313",
+        "\u0314",
+        "\u0315",
+        "\u0316",
+        "\u0317",
+        "\u0318",
+        "\u0319",
+        "\u031A",
+        "\u031B",
+        "\u031C",
+        "\u031D",
+        "\u031E",
+        "\u031F",
+        "\u0320",
+        "\u0321",
+        "\u0322",
+        "\u0323",
+        "\u0324",
+        "\u0325",
+        "\u0326",
+        "\u0327",
+        "\u0328",
+        "\u0329",
+        "\u032A",
+        "\u032B",
+        "\u032C",
+        "\u032D",
+        "\u032E",
+        "\u032F",
+
+        "\u0330",
+        "\u0331",
+        "\u0332",
+        "\u0333",
+        "\u0334",
+        "\u0335",
+        "\u0336",
+        "\u0337",
+        "\u0338",
+        "\u0339",
+        "\u033A",
+        "\u033B",
+        "\u033C",
+        "\u033D",
+        "\u033E",
+        "\u033F",
+
+        "\u0340",
+        "\u0341",
+        "\u0342",
+        "\u0343",
+        "\u0344",
+        "\u0345",
+
+        "\u0346",
+        "\u0347",
+        "\u0348",
+        "\u0349",
+        "\u034A",
+        "\u034B",
+        "\u034C",
+        "\u034D",
+        "\u034E",
+        "\u034F",
+
+        "\u0350",
+        "\u0351",
+        "\u0352",
+        "\u0353",
+        "\u0354",
+        "\u0355",
+        "\u0356",
+        "\u0357",
+        "\u0358",
+        "\u0359",
+        "\u035A",
+        "\u035B",
+        "\u035C",
+        "\u035D",
+        "\u035E",
+        "\u035F",
+        "\u0360",
+        "\u0361",
+        "\u0362",
+        "\u0363",
+        "\u0364",
+        "\u0365",
+        "\u0366",
+        "\u0367",
+        "\u0368",
+        "\u0369",
+        "\u036A",
+        "\u036B",
+        "\u036C",
+        "\u036D",
+        "\u036E",
+        "\u036F",
+
+        "\u0488",
+        "\u0489"
+
+    ]);
+
+
+    /*
+       Extract decoration pattern from each
+       character of the database style.
+    */
+
+    const patterns = [];
+
+    let i = 0;
+
+    while(i < styledName.length){
+
+        const char =
+            styledName[i];
+
+        /*
+           Ignore spaces.
+        */
+
+        if(
+            /\s/.test(char)
+        ){
+
+            i++;
+            continue;
+
+        }
+
+
+        let marks = "";
+
+        let j = i + 1;
+
+
+        while(
+            j < styledName.length &&
+            combiningMarks.has(
+                styledName[j]
+            )
+        ){
+
+            marks +=
+                styledName[j];
+
+            j++;
+
+        }
+
+
+        patterns.push(marks);
+
+        i = j;
+
+    }
+
+
+    /*
+       If no Unicode combining decoration
+       was found, don't change anything.
+    */
+
+    const hasDecoration =
+        patterns.some(
+            function(pattern){
+                return pattern.length > 0;
+            }
+        );
+
+
+    if(!hasDecoration){
+
+        return "";
+
+    }
+
+
+    /*
+       Apply the same decoration pattern
+       to the new name.
+
+       If new name is longer than original,
+       the decoration pattern repeats.
+    */
+
+    let result = "";
+
+    for(
+        let k = 0;
+        k < newChars.length;
+        k++
+    ){
+
+        const char =
+            newChars[k];
+
+        const pattern =
+            patterns[
+                k % patterns.length
+            ] || "";
+
+        result +=
+            char +
+            pattern;
+
+    }
+
+
+    return result;
+}
+
+        
 /* =========================================================
    TEMPLATE ENGINE
 ========================================================= */
