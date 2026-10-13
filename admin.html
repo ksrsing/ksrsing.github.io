@@ -130,6 +130,56 @@ button:disabled{opacity:.5;cursor:not-allowed}
   </div>
 
   <div class="card">
+    <h2>🎨 Website Theme Customizer</h2>
+    <p class="muted">Customize NameCraft's colors and appearance.</p>
+
+    <label for="themePreset">Theme Preset</label>
+    <select id="themePreset">
+      <option value="purple">Purple / Cyan</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+    </select>
+
+    <label for="primaryColor">Primary Color</label>
+    <input id="primaryColor" type="color" value="#8b75ff">
+
+    <label for="secondaryColor">Secondary Color</label>
+    <input id="secondaryColor" type="color" value="#00eaff">
+
+    <label for="backgroundColor">Background Color</label>
+    <input id="backgroundColor" type="color" value="#080b22">
+
+    <label for="textColor">Text Color</label>
+    <input id="textColor" type="color" value="#f8f7ff">
+
+    <label for="cardColor">Name Card Color</label>
+    <input id="cardColor" type="color" value="#11142a">
+
+    <label for="defaultMode">Default Mode</label>
+    <select id="defaultMode">
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+    </select>
+
+    <label for="heroHeading">Main Heading</label>
+    <input id="heroHeading" maxlength="200"
+      value="Create Your Perfect Name">
+
+    <label for="heroSubtitle">Subtitle</label>
+    <input id="heroSubtitle" maxlength="300"
+      value="Create your perfect stylish name.">
+
+    <label for="buttonRadius">Button Corner Radius (px)</label>
+    <input id="buttonRadius" type="number" min="0" max="40" value="12">
+
+    <label for="cardRadius">Card Corner Radius (px)</label>
+    <input id="cardRadius" type="number" min="0" max="40" value="17">
+
+    <button id="saveThemeButton" type="button">💾 Save Theme Settings</button>
+    <p id="themeStatus" class="muted" role="status"></p>
+  </div>
+  
+  <div class="card">
     <h2>🚀 Website</h2>
     <button id="openWebsiteButton">Open NameCraft</button>
   </div>
@@ -503,6 +553,37 @@ async function loadContent() {
     throw error;
   }
 
+const rawSettings = values.ui_settings;
+
+if (rawSettings) {
+  try {
+    const settings = typeof rawSettings === "string"
+      ? JSON.parse(rawSettings)
+      : rawSettings;
+
+    if (settings.theme) $("themePreset").value = settings.theme;
+    if (settings.primaryColor) $("primaryColor").value = settings.primaryColor;
+    if (settings.secondaryColor) $("secondaryColor").value = settings.secondaryColor;
+    if (settings.backgroundColor) $("backgroundColor").value = settings.backgroundColor;
+    if (settings.textColor) $("textColor").value = settings.textColor;
+    if (settings.cardColor) $("cardColor").value = settings.cardColor;
+    if (settings.defaultMode) $("defaultMode").value = settings.defaultMode;
+    if (settings.heroHeading) $("heroHeading").value = settings.heroHeading;
+    if (settings.heroSubtitle) $("heroSubtitle").value = settings.heroSubtitle;
+
+    if (settings.buttonRadius != null) {
+      $("buttonRadius").value = settings.buttonRadius;
+    }
+
+    if (settings.cardRadius != null) {
+      $("cardRadius").value = settings.cardRadius;
+    }
+  } catch (error) {
+    console.error("Could not read saved theme settings:", error);
+    $("themeStatus").textContent = "Saved theme settings could not be read.";
+  }
+}
+
   const values = Object.fromEntries(
     (data || []).map(row => [row.content_key, row.content_value])
   );
@@ -513,6 +594,82 @@ async function loadContent() {
   $("siteDescription").value =
     values.description ?? "Create your own stylish names.";
 }
+  
+const themePresets = {
+  purple: {
+    primaryColor: "#8b75ff",
+    secondaryColor: "#00eaff",
+    backgroundColor: "#080b22",
+    textColor: "#f8f7ff",
+    cardColor: "#11142a"
+  },
+  blue: {
+    primaryColor: "#2979ff",
+    secondaryColor: "#00d4ff",
+    backgroundColor: "#071426",
+    textColor: "#f8faff",
+    cardColor: "#10243d"
+  },
+  green: {
+    primaryColor: "#16a765",
+    secondaryColor: "#72efc0",
+    backgroundColor: "#071b16",
+    textColor: "#f2fff8",
+    cardColor: "#102b22"
+  }
+};
+
+function applyThemePreset() {
+  const preset = themePresets[$("themePreset").value];
+  if (!preset) return;
+
+  Object.entries(preset).forEach(([key, value]) => {
+    $(key).value = value;
+  });
+}
+
+$("themePreset").addEventListener("change", applyThemePreset);
+
+$("saveThemeButton").addEventListener("click", async () => {
+  const settings = {
+    theme: $("themePreset").value,
+    primaryColor: $("primaryColor").value,
+    secondaryColor: $("secondaryColor").value,
+    backgroundColor: $("backgroundColor").value,
+    textColor: $("textColor").value,
+    cardColor: $("cardColor").value,
+    defaultMode: $("defaultMode").value,
+    heroHeading: $("heroHeading").value.trim(),
+    heroSubtitle: $("heroSubtitle").value.trim(),
+    buttonRadius: Number($("buttonRadius").value),
+    cardRadius: Number($("cardRadius").value)
+  };
+
+  $("saveThemeButton").disabled = true;
+  $("themeStatus").textContent = "Saving theme settings…";
+
+  try {
+    const { error } = await db
+      .from("site_content")
+      .upsert({
+        content_key: "ui_settings",
+        content_value: JSON.stringify(settings),
+        updated_at: new Date().toISOString()
+      }, { onConflict: "content_key" });
+
+    if (error) throw error;
+
+    $("themeStatus").textContent =
+      "Theme settings saved! Refresh the website to check changes.";
+  } catch (error) {
+    console.error("Theme save failed:", error);
+    $("themeStatus").textContent =
+      "Save failed: " + error.message;
+  } finally {
+    $("saveThemeButton").disabled = false;
+  }
+});
+
 
 $("contentForm").addEventListener("submit", async event => {
   event.preventDefault();
@@ -536,7 +693,7 @@ $("contentForm").addEventListener("submit", async event => {
 });
 
 $("openWebsiteButton").addEventListener("click", () => {
-  window.open("https://namecraft.run.place/", "_blank", "noopener,noreferrer");
+  window.open("https://ksrsing.github.io/", "_blank", "noopener,noreferrer");
 });
 
 async function boot() {
