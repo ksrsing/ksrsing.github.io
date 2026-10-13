@@ -18,6 +18,15 @@ crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+    :root {
+  --primary-color: #8b75ff;
+  --secondary-color: #00eaff;
+  --background-color: #080b22;
+  --text-color: #f8f7ff;
+  --card-color: #11142a;
+  --button-radius: 12px;
+  --card-radius: 17px;
+}
 
 *{
     margin:0;
@@ -159,9 +168,9 @@ body{
 .search-box button{
     border:0;
     color:white;
-    background:linear-gradient(135deg,#765cff,#00c8f5);
+    background: var(--primary-color);
     padding:0 25px;
-    border-radius:13px;
+    border-radius: var(--button-radius);
     cursor:pointer;
     font-weight:800;
 }
