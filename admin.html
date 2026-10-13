@@ -1,1108 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Admin Panel - Stylish Name</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NameCraft CMS - Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    background:#080808;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-
-.login-box{
-    width:90%;
-    max-width:400px;
-    background:#151515;
-    padding:30px;
-    border-radius:15px;
-    border:1px solid #333;
-    box-shadow:0 5px 30px #000;
-    text-align:center;
-}
-
-.login-box h2{
-    color:#00c6ff;
-    margin-bottom:20px;
-}
-
-.login-box input{
-    margin:8px 0;
-}
-
-.login-box button{
-    width:100%;
-}
-
-#loginMessage{
-    margin-top:15px;
-    color:#ff4444;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#080808;
-    color:white;
-    min-height:100vh;
-}
-
-header{
-    background:linear-gradient(135deg,#6a00ff,#00c6ff);
-    padding:25px 20px;
-    text-align:center;
-}
-
-header h1{
-    font-size:28px;
-}
-
-.container{
-    max-width:900px;
-    margin:30px auto;
-    padding:20px;
-}
-
-.card{
-    background:#151515;
-    border:1px solid #333;
-    border-radius:15px;
-    padding:20px;
-    margin-bottom:20px;
-    box-shadow:0 5px 20px #000;
-}
-
-.card h2{
-    margin-bottom:15px;
-    color:#00c6ff;
-}
-
-input,
-textarea{
-    width:100%;
-    padding:13px;
-    margin:8px 0;
-    border:none;
-    outline:none;
-    border-radius:8px;
-    background:#252525;
-    color:white;
-}
-
-button{
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    background:linear-gradient(135deg,#6a00ff,#00c6ff);
-    color:white;
-    cursor:pointer;
-    font-size:16px;
-    margin-top:8px;
-}
-
-.delete{
-    background:#d60000;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.stat{
-    background:#202020;
-    padding:20px;
-    border-radius:12px;
-    text-align:center;
-}
-
-.stat h3{
-    font-size:28px;
-    color:#00c6ff;
-}
-
-.message{
-    margin-top:15px;
-    padding:12px;
-    background:#202020;
-    border-radius:8px;
-    display:none;
-}
-
-.name-item{
-    padding:15px;
-    margin-bottom:10px;
-    background:#252525;
-    border-radius:10px;
-}
-
-.status{
-    margin-top:10px;
-    padding:10px;
-    border-radius:8px;
-    background:#202020;
-}
-
-@media(max-width:600px){
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    header h1{
-        font-size:22px;
-    }
-
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#080b22;color:#f5f6ff;font-family:Arial,sans-serif}
+header{padding:22px;background:linear-gradient(120deg,#6a00ff,#00c6ff)}
+header h1{margin:0;font-size:25px}
+.container{max-width:1100px;margin:24px auto;padding:0 16px}
+.card{background:#121832;border:1px solid #293354;border-radius:14px;padding:20px;margin:16px 0}
+h2{color:#00d9ff;margin-top:0}
+input,textarea,select{width:100%;padding:12px;margin:7px 0 13px;background:#080f27;color:white;border:1px solid #344264;border-radius:8px}
+textarea{min-height:80px;resize:vertical}
+label{display:block;margin-top:8px;color:#c8d5ff}
+button{border:0;border-radius:8px;padding:11px 15px;margin:4px 4px 4px 0;background:linear-gradient(120deg,#7650ff,#00aeea);color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.danger{background:#b92b42}
+.secondary{background:#293354}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{background:#080f27;padding:18px;border-radius:10px;border:1px solid #293354}
+.stat strong{font-size:27px;display:block;color:#00d9ff;margin-bottom:5px}
+.item{padding:14px;background:#080f27;border:1px solid #293354;border-radius:10px;margin:10px 0;overflow-wrap:anywhere}
+.item small{display:block;color:#b9c7e9;margin:7px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+#loginScreen{position:fixed;inset:0;background:#080b22;display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}
+.loginBox{width:100%;max-width:400px;background:#121832;padding:25px;border:1px solid #344264;border-radius:15px}
+#loginMessage,#message{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:10px}
+#message{padding:12px;background:#080f27;border-radius:8px;display:none}
+.muted{color:#aebce0;font-size:13px;line-height:1.5}
+.sectionTitle{margin-bottom:8px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}header h1{font-size:20px}.card{padding:15px}}
 </style>
-
 </head>
 
 <body>
 
-
-<!-- ==============================
-     LOGIN SCREEN
-================================ -->
-
 <div id="loginScreen">
-
-    <div class="login-box">
-
-        <h2>🔐 Admin Login</h2>
-
-        <input
-            type="email"
-            id="email"
-            placeholder="Admin Email"
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-        >
-
-        <button onclick="login()">
-            Login
-        </button>
-
-        <p id="loginMessage"></p>
-
-    </div>
-
+  <div class="loginBox">
+    <h2>🔐 NameCraft Admin</h2>
+    <p class="muted">Sign in with your existing authorized admin account.</p>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button id="loginButton" type="submit">Login</button>
+    </form>
+    <p id="loginMessage" role="status"></p>
+  </div>
 </div>
-
-
-<!-- ==============================
-     HEADER
-================================ -->
 
 <header>
-
-    <h1>
-        ⚙️ Stylish Name - Admin Panel
-    </h1>
-
+  <h1>⚙️ NameCraft CMS</h1>
+  <p>Manage names, categories and website content</p>
 </header>
 
+<main class="container" id="adminPanel" hidden>
+  <div class="row">
+    <p class="muted">Authorized administrator dashboard</p>
+    <button id="logoutButton" class="danger">Logout</button>
+  </div>
 
-<!-- ==============================
-     ADMIN PANEL
-================================ -->
-
-<div
-    class="container"
-    id="adminPanel"
-    style="display:none;"
->
-
-
-    <!-- LOGOUT -->
-
-    <button
-        onclick="logout()"
-        class="delete"
-    >
-        🚪 Logout
-    </button>
-
-
-    <!-- ==========================
-         DASHBOARD
-    =========================== -->
-
-    <div class="card">
-
-        <h2>📊 Dashboard</h2>
-
-        <div class="stats">
-
-
-            <!-- NAMES -->
-
-            <div class="stat">
-
-                <h3 id="nameCount">
-                    0
-                </h3>
-
-                <p>
-                    Names
-                </p>
-
-            </div>
-
-
-            <!-- VISITS -->
-
-            <div class="stat">
-
-                <h3 id="visitCount">
-                    0
-                </h3>
-
-                <p>
-                    Visits
-                </p>
-
-            </div>
-
-
-            <!-- STATUS -->
-
-            <div class="stat">
-
-                <h3>
-                    Online
-                </h3>
-
-                <p>
-                    Status
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-        <div
-            class="status"
-            id="connectionStatus"
-        >
-            Connecting to database...
-        </div>
-
+  <div class="card">
+    <h2>📊 Dashboard</h2>
+    <div class="grid">
+      <div class="stat"><strong id="nameCount">—</strong>Names</div>
+      <div class="stat"><strong id="categoryCount">—</strong>Categories</div>
+      <div class="stat"><strong id="visitCount">—</strong>Visits</div>
     </div>
+    <p id="connectionStatus" class="muted">Checking connection…</p>
+  </div>
 
+  <div class="card">
+    <h2 id="nameFormTitle">➕ Add Stylish Name</h2>
+    <form id="nameForm">
+      <input id="editId" type="hidden">
+      <label for="nameInput">Name / Original text</label>
+      <input id="nameInput" maxlength="200" placeholder="Enter name" required>
+      <label for="styleInput">Stylish version</label>
+      <textarea id="styleInput" maxlength="2000" placeholder="Enter stylish version" required></textarea>
+      <label for="nameCategory">Category</label>
+      <select id="nameCategory" required></select>
+      <button id="saveNameButton" type="submit">Add Name</button>
+      <button id="cancelEditButton" class="secondary" type="button" hidden>Cancel edit</button>
+    </form>
+    <div id="message" role="status"></div>
+  </div>
 
-    <!-- ==========================
-         ADD NAME
-    =========================== -->
+  <div class="card">
+    <h2>📋 Names Manager</h2>
+    <input id="nameSearch" type="search" placeholder="Search names or styles">
+    <div id="nameList">Loading names…</div>
+    <button id="reloadNamesButton" class="secondary">Refresh names</button>
+    <p class="muted">The list loads up to 1,000 records at a time. The dashboard count is separate.</p>
+  </div>
 
-    <div class="card">
+  <div class="card">
+    <h2>🏷️ Category Manager</h2>
+    <form id="categoryForm">
+      <label for="categoryInput">New category name</label>
+      <input id="categoryInput" maxlength="60" placeholder="Example: Anime" required>
+      <button type="submit">Add Category</button>
+    </form>
+    <div id="categoryList">Loading categories…</div>
+  </div>
 
-        <h2>
-            ➕ Add Stylish Name
-        </h2>
+  <div class="card">
+    <h2>🌐 Website Content Manager</h2>
+    <p class="muted">
+      These values are stored in Supabase. The public index.html must also read
+      site_content for changes to appear on the live website.
+    </p>
+    <form id="contentForm">
+      <label for="siteTitle">Website title</label>
+      <input id="siteTitle" maxlength="160" required>
+      <label for="mainHeading">Main heading</label>
+      <input id="mainHeading" maxlength="200" required>
+      <label for="subtitle">Subtitle</label>
+      <input id="subtitle" maxlength="300" required>
+      <label for="siteDescription">Description</label>
+      <textarea id="siteDescription" maxlength="1000" required></textarea>
+      <button type="submit">Save Website Content</button>
+    </form>
+    <p id="contentStatus" class="muted" role="status"></p>
+  </div>
 
-
-        <input
-            type="text"
-            id="nameInput"
-            placeholder="Enter name"
-        >
-
-
-        <textarea
-            id="styleInput"
-            placeholder="Enter stylish version"
-            rows="4"
-        ></textarea>
-
-
-        <button onclick="addName()">
-            Add Name
-        </button>
-
-
-        <div
-            class="message"
-            id="message"
-        ></div>
-
-    </div>
-
-
-    <!-- ==========================
-         SAVED NAMES
-    =========================== -->
-
-    <div class="card">
-
-        <h2>
-            📋 Saved Names
-        </h2>
-
-
-        <div id="nameList">
-            Loading...
-        </div>
-
-    </div>
-
-
-    <!-- ==========================
-         WEBSITE
-    =========================== -->
-
-    <div class="card">
-
-        <h2>
-            🌐 Website
-        </h2>
-
-
-        <button onclick="openWebsite()">
-            Open Stylish Name
-        </button>
-
-    </div>
-
-
-</div>
-
+  <div class="card">
+    <h2>🚀 Website</h2>
+    <button id="openWebsiteButton">Open NameCraft</button>
+  </div>
+</main>
 
 <script>
+"use strict";
 
+// Publishable key is intended for browser use.
+// Never place a service_role or secret key in this file.
+const SUPABASE_URL = "https://ujpzkpeslemcuizylymi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_oT5xR6-pXK9vM9jlxvhydA_CgZs1qAB";
 
-/* =====================================
-   SUPABASE SETTINGS
-===================================== */
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const SUPABASE_URL =
-"https://ujpzkpeslemcuizylymi.supabase.co";
+const $ = id => document.getElementById(id);
+let categories = [];
+let allNames = [];
 
-
-const SUPABASE_KEY =
-"sb_publishable_oT5xR6-pXK9vM9jlxvhydA_CgZs1qAB";
-
-
-/* =====================================
-   CREATE SUPABASE CONNECTION
-===================================== */
-
-const db =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-
-/* =====================================
-   SHOW MESSAGE
-===================================== */
-
-function showMessage(text){
-
-    const message =
-    document.getElementById("message");
-
-    message.style.display =
-    "block";
-
-    message.innerText =
-    text;
-
+function message(text) {
+  $("message").style.display = "block";
+  $("message").textContent = text;
 }
 
-
-/* =====================================
-   TEST DATABASE CONNECTION
-===================================== */
-
-async function testConnection(){
-
-    const status =
-    document.getElementById(
-        "connectionStatus"
-    );
-
-
-    status.innerText =
-    "Connecting to database...";
-
-
-    try{
-
-        const {
-            data,
-            error
-        } = await db
-        .from("names")
-        .select("id")
-        .limit(1);
-
-
-        if(error){
-
-            console.error(error);
-
-
-            status.innerText =
-            "❌ Database error: " +
-            error.message;
-
-
-            return false;
-
-        }
-
-
-        status.innerText =
-        "✅ Database connected";
-
-
-        return true;
-
-
-    }catch(error){
-
-        console.error(error);
-
-
-        status.innerText =
-        "❌ Connection failed: " +
-        error.message;
-
-
-        return false;
-
-    }
-
+function loginMessage(text) {
+  $("loginMessage").textContent = text;
 }
 
-
-/* =====================================
-   LOAD NAMES
-===================================== */
-
-async function loadNames(){
-
-    const list =
-    document.getElementById(
-        "nameList"
-    );
-
-
-    list.innerHTML =
-    "Loading...";
-
-
-    const {
-        data,
-        error
-    } = await db
-    .from("names")
-    .select("*")
-    .order(
-        "id",
-        {
-            ascending:false
-        }
-    );
-
-
-    if(error){
-
-        console.error(error);
-
-
-        list.innerHTML =
-        "❌ Error: " +
-        error.message;
-
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "nameCount"
-    ).innerText =
-    data.length;
-
-
-    if(data.length === 0){
-
-        list.innerHTML =
-        "No names added yet.";
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-    "";
-
-
-    data.forEach(item => {
-
-
-        const div =
-        document.createElement(
-            "div"
-        );
-
-        div.className =
-        "name-item";
-
-
-        const title =
-        document.createElement(
-            "b"
-        );
-
-        title.innerText =
-        item.name;
-
-
-        const br =
-        document.createElement(
-            "br"
-        );
-
-
-        const style =
-        document.createElement(
-            "span"
-        );
-
-        style.innerText =
-        item.style;
-
-
-        const br2 =
-        document.createElement(
-            "br"
-        );
-
-
-        const button =
-        document.createElement(
-            "button"
-        );
-
-
-        button.className =
-        "delete";
-
-
-        button.innerText =
-        "Delete";
-
-
-        button.onclick =
-        function(){
-
-            deleteName(
-                item.id
-            );
-
-        };
-
-
-        div.appendChild(title);
-
-        div.appendChild(br);
-
-        div.appendChild(style);
-
-        div.appendChild(br2);
-
-        div.appendChild(button);
-
-
-        list.appendChild(div);
-
-    });
-
+function slugify(text) {
+  return text.toLowerCase().trim()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 55);
 }
 
-
-/* =====================================
-   LOAD VISITS
-===================================== */
-
-async function loadVisits(){
-
-    const visitElement =
-    document.getElementById(
-        "visitCount"
-    );
-
-
-    visitElement.innerText =
-    "…";
-
-
-    try{
-
-        const {
-            count,
-            error
-        } = await db
-        .from("visits")
-        .select(
-            "id",
-            {
-                count:"exact",
-                head:true
-            }
-        );
-
-
-        if(error){
-
-            console.error(
-                "Visit count error:",
-                error
-            );
-
-
-            visitElement.innerText =
-            "0";
-
-
-            return;
-
-        }
-
-
-        visitElement.innerText =
-        count || 0;
-
-
-    }catch(error){
-
-        console.error(
-            "Visit count failed:",
-            error
-        );
-
-
-        visitElement.innerText =
-        "0";
-
-    }
-
+function addText(parent, tag, text, className = "") {
+  const el = document.createElement(tag);
+  el.textContent = text ?? "";
+  if (className) el.className = className;
+  parent.appendChild(el);
+  return el;
 }
 
+async function checkAdmin() {
+  const { data: sessionData, error: sessionError } = await db.auth.getSession();
 
-/* =====================================
-   ADD NAME
-===================================== */
+  if (sessionError || !sessionData.session) return false;
 
-async function addName(){
+  const { data, error } = await db.rpc("is_cms_admin");
 
-    const name =
-    document
-    .getElementById(
-        "nameInput"
-    )
-    .value
-    .trim();
+  if (error) {
+    console.error("Admin authorization check failed:", error);
+    loginMessage("Could not verify admin permission. Check the database setup.");
+    return false;
+  }
 
-
-    const style =
-    document
-    .getElementById(
-        "styleInput"
-    )
-    .value
-    .trim();
-
-
-    if(
-        name === "" ||
-        style === ""
-    ){
-
-        showMessage(
-            "Please fill both fields."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } = await db
-    .from("names")
-    .insert([
-        {
-            name:name,
-            style:style
-        }
-    ]);
-
-
-    if(error){
-
-        console.error(error);
-
-
-        showMessage(
-            "❌ " +
-            error.message
-        );
-
-
-        return;
-
-    }
-
-
-    document
-    .getElementById(
-        "nameInput"
-    )
-    .value = "";
-
-
-    document
-    .getElementById(
-        "styleInput"
-    )
-    .value = "";
-
-
-    showMessage(
-        "✅ Name added successfully!"
-    );
-
-
-    await loadNames();
-
+  return data === true;
 }
 
+async function enterPanel() {
+  const allowed = await checkAdmin();
 
-/* =====================================
-   DELETE NAME
-===================================== */
-
-async function deleteName(id){
-
-    const confirmDelete =
-    confirm(
-        "Are you sure you want to delete this name?"
-    );
-
-
-    if(!confirmDelete){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } = await db
-    .from("names")
-    .delete()
-    .eq(
-        "id",
-        id
-    );
-
-
-    if(error){
-
-        console.error(error);
-
-
-        showMessage(
-            "❌ " +
-            error.message
-        );
-
-
-        return;
-
-    }
-
-
-    showMessage(
-        "✅ Name deleted successfully!"
-    );
-
-
-    await loadNames();
-
-}
-
-
-/* =====================================
-   OPEN WEBSITE
-===================================== */
-
-function openWebsite(){
-
-    window.open(
-        "https://ksrsing.github.io/stylish-name/",
-        "_blank"
-    );
-
-}
-
-
-/* =====================================
-   START ADMIN PANEL
-===================================== */
-
-async function start(){
-
-    const connected =
-    await testConnection();
-
-
-    if(connected){
-
-        await loadNames();
-
-        await loadVisits();
-
-    }
-
-}
-
-
-/* =====================================
-   LOGIN
-===================================== */
-
-async function login(){
-
-    const email =
-    document
-    .getElementById(
-        "email"
-    )
-    .value
-    .trim();
-
-
-    const password =
-    document
-    .getElementById(
-        "password"
-    )
-    .value;
-
-
-    const message =
-    document.getElementById(
-        "loginMessage"
-    );
-
-
-    if(
-        email === "" ||
-        password === ""
-    ){
-
-        message.innerText =
-        "Email aur password enter karo.";
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } = await db.auth.signInWithPassword({
-
-        email:email,
-
-        password:password
-
-    });
-
-
-    if(error){
-
-        message.innerText =
-        "❌ " +
-        error.message;
-
-        return;
-
-    }
-
-
-    document
-    .getElementById(
-        "loginScreen"
-    )
-    .style.display =
-    "none";
-
-
-    document
-    .getElementById(
-        "adminPanel"
-    )
-    .style.display =
-    "block";
-
-
-    await start();
-
-}
-
-
-/* =====================================
-   LOGOUT
-===================================== */
-
-async function logout(){
-
+  if (!allowed) {
     await db.auth.signOut();
+    $("adminPanel").hidden = true;
+    $("loginScreen").style.display = "flex";
+    loginMessage("This account is not authorized as a NameCraft CMS admin.");
+    return false;
+  }
 
+  $("loginScreen").style.display = "none";
+  $("adminPanel").hidden = false;
+  $("connectionStatus").textContent = "Admin verified. Loading database…";
 
-    document
-    .getElementById(
-        "loginScreen"
-    )
-    .style.display =
-    "flex";
-
-
-    document
-    .getElementById(
-        "adminPanel"
-    )
-    .style.display =
-    "none";
-
-
-    document
-    .getElementById(
-        "email"
-    )
-    .value =
-    "";
-
-
-    document
-    .getElementById(
-        "password"
-    )
-    .value =
-    "";
-
-
-    document
-    .getElementById(
-        "loginMessage"
-    )
-    .innerText =
-    "";
-
+  await loadAll();
+  return true;
 }
 
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  $("loginButton").disabled = true;
+  loginMessage("Signing in…");
 
-/* =====================================
-   CHECK LOGIN SESSION
-===================================== */
+  try {
+    const { error } = await db.auth.signInWithPassword({
+      email: $("email").value.trim(),
+      password: $("password").value
+    });
 
-async function checkLogin(){
-
-    const {
-        data
-    } = await db.auth.getSession();
-
-
-    if(data.session){
-
-        document
-        .getElementById(
-            "loginScreen"
-        )
-        .style.display =
-        "none";
-
-
-        document
-        .getElementById(
-            "adminPanel"
-        )
-        .style.display =
-        "block";
-
-
-        await start();
-
-
-    }else{
-
-        document
-        .getElementById(
-            "loginScreen"
-        )
-        .style.display =
-        "flex";
-
-
-        document
-        .getElementById(
-            "adminPanel"
-        )
-        .style.display =
-        "none";
-
+    if (error) {
+      loginMessage("Login failed: " + error.message);
+      return;
     }
 
+    const allowed = await enterPanel();
+    if (!allowed) return;
+    $("password").value = "";
+  } catch (error) {
+    loginMessage("Login failed. Check your connection and try again.");
+    console.error(error);
+  } finally {
+    $("loginButton").disabled = false;
+  }
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  await db.auth.signOut();
+  $("adminPanel").hidden = true;
+  $("loginScreen").style.display = "flex";
+  $("password").value = "";
+  loginMessage("You have been logged out.");
+});
+
+async function loadAll() {
+  $("connectionStatus").textContent = "Loading CMS data…";
+  const results = await Promise.allSettled([
+    loadCategories(),
+    loadNames(),
+    loadVisits(),
+    loadContent()
+  ]);
+
+  const failed = results.some(result => result.status === "rejected");
+  $("connectionStatus").textContent = failed
+    ? "Some data could not load. Check the message and database policies."
+    : "Connected. Admin permission verified.";
 }
 
+async function loadCategories() {
+  const { data, error } = await db
+    .from("categories")
+    .select("slug,name")
+    .order("name");
 
-/* =====================================
-   START
-===================================== */
+  if (error) {
+    $("categoryList").textContent = "Could not load categories: " + error.message;
+    throw error;
+  }
 
-checkLogin();
+  categories = data || [];
+  $("categoryCount").textContent = categories.length;
 
+  const select = $("nameCategory");
+  select.replaceChildren();
 
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category.slug;
+    option.textContent = category.name;
+    select.appendChild(option);
+  });
+
+  const list = $("categoryList");
+  list.replaceChildren();
+
+  if (!categories.length) addText(list, "p", "No categories found.");
+
+  categories.forEach(category => {
+    const item = document.createElement("div");
+    item.className = "item";
+    const row = document.createElement("div");
+    row.className = "row";
+    addText(row, "strong", category.name);
+    const del = document.createElement("button");
+    del.className = "danger";
+    del.textContent = "Delete";
+    del.addEventListener("click", () => deleteCategory(category));
+    row.appendChild(del);
+    item.appendChild(row);
+    addText(item, "small", "Slug: " + category.slug);
+    list.appendChild(item);
+  });
+}
+
+$("categoryForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const name = $("categoryInput").value.trim();
+  const slug = slugify(name);
+
+  if (!name || !slug) {
+    message("Enter a category name using letters or numbers.");
+    return;
+  }
+
+  const { error } = await db.from("categories").insert({ name, slug });
+
+  if (error) {
+    message("Could not add category: " + error.message);
+    return;
+  }
+
+  $("categoryInput").value = "";
+  message("Category added.");
+  await loadCategories();
+});
+
+async function deleteCategory(category) {
+  if (!confirm(
+    `Delete category "${category.name}"? Names in this category will become uncategorized.`
+  )) return;
+
+  const { error } = await db.from("categories").delete().eq("slug", category.slug);
+
+  if (error) {
+    message("Could not delete category: " + error.message);
+    return;
+  }
+
+  message("Category deleted.");
+  await loadCategories();
+  await loadNames();
+}
+
+async function loadNames() {
+  const countResult = await db
+    .from("names")
+    .select("id", { count: "exact", head: true });
+
+  if (countResult.error) {
+    $("nameList").textContent = "Could not count names: " + countResult.error.message;
+    throw countResult.error;
+  }
+
+  $("nameCount").textContent = countResult.count ?? 0;
+
+  const { data, error } = await db
+    .from("names")
+    .select("id,name,style,category")
+    .order("id", { ascending: false })
+    .limit(1000);
+
+  if (error) {
+    $("nameList").textContent = "Could not load names: " + error.message;
+    throw error;
+  }
+
+  allNames = data || [];
+  renderNames();
+}
+
+function renderNames() {
+  const list = $("nameList");
+  list.replaceChildren();
+
+  const query = $("nameSearch").value.trim().toLowerCase();
+  const filtered = allNames.filter(item =>
+    String(item.name || "").toLowerCase().includes(query) ||
+    String(item.style || "").toLowerCase().includes(query)
+  );
+
+  if (!filtered.length) {
+    addText(list, "p", "No matching names found.");
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item";
+
+    addText(card, "strong", item.name || "(Unnamed)");
+    addText(card, "div", item.style || "");
+    addText(card, "small", "Category: " +
+      (categories.find(c => c.slug === item.category)?.name || "Uncategorized"));
+
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const edit = document.createElement("button");
+    edit.textContent = "Edit";
+    edit.addEventListener("click", () => editName(item));
+
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.className = "danger";
+    del.addEventListener("click", () => deleteName(item));
+
+    row.append(edit, del);
+    card.appendChild(row);
+    list.appendChild(card);
+  });
+}
+
+$("nameSearch").addEventListener("input", renderNames);
+$("reloadNamesButton").addEventListener("click", loadNames);
+
+$("nameForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const id = $("editId").value;
+  const name = $("nameInput").value.trim();
+  const style = $("styleInput").value.trim();
+  const category = $("nameCategory").value;
+
+  if (!name || !style || !category) {
+    message("Fill in the name, style and category.");
+    return;
+  }
+
+  const result = id
+    ? await db.from("names").update({ name, style, category }).eq("id", id)
+    : await db.from("names").insert({ name, style, category });
+
+  if (result.error) {
+    message("Save failed: " + result.error.message);
+    return;
+  }
+
+  resetNameForm();
+  message(id ? "Name updated successfully." : "Name added successfully.");
+  await loadNames();
+});
+
+function editName(item) {
+  $("editId").value = item.id;
+  $("nameInput").value = item.name || "";
+  $("styleInput").value = item.style || "";
+  $("nameCategory").value = item.category || "cool";
+  $("nameFormTitle").textContent = "✏️ Edit Stylish Name";
+  $("saveNameButton").textContent = "Save Changes";
+  $("cancelEditButton").hidden = false;
+  $("nameFormTitle").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function resetNameForm() {
+  $("nameForm").reset();
+  $("editId").value = "";
+  $("nameFormTitle").textContent = "➕ Add Stylish Name";
+  $("saveNameButton").textContent = "Add Name";
+  $("cancelEditButton").hidden = true;
+}
+
+$("cancelEditButton").addEventListener("click", resetNameForm);
+
+async function deleteName(item) {
+  if (!confirm(`Delete "${item.name}" permanently?`)) return;
+
+  const { error } = await db.from("names").delete().eq("id", item.id);
+
+  if (error) {
+    message("Delete failed: " + error.message);
+    return;
+  }
+
+  message("Name deleted.");
+  await loadNames();
+}
+
+async function loadVisits() {
+  const { count, error } = await db
+    .from("visits")
+    .select("id", { count: "exact", head: true });
+
+  if (error) {
+    $("visitCount").textContent = "—";
+    console.warn("Visits count unavailable:", error.message);
+    return;
+  }
+
+  $("visitCount").textContent = count ?? 0;
+}
+
+async function loadContent() {
+  const { data, error } = await db
+    .from("site_content")
+    .select("content_key,content_value");
+
+  if (error) {
+    $("contentStatus").textContent = "Could not load content: " + error.message;
+    throw error;
+  }
+
+  const values = Object.fromEntries(
+    (data || []).map(row => [row.content_key, row.content_value])
+  );
+
+  $("siteTitle").value = values.site_title ?? "NameCraft";
+  $("mainHeading").value = values.main_heading ?? "Create Your Perfect Name";
+  $("subtitle").value = values.subtitle ?? "Generate Your Stylish Name";
+  $("siteDescription").value =
+    values.description ?? "Create your own stylish names.";
+}
+
+$("contentForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const entries = [
+    { content_key: "site_title", content_value: $("siteTitle").value.trim() },
+    { content_key: "main_heading", content_value: $("mainHeading").value.trim() },
+    { content_key: "subtitle", content_value: $("subtitle").value.trim() },
+    { content_key: "description", content_value: $("siteDescription").value.trim() }
+  ].map(row => ({ ...row, updated_at: new Date().toISOString() }));
+
+  const { error } = await db
+    .from("site_content")
+    .upsert(entries, { onConflict: "content_key" });
+
+  $("contentStatus").textContent = error
+    ? "Save failed: " + error.message
+    : "Website content saved in Supabase.";
+
+  if (error) console.error(error);
+});
+
+$("openWebsiteButton").addEventListener("click", () => {
+  window.open("https://namecraft.run.place/", "_blank", "noopener,noreferrer");
+});
+
+async function boot() {
+  const { data, error } = await db.auth.getSession();
+
+  if (error || !data.session) {
+    $("loginScreen").style.display = "flex";
+    return;
+  }
+
+  await enterPanel();
+}
+
+boot();
 </script>
-
 </body>
-
 </html>
