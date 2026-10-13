@@ -41,10 +41,8 @@ html{
 body{
     font-family:Arial,Helvetica,sans-serif;
     background:
-    radial-gradient(circle at 15% 10%,rgba(112,76,255,.20),transparent 30%),
-    radial-gradient(circle at 85% 20%,rgba(0,220,255,.12),transparent 30%),
-    #080b22;
-    color:#fff;
+    background: var(--background-color);
+    color: var(--text-color);
     min-height:100vh;
 }
 
@@ -278,8 +276,8 @@ body{
     flex-direction:column;
     justify-content:space-between;
     padding:18px;
-    border-radius:18px;
-    background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+    border-radius: var(--card-radius);
+    background: var(--card-color);
     border:1px solid rgba(255,255,255,.08);
     overflow:hidden;
     transition:.2s;
@@ -830,7 +828,68 @@ async function recordVisit(){
     }
 
 }
+/* =========================================================
+   LOAD UI SETTINGS
+========================================================= */
 
+async function loadUISettings() {
+    try {
+        const { data, error } = await supabaseClient
+            .from("site_content")
+            .select("content_value")
+            .eq("content_key", "ui_settings")
+            .maybeSingle();
+
+        if (error) {
+            console.error("UI settings load error:", error);
+            return;
+        }
+
+        if (!data || !data.content_value) {
+            console.log("UI settings not found.");
+            return;
+        }
+
+        const settings = typeof data.content_value === "string"
+            ? JSON.parse(data.content_value)
+            : data.content_value;
+
+        const root = document.documentElement;
+
+        if (settings.primaryColor) {
+            root.style.setProperty("--primary-color", settings.primaryColor);
+        }
+
+        if (settings.secondaryColor) {
+            root.style.setProperty("--secondary-color", settings.secondaryColor);
+        }
+
+        if (settings.backgroundColor) {
+            root.style.setProperty("--background-color", settings.backgroundColor);
+        }
+
+        if (settings.textColor) {
+            root.style.setProperty("--text-color", settings.textColor);
+        }
+
+        if (settings.cardColor) {
+            root.style.setProperty("--card-color", settings.cardColor);
+        }
+
+        if (settings.buttonRadius != null) {
+            root.style.setProperty("--button-radius", settings.buttonRadius + "px");
+        }
+
+        if (settings.cardRadius != null) {
+            root.style.setProperty("--card-radius", settings.cardRadius + "px");
+        }
+
+        console.log("UI settings loaded successfully.");
+
+    } catch (error) {
+        console.error("UI settings failed:", error);
+    }
+}
 
 /* =========================================================
    VARIABLES
