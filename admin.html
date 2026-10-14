@@ -565,10 +565,26 @@ async function getSetting(key) {
 }
 
 async function saveSetting(key, value) {
-  const { error } = await db.from("site_settings")
-    .upsert({ key, value }, { onConflict: "key" });
+  const { data, error } = await db
+    .from("site_settings")
+    .upsert(
+      {
+        key: key,
+        value: value,
+        updated_at: new Date().toISOString()
+      },
+      {
+        onConflict: "key"
+      }
+    )
+    .select();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Settings save error:", error);
+    throw error;
+  }
+
+  return data;
 }
 
 async function loadContent() {
