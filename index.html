@@ -3591,125 +3591,187 @@ function escapeHtml(value){
     );
 
 }
-// ===== NameCraft Dynamic Theme Loader =====
+
+
+// ===== NameCraft Dynamic Theme Loader - =====
 
 async function loadDynamicTheme() {
-  const { data, error } = await supabase
-    .from("site_settings")
-    .select("key, value")
-    .in("key", ["website_theme", "website_colors"]);
-
-  if (error) {
-    console.error("Theme load error:", error.message);
-    return;
-  }
-
-  const settings = {};
-
-  (data || []).forEach((row) => {
-    if (row.value && typeof row.value === "object") {
-      Object.assign(settings, row.value);
-    }
-  });
-
-  const root = document.documentElement;
-  const body = document.body;
-
-  // Color settings
-  const colorMap = {
-    primaryColor: "--primary-color",
-    secondaryColor: "--secondary-color",
-    backgroundColor: "--background-color",
-    textColor: "--text-color",
-    cardColor: "--card-color"
-  };
-
-  Object.entries(colorMap).forEach(([key, cssVariable]) => {
-    if (settings[key]) {
-      root.style.setProperty(cssVariable, settings[key]);
-    }
-  });
-
-  // Button and card radius
-  if (settings.buttonRadius !== undefined) {
-    root.style.setProperty(
-      "--button-radius",
-      `${parseFloat(settings.buttonRadius)}px`
-    );
-  }
-
-  if (settings.cardRadius !== undefined) {
-    root.style.setProperty(
-      "--card-radius",
-      `${parseFloat(settings.cardRadius)}px`
-    );
-  }
-
-  // RGB animation ON/OFF
-  const rgbEnabled =
-    settings.rgbEnabled === true ||
-    settings.animatedBackground === true ||
-    settings.rgbBackground === true;
-
-  body.classList.toggle("rgb-background", rgbEnabled);
-
-  // Animation speed
-  if (settings.rgbSpeed !== undefined) {
-    const speed = Math.max(1, Math.min(60, Number(settings.rgbSpeed) || 8));
-    root.style.setProperty("--rgb-speed", `${speed}s`);
-  }
-
-  // Gradient settings
-  if (settings.gradientStart && settings.gradientEnd) {
-    const angle = Math.max(
-      0,
-      Math.min(360, Number(settings.gradientAngle) || 135)
-    );
-
-    root.style.setProperty(
-      "--dynamic-gradient",
-      `linear-gradient(${angle}deg, ${settings.gradientStart}, ${
-        settings.gradientEnd
-      })`
-    );
-  }
-
-  // Background image URL
-  if (settings.backgroundImage) {
-    const imageURL = settings.backgroundImage.trim();
-
     try {
-      const parsedURL = new URL(imageURL, window.location.href);
+        const { data, error } = await supabaseClient
+            .from("site_settings")
+            .select("key, value")
+            .in("key", ["website_theme", "website_colors"]);
 
-      if (["https:", "http:"].includes(parsedURL.protocol)) {
-        body.style.backgroundImage =
-          `linear-gradient(` +
-          `rgba(0,0,0,${Math.max(0, Math.min(1, Number(settings.overlayOpacity) || 0))}),` +
-          `rgba(0,0,0,${Math.max(0, Math.min(1, Number(settings.overlayOpacity) || 0))})` +
-          `), url("${parsedURL.href.replace(/["\\]/g, "")}")`;
+        if (error) {
+            console.error("Theme settings error:", error.message);
+            return;
+        }
 
-        body.classList.add("custom-background-image");
-      }
-    } catch (e) {
-      console.warn("Invalid background image URL");
+        const settings = {};
+
+        (data || []).forEach(row => {
+            settings[row.key] = row.value || {};
+        });
+
+        const theme = settings.website_theme || {};
+        const colors = settings.website_colors || {};
+
+        const root = document.documentElement;
+        const body = document.body;
+
+        // 1. Admin theme colors
+        const colorMap = {
+            primaryColor: "--primary-color",
+            secondaryColor: "--secondary-color",
+            backgroundColor: "--background-color",
+            textColor: "--text-color",
+            cardColor: "--card-color"
+        };
+
+        Object.entries(colorMap).forEach(([key, variable]) => {
+            if (theme[key]) {
+                root.style.setProperty(variable, theme[key]);
+            }
+        });
+
+        if (theme.buttonRadius !== undefined) {
+            root.style.setProperty(
+                "--button-radius",
+                `${parseFloat(theme.buttonRadius)}px`
+            );
+        }
+
+        if (theme.cardRadius !== undefined) {
+            root.style.setProperty(
+                "--card-radius",
+                `${parseFloat(theme.cardRadius)}px`
+            );
+        }
+
+        // 2. Reset previous background
+        body.classList.remove(
+            "rgb-background",
+            "custom-background-image"
+        );
+
+        body.style.removeProperty("background-image");
+        body.style.removeProperty("background-size");
+        body.style.removeProperty("background-position");
+        body.style.removeProperty("background-repeat");
+
+        const type = colors.backgroundType || "solid";
+
+        // 3. Solid RGB color
+        if (type === "solid") {
+            body.style.backgroundColor =
+                colors.rgbColor || theme.backgroundColor || "#080b22";
+
+            body.style.backgroundImage = "none";
+        }
+
+        // 4. Gradient background
+        else if (type === "gradient") {
+            const angle = Number(colors.gradientAngle) || 135;
+
+            const c1 = colors.gradientColor1 || "#8b75ff";
+            const c2 = colors.gradientColor2 || "#00eaff";
+            const c3 = colors.gradientColor3 || "#080b22";
+
+            body.style.backgroundImage =
+                `linear-gradient(${angle}deg, ${c1}, ${c2}, ${c3})`;
+
+            body.style.backgroundSize = "cover";
+            body.style.backgroundColor = "transparent";
+        }
+
+        // 5. Animated RGB background
+        else if (type === "animated-rgb") {
+            const enabled =
+                colors.rgbAnimation === true ||
+                String(colors.rgbAnimation).toLowerCase() === "true";
+
+            if (enabled) {
+                const speed = Math.max(
+                    2,
+                    Math.min(60, Number(colors.animationSpeed) || 10)
+                );
+
+                root.style.setProperty("--rgb-speed", `${speed}s`);
+
+                body.style.backgroundColor = "#080b22";
+
+                body.style.backgroundImage =
+                    "linear-gradient(120deg, #ff0050, #6400ff, #00b4ff, #00dc82, #ff0050)";
+
+                body.style.backgroundSize = "300% 300%";
+
+                body.classList.add("rgb-background");
+            } else {
+                body.style.backgroundColor =
+                    colors.rgbColor || "#080b22";
+
+                body.style.backgroundImage = "none";
+            }
+        }
+
+        // 6. Background image
+        else if (type === "image") {
+            const imageURL = String(
+                colors.backgroundImageUrl || ""
+            ).trim();
+
+            if (imageURL) {
+                const parsedURL = new URL(imageURL);
+
+                if (
+                    parsedURL.protocol !== "https:" &&
+                    parsedURL.protocol !== "http:"
+                ) {
+                    throw new Error("Invalid background image URL");
+                }
+
+                const overlay = Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        Number(colors.imageOverlay) || 0
+                    )
+                ) / 100;
+
+                body.style.backgroundColor =
+                    theme.backgroundColor || "#080b22";
+
+                body.style.backgroundImage =
+                    `linear-gradient(rgba(0,0,0,${overlay}), rgba(0,0,0,${overlay})), url("${parsedURL.href}")`;
+
+                body.style.backgroundSize = "cover";
+                body.style.backgroundPosition = "center";
+                body.style.backgroundRepeat = "no-repeat";
+
+                body.classList.add("custom-background-image");
+            }
+        }
+
+        console.log("NameCraft dynamic theme applied:", type);
+
+    } catch (error) {
+        console.error("Dynamic theme loading failed:", error);
     }
-  }
 }
 
 /* =========================================================
    START
 ========================================================= */
-document.addEventListener("DOMContentLoaded", () => {
-  renderFavorites();
 
-  loadUISettings();
-  loadDynamicTheme();
+document.addEventListener("DOMContentLoaded", async () => {
+    renderFavorites();
 
-  loadDatabaseNames();
-  recordVisit();
+    await loadUISettings();
+    await loadDynamicTheme();
+
+    loadDatabaseNames();
+    recordVisit();
 });
-    
-
 });
 </script>
 </body>
