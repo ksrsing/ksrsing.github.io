@@ -587,23 +587,38 @@ async function saveSetting(key, value) {
   return data;
 }
 
+/* LOAD WEBSITE CONTENT */
 async function loadContent() {
-  try {
-    const value = await getSetting("website_content");
-    const settings = value || {};
+  $("contentStatus").textContent = "Loading website content...";
 
-    $("siteTitle").value = settings.siteTitle || "NameCraft - Stylish Name Generator";
-    $("mainHeading").value = settings.mainHeading || "Create Your Perfect Name";
-    $("subtitle").value = settings.subtitle || "Create your perfect stylish name.";
-    $("siteDescription").value = settings.siteDescription ||
+  try {
+    const settings = await getSetting("website_content") || {};
+
+    $("siteTitle").value =
+      settings.siteTitle || "NameCraft - Stylish Name Generator";
+
+    $("mainHeading").value =
+      settings.mainHeading || "Create Your Perfect Name";
+
+    $("subtitle").value =
+      settings.subtitle || "Create your perfect stylish name.";
+
+    $("siteDescription").value =
+      settings.siteDescription ||
       "Free stylish name generator with gaming, cool, royal, fire and danger names.";
-  } catch (error) {
+
     $("contentStatus").textContent =
-      "Content settings could not load: " + error.message;
-    throw error;
+      "✅ Website content loaded successfully.";
+
+  } catch (error) {
+    console.error("Content loading error:", error);
+
+    $("contentStatus").textContent =
+      "❌ Content load failed: " + error.message;
   }
 }
 
+/* SAVE WEBSITE CONTENT */
 $("contentForm").addEventListener("submit", async event => {
   event.preventDefault();
 
@@ -614,14 +629,44 @@ $("contentForm").addEventListener("submit", async event => {
     siteDescription: $("siteDescription").value.trim()
   };
 
-  $("contentStatus").textContent = "Saving…";
+  if (
+    !value.siteTitle ||
+    !value.mainHeading ||
+    !value.subtitle ||
+    !value.siteDescription
+  ) {
+    $("contentStatus").textContent =
+      "❌ Please fill in all fields.";
+    return;
+  }
+
+  const button = $("contentForm").querySelector(
+    'button[type="submit"]'
+  );
+
+  button.disabled = true;
+  $("contentStatus").textContent = "Saving website content...";
 
   try {
     await saveSetting("website_content", value);
+
+    const saved = await getSetting("website_content");
+
+    if (!saved || saved.siteTitle !== value.siteTitle) {
+      throw new Error("Saved content could not be verified.");
+    }
+
     $("contentStatus").textContent =
-      "Content saved in Supabase. Connect the public website to display it.";
+      "✅ Website content saved and verified in Supabase.";
+
   } catch (error) {
-    $("contentStatus").textContent = "Save failed: " + error.message;
+    console.error("Content save error:", error);
+
+    $("contentStatus").textContent =
+      "❌ Save failed: " + error.message;
+
+  } finally {
+    button.disabled = false;
   }
 });
 
