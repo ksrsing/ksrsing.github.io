@@ -36,6 +36,59 @@ button:disabled{opacity:.5;cursor:not-allowed}
 #message{padding:12px;background:#080f27;border-radius:8px;display:none;white-space:pre-wrap;overflow-wrap:anywhere}
 [hidden]{display:none!important}
 @media(max-width:650px){.grid{grid-template-columns:1fr}header h1{font-size:20px}.card{padding:15px}}
+
+/* ADVANCED COLOR CUSTOMIZER */
+
+#colorLivePreview {
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes namecraftRGB {
+  0% {
+    background-color: rgb(255, 0, 80);
+  }
+
+  25% {
+    background-color: rgb(100, 0, 255);
+  }
+
+  50% {
+    background-color: rgb(0, 180, 255);
+  }
+
+  75% {
+    background-color: rgb(0, 220, 130);
+  }
+
+  100% {
+    background-color: rgb(255, 0, 80);
+  }
+}
+
+.rgb-animation-preview {
+  animation: namecraftRGB 10s linear infinite;
+}
+
+#advancedColorCustomizer input[type="range"] {
+  accent-color: #8b75ff;
+}
+
+#advancedColorCustomizer .item h3 {
+  color: #00eaff;
+}
+
+#advancedColorCustomizer .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 650px) {
+  #advancedColorCustomizer .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -163,6 +216,171 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <h2>🚀 Website</h2>
   <button id="openWebsiteButton">Open NameCraft</button>
  </section>
+ <!-- ADVANCED RGB + HSL CUSTOMIZER -->
+<section class="card" id="advancedColorCustomizer">
+
+  <h2>🌈 Advanced RGB + HSL Customizer</h2>
+
+  <p class="muted">
+    Website background, RGB animation, gradients aur colors customize karein.
+  </p>
+
+  <label for="backgroundType">Background Type</label>
+  <select id="backgroundType">
+    <option value="solid">Solid Color</option>
+    <option value="gradient">Gradient</option>
+    <option value="animated-rgb">Animated RGB</option>
+    <option value="image">Background Image</option>
+  </select>
+
+  <div class="item">
+    <h3>🎨 RGB Color</h3>
+
+    <label for="rgbColor">Select RGB Color</label>
+    <input type="color" id="rgbColor" value="#080b22">
+
+    <div class="grid">
+      <div>
+        <label for="redValue">Red (0–255)</label>
+        <input type="number" id="redValue" min="0" max="255" value="8">
+      </div>
+
+      <div>
+        <label for="greenValue">Green (0–255)</label>
+        <input type="number" id="greenValue" min="0" max="255" value="11">
+      </div>
+
+      <div>
+        <label for="blueValue">Blue (0–255)</label>
+        <input type="number" id="blueValue" min="0" max="255" value="34">
+      </div>
+    </div>
+
+    <p id="rgbOutput" class="muted">rgb(8, 11, 34)</p>
+  </div>
+
+  <div class="item">
+    <h3>🎨 HSL Color</h3>
+
+    <label for="hueValue">Hue (0–360°)</label>
+    <input type="range" id="hueValue" min="0" max="360" value="245">
+
+    <label for="saturationValue">Saturation (0–100%)</label>
+    <input type="range" id="saturationValue" min="0" max="100" value="62">
+
+    <label for="lightnessValue">Lightness (0–100%)</label>
+    <input type="range" id="lightnessValue" min="0" max="100" value="12">
+
+    <p id="hslOutput" class="muted">
+      hsl(245, 62%, 12%)
+    </p>
+
+    <button id="applyHslButton" type="button">Apply HSL Color</button>
+  </div>
+
+  <div class="item">
+    <h3>🌅 Gradient Maker</h3>
+
+    <label for="gradientColor1">Gradient Color 1</label>
+    <input type="color" id="gradientColor1" value="#8b75ff">
+
+    <label for="gradientColor2">Gradient Color 2</label>
+    <input type="color" id="gradientColor2" value="#00eaff">
+
+    <label for="gradientColor3">Gradient Color 3</label>
+    <input type="color" id="gradientColor3" value="#080b22">
+
+    <label for="gradientAngle">Gradient Angle</label>
+    <input type="range" id="gradientAngle" min="0" max="360" value="135">
+
+    <p id="gradientOutput" class="muted">
+      Linear gradient preview
+    </p>
+
+    <button id="applyGradientButton" type="button">
+      Apply Gradient
+    </button>
+  </div>
+
+  <div class="item">
+    <h3>⚡ Animated RGB Settings</h3>
+
+    <label for="rgbAnimation">RGB Animation</label>
+    <select id="rgbAnimation">
+      <option value="true">Enable</option>
+      <option value="false">Disable</option>
+    </select>
+
+    <label for="animationSpeed">Animation Speed (seconds)</label>
+    <input
+      type="number"
+      id="animationSpeed"
+      min="2"
+      max="60"
+      value="10"
+    >
+
+    <p class="muted">
+      Lower value = faster animation. Higher value = slower animation.
+    </p>
+  </div>
+
+  <div class="item">
+    <h3>🖼️ Background Image</h3>
+
+    <label for="backgroundImageUrl">Image URL</label>
+    <input
+      type="url"
+      id="backgroundImageUrl"
+      placeholder="https://example.com/background.jpg"
+    >
+
+    <label for="imageOverlay">Dark Overlay (0–100%)</label>
+    <input
+      type="range"
+      id="imageOverlay"
+      min="0"
+      max="100"
+      value="35"
+    >
+  </div>
+
+  <div class="item">
+    <h3>👁️ Live Preview</h3>
+
+    <div
+      id="colorLivePreview"
+      style="
+        min-height:150px;
+        border-radius:12px;
+        border:1px solid #526080;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:20px;
+        color:white;
+        background:#080b22;
+      "
+    >
+      <div>
+        <h3>NameCraft</h3>
+        <p>Live Background Preview</p>
+      </div>
+    </div>
+  </div>
+
+  <button id="saveAdvancedColorButton" type="button">
+    💾 Save RGB / HSL Settings
+  </button>
+
+  <button id="resetAdvancedColorButton" type="button" class="secondary">
+    Reset Defaults
+  </button>
+
+  <p id="advancedColorStatus" class="muted" role="status"></p>
+
+</section>
 </main>
 
 <script>
@@ -764,6 +982,342 @@ $("saveThemeButton").addEventListener("click", async () => {
     $("themeStatus").textContent = "Theme save failed: " + error.message;
   }
 });
+
+/* ADVANCED RGB + HSL CUSTOMIZER */
+
+const colorDefaults = {
+  backgroundType: "solid",
+  rgbColor: "#080b22",
+  redValue: 8,
+  greenValue: 11,
+  blueValue: 34,
+  hueValue: 245,
+  saturationValue: 62,
+  lightnessValue: 12,
+  gradientColor1: "#8b75ff",
+  gradientColor2: "#00eaff",
+  gradientColor3: "#080b22",
+  gradientAngle: 135,
+  rgbAnimation: "true",
+  animationSpeed: 10,
+  backgroundImageUrl: "",
+  imageOverlay: 35
+};
+
+function getColorSettings() {
+  const settings = {};
+
+  Object.keys(colorDefaults).forEach(key => {
+    settings[key] = $(key).value;
+  });
+
+  return settings;
+}
+
+function setColorSettings(settings) {
+  Object.keys(colorDefaults).forEach(key => {
+    if (settings[key] !== undefined && $(key)) {
+      $(key).value = settings[key];
+    }
+  });
+
+  updateColorPreview();
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+
+  return {
+    r: parseInt(value.substring(0, 2), 16),
+    g: parseInt(value.substring(2, 4), 16),
+    b: parseInt(value.substring(4, 6), 16)
+  };
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + [r, g, b]
+    .map(value => Number(value).toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function getGradient() {
+  const c1 = $("gradientColor1").value;
+  const c2 = $("gradientColor2").value;
+  const c3 = $("gradientColor3").value;
+  const angle = Number($("gradientAngle").value);
+
+  return `linear-gradient(${angle}deg, ${c1}, ${c2}, ${c3})`;
+}
+
+function updateColorPreview() {
+  const preview = $("colorLivePreview");
+
+  const r = Number($("redValue").value);
+  const g = Number($("greenValue").value);
+  const b = Number($("blueValue").value);
+
+  const h = Number($("hueValue").value);
+  const s = Number($("saturationValue").value);
+  const l = Number($("lightnessValue").value);
+
+  $("rgbOutput").textContent = `rgb(${r}, ${g}, ${b})`;
+  $("hslOutput").textContent = `hsl(${h}, ${s}%, ${l}%)`;
+
+  $("gradientOutput").textContent =
+    `linear-gradient(${$("gradientAngle").value}deg, ` +
+    `${$("gradientColor1").value}, ` +
+    `${$("gradientColor2").value}, ` +
+    `${$("gradientColor3").value})`;
+
+  preview.style.animation = "none";
+  preview.style.backgroundImage = "none";
+  preview.style.backgroundColor = "transparent";
+
+  const type = $("backgroundType").value;
+
+  if (type === "solid") {
+    preview.style.backgroundColor = rgbToHex(r, g, b);
+
+  } else if (type === "gradient") {
+    preview.style.backgroundImage = getGradient();
+
+  } else if (type === "animated-rgb") {
+    if ($("rgbAnimation").value === "true") {
+      const speed = Math.max(
+        2,
+        Math.min(60, Number($("animationSpeed").value) || 10)
+      );
+
+      preview.style.animation =
+        `namecraftRGB ${speed}s linear infinite`;
+    } else {
+      preview.style.backgroundColor = rgbToHex(r, g, b);
+    }
+
+  } else if (type === "image") {
+    const url = $("backgroundImageUrl").value.trim();
+
+    if (url) {
+      const overlay = Math.max(
+        0,
+        Math.min(100, Number($("imageOverlay").value))
+      ) / 100;
+
+      preview.style.backgroundImage =
+        `linear-gradient(rgba(0,0,0,${overlay}),` +
+        `rgba(0,0,0,${overlay})),url("${url.replace(/["\\\n\r]/g, "")}")`;
+
+      preview.style.backgroundSize = "cover";
+      preview.style.backgroundPosition = "center";
+    } else {
+      preview.style.backgroundColor = rgbToHex(r, g, b);
+    }
+  }
+}
+
+/* RGB PICKER -> RGB INPUTS */
+
+$("rgbColor").addEventListener("input", () => {
+  const rgb = hexToRgb($("rgbColor").value);
+
+  $("redValue").value = rgb.r;
+  $("greenValue").value = rgb.g;
+  $("blueValue").value = rgb.b;
+
+  updateColorPreview();
+});
+
+/* RGB INPUTS -> RGB PICKER */
+
+["redValue", "greenValue", "blueValue"].forEach(id => {
+  $(id).addEventListener("input", () => {
+    const values = [
+      Number($("redValue").value),
+      Number($("greenValue").value),
+      Number($("blueValue").value)
+    ];
+
+    if (values.some(v => !Number.isFinite(v) || v < 0 || v > 255)) {
+      return;
+    }
+
+    $("rgbColor").value = rgbToHex(...values);
+    updateColorPreview();
+  });
+});
+
+/* HSL -> RGB */
+
+function hslToRgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+
+  const f = n =>
+    l - a * Math.max(
+      -1,
+      Math.min(k(n) - 3, 9 - k(n), 1)
+    );
+
+  return {
+    r: Math.round(255 * f(0)),
+    g: Math.round(255 * f(8)),
+    b: Math.round(255 * f(4))
+  };
+}
+
+["hueValue", "saturationValue", "lightnessValue"].forEach(id => {
+  $(id).addEventListener("input", updateColorPreview);
+});
+
+$("applyHslButton").addEventListener("click", () => {
+  const rgb = hslToRgb(
+    Number($("hueValue").value),
+    Number($("saturationValue").value),
+    Number($("lightnessValue").value)
+  );
+
+  $("redValue").value = rgb.r;
+  $("greenValue").value = rgb.g;
+  $("blueValue").value = rgb.b;
+
+  $("rgbColor").value = rgbToHex(rgb.r, rgb.g, rgb.b);
+  $("backgroundType").value = "solid";
+
+  updateColorPreview();
+});
+
+/* GRADIENT */
+
+[
+  "gradientColor1",
+  "gradientColor2",
+  "gradientColor3",
+  "gradientAngle"
+].forEach(id => {
+  $(id).addEventListener("input", updateColorPreview);
+});
+
+$("applyGradientButton").addEventListener("click", () => {
+  $("backgroundType").value = "gradient";
+  updateColorPreview();
+});
+
+/* OTHER SETTINGS */
+
+[
+  "backgroundType",
+  "rgbAnimation",
+  "animationSpeed",
+  "backgroundImageUrl",
+  "imageOverlay"
+].forEach(id => {
+  $(id).addEventListener("input", updateColorPreview);
+  $(id).addEventListener("change", updateColorPreview);
+});
+
+/* LOAD SETTINGS */
+
+async function loadAdvancedColors() {
+  try {
+    const saved = await getSetting("website_colors");
+
+    if (saved) {
+      setColorSettings(saved);
+    } else {
+      setColorSettings(colorDefaults);
+    }
+
+    $("advancedColorStatus").textContent =
+      "Color settings loaded.";
+  } catch (error) {
+    $("advancedColorStatus").textContent =
+      "Load failed: " + error.message;
+  }
+}
+
+/* SAVE SETTINGS */
+
+$("saveAdvancedColorButton").addEventListener("click", async () => {
+  const settings = getColorSettings();
+
+  const speed = Number(settings.animationSpeed);
+  const angle = Number(settings.gradientAngle);
+  const overlay = Number(settings.imageOverlay);
+
+  if (
+    !Number.isFinite(speed) || speed < 2 || speed > 60 ||
+    !Number.isFinite(angle) || angle < 0 || angle > 360 ||
+    !Number.isFinite(overlay) || overlay < 0 || overlay > 100
+  ) {
+    $("advancedColorStatus").textContent =
+      "Invalid animation speed, gradient angle or image overlay.";
+    return;
+  }
+
+  for (const id of [
+    "redValue", "greenValue", "blueValue",
+    "hueValue", "saturationValue", "lightnessValue"
+  ]) {
+    const value = Number(settings[id]);
+    const max = {
+      redValue: 255,
+      greenValue: 255,
+      blueValue: 255,
+      hueValue: 360,
+      saturationValue: 100,
+      lightnessValue: 100
+    }[id];
+
+    if (!Number.isFinite(value) || value < 0 || value > max) {
+      $("advancedColorStatus").textContent =
+        "Invalid RGB/HSL value: " + id;
+      return;
+    }
+  }
+
+  $("saveAdvancedColorButton").disabled = true;
+  $("advancedColorStatus").textContent = "Saving settings...";
+
+  try {
+    await saveSetting("website_colors", settings);
+
+    const verified = await getSetting("website_colors");
+
+    if (!verified || verified.backgroundType !== settings.backgroundType) {
+      throw new Error("Saved settings could not be verified.");
+    }
+
+    $("advancedColorStatus").textContent =
+      "✅ RGB/HSL settings saved successfully in Supabase.";
+
+  } catch (error) {
+    $("advancedColorStatus").textContent =
+      "❌ Save failed: " + error.message;
+  } finally {
+    $("saveAdvancedColorButton").disabled = false;
+  }
+});
+
+/* RESET */
+
+$("resetAdvancedColorButton").addEventListener("click", () => {
+  if (!confirm("Reset the color customizer to default settings?")) {
+    return;
+  }
+
+  setColorSettings(colorDefaults);
+
+  $("advancedColorStatus").textContent =
+    "Default preview restored. Click Save RGB / HSL Settings to save it.";
+});
+
+/* INITIAL PREVIEW */
+
+setColorSettings(colorDefaults);
+ 
 
 /* WEBSITE LINK */
 $("openWebsiteButton").addEventListener("click", () => {
