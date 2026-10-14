@@ -522,6 +522,67 @@ footer{
     }
 
 }
+/* ===== NameCraft Dynamic Theme ===== */
+
+:root {
+  --primary-color: #8b75ff;
+  --secondary-color: #00eaff;
+  --background-color: #080b22;
+  --text-color: #f8f7ff;
+  --card-color: #11142a;
+  --button-radius: 12px;
+  --card-radius: 17px;
+
+  --dynamic-gradient: linear-gradient(
+    135deg,
+    var(--background-color),
+    var(--card-color),
+    var(--background-color)
+  );
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  background-image: var(--dynamic-gradient);
+  background-attachment: fixed;
+}
+
+/* Animated RGB background */
+body.rgb-background {
+  background-size: 300% 300%;
+  animation: namecraftRGB var(--rgb-speed, 8s) ease infinite;
+}
+
+@keyframes namecraftRGB {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Theme-aware cards */
+.card,
+.name-card,
+.category-card,
+.name-item,
+header,
+.navbar {
+  border-radius: var(--card-radius);
+}
+
+/* Theme-aware buttons */
+button {
+  border-radius: var(--button-radius);
+}
+
+/* Optional background image */
+body.custom-background-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+    
 
 </style>
 </head>
@@ -3530,21 +3591,124 @@ function escapeHtml(value){
     );
 
 }
+// ===== NameCraft Dynamic Theme Loader =====
 
+async function loadDynamicTheme() {
+  const { data, error } = await supabase
+    .from("site_settings")
+    .select("key, value")
+    .in("key", ["website_theme", "website_colors"]);
+
+  if (error) {
+    console.error("Theme load error:", error.message);
+    return;
+  }
+
+  const settings = {};
+
+  (data || []).forEach((row) => {
+    if (row.value && typeof row.value === "object") {
+      Object.assign(settings, row.value);
+    }
+  });
+
+  const root = document.documentElement;
+  const body = document.body;
+
+  // Color settings
+  const colorMap = {
+    primaryColor: "--primary-color",
+    secondaryColor: "--secondary-color",
+    backgroundColor: "--background-color",
+    textColor: "--text-color",
+    cardColor: "--card-color"
+  };
+
+  Object.entries(colorMap).forEach(([key, cssVariable]) => {
+    if (settings[key]) {
+      root.style.setProperty(cssVariable, settings[key]);
+    }
+  });
+
+  // Button and card radius
+  if (settings.buttonRadius !== undefined) {
+    root.style.setProperty(
+      "--button-radius",
+      `${parseFloat(settings.buttonRadius)}px`
+    );
+  }
+
+  if (settings.cardRadius !== undefined) {
+    root.style.setProperty(
+      "--card-radius",
+      `${parseFloat(settings.cardRadius)}px`
+    );
+  }
+
+  // RGB animation ON/OFF
+  const rgbEnabled =
+    settings.rgbEnabled === true ||
+    settings.animatedBackground === true ||
+    settings.rgbBackground === true;
+
+  body.classList.toggle("rgb-background", rgbEnabled);
+
+  // Animation speed
+  if (settings.rgbSpeed !== undefined) {
+    const speed = Math.max(1, Math.min(60, Number(settings.rgbSpeed) || 8));
+    root.style.setProperty("--rgb-speed", `${speed}s`);
+  }
+
+  // Gradient settings
+  if (settings.gradientStart && settings.gradientEnd) {
+    const angle = Math.max(
+      0,
+      Math.min(360, Number(settings.gradientAngle) || 135)
+    );
+
+    root.style.setProperty(
+      "--dynamic-gradient",
+      `linear-gradient(${angle}deg, ${settings.gradientStart}, ${
+        settings.gradientEnd
+      })`
+    );
+  }
+
+  // Background image URL
+  if (settings.backgroundImage) {
+    const imageURL = settings.backgroundImage.trim();
+
+    try {
+      const parsedURL = new URL(imageURL, window.location.href);
+
+      if (["https:", "http:"].includes(parsedURL.protocol)) {
+        body.style.backgroundImage =
+          `linear-gradient(` +
+          `rgba(0,0,0,${Math.max(0, Math.min(1, Number(settings.overlayOpacity) || 0))}),` +
+          `rgba(0,0,0,${Math.max(0, Math.min(1, Number(settings.overlayOpacity) || 0))})` +
+          `), url("${parsedURL.href.replace(/["\\]/g, "")}")`;
+
+        body.classList.add("custom-background-image");
+      }
+    } catch (e) {
+      console.warn("Invalid background image URL");
+    }
+  }
+}
 
 /* =========================================================
    START
 ========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  renderFavorites();
 
-    document.addEventListener("DOMContentLoaded", function () {
+  loadUISettings();
+  loadDynamicTheme();
+
+  loadDatabaseNames();
+  recordVisit();
+});
     
-renderFavorites();
-
-loadUISettings();
-
-loadDatabaseNames();
-
-recordVisit();
 
 });
 </script>
