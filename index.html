@@ -38,12 +38,12 @@ html{
     scroll-behavior:smooth;
 }
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
     background: var(--background-color);
     color: var(--text-color);
-    min-height:100vh;
+    min-height: 100vh;
 }
 
 .navbar{
@@ -832,62 +832,141 @@ async function recordVisit(){
    LOAD UI SETTINGS
 ========================================================= */
 
+        /* =========================================================
+   LOAD WEBSITE SETTINGS FROM ADMIN CMS
+========================================================= */
+
 async function loadUISettings() {
     try {
         const { data, error } = await supabaseClient
-            .from("site_content")
-            .select("content_value")
-            .eq("content_key", "ui_settings")
-            .maybeSingle();
+            .from("site_settings")
+            .select("key, value")
+            .in("key", ["website_content", "website_theme"]);
 
         if (error) {
-            console.error("UI settings load error:", error);
+            console.error("CMS settings error:", error.message);
             return;
         }
 
-        if (!data || !data.content_value) {
-            console.log("UI settings not found.");
-            return;
-        }
+        const settings = {};
 
-        const settings = typeof data.content_value === "string"
-            ? JSON.parse(data.content_value)
-            : data.content_value;
+        (data || []).forEach(function (row) {
+            settings[row.key] = row.value;
+        });
+
+        const content = settings.website_content || {};
+        const theme = settings.website_theme || {};
 
         const root = document.documentElement;
 
-        if (settings.primaryColor) {
-            root.style.setProperty("--primary-color", settings.primaryColor);
+        /* Theme customization */
+
+        const primaryColor =
+            theme.primaryColor || theme.primary_color;
+
+        const secondaryColor =
+            theme.secondaryColor || theme.secondary_color;
+
+        const backgroundColor =
+            theme.backgroundColor || theme.background_color;
+
+        const textColor =
+            theme.textColor || theme.text_color;
+
+        const cardColor =
+            theme.cardColor || theme.card_color;
+
+        const buttonRadius =
+            theme.buttonRadius ?? theme.button_radius;
+
+        const cardRadius =
+            theme.cardRadius ?? theme.card_radius;
+
+        if (primaryColor) {
+            root.style.setProperty("--primary-color", primaryColor);
         }
 
-        if (settings.secondaryColor) {
-            root.style.setProperty("--secondary-color", settings.secondaryColor);
+        if (secondaryColor) {
+            root.style.setProperty("--secondary-color", secondaryColor);
         }
 
-        if (settings.backgroundColor) {
-            root.style.setProperty("--background-color", settings.backgroundColor);
+        if (backgroundColor) {
+            root.style.setProperty("--background-color", backgroundColor);
         }
 
-        if (settings.textColor) {
-            root.style.setProperty("--text-color", settings.textColor);
+        if (textColor) {
+            root.style.setProperty("--text-color", textColor);
         }
 
-        if (settings.cardColor) {
-            root.style.setProperty("--card-color", settings.cardColor);
+        if (cardColor) {
+            root.style.setProperty("--card-color", cardColor);
         }
 
-        if (settings.buttonRadius != null) {
-            root.style.setProperty("--button-radius", settings.buttonRadius + "px");
+        if (buttonRadius != null) {
+            root.style.setProperty(
+                "--button-radius",
+                parseFloat(buttonRadius) + "px"
+            );
         }
 
-        if (settings.cardRadius != null) {
-            root.style.setProperty("--card-radius", settings.cardRadius + "px");
+        if (cardRadius != null) {
+            root.style.setProperty(
+                "--card-radius",
+                parseFloat(cardRadius) + "px"
+            );
         }
 
-        console.log("UI settings loaded successfully.");
+        /* Website content customization */
+
+        const siteTitle =
+            content.siteTitle || content.site_title;
+
+        const mainHeading =
+            content.mainHeading || content.main_heading;
+
+        const subtitle =
+            content.subtitle;
+
+        const siteDescription =
+            content.siteDescription || content.site_description;
+
+        if (siteTitle) {
+            document.title = siteTitle;
+        }
+
+        if (mainHeading) {
+            const heading = document.querySelector(".hero h1");
+
+            if (heading) {
+                heading.textContent = mainHeading;
+            }
+        }
+
+        if (subtitle) {
+            const paragraph = document.querySelector(".hero > p");
+
+            if (paragraph) {
+                paragraph.textContent = subtitle;
+            }
+        }
+
+        if (siteDescription) {
+            const description = document.querySelector(
+                'meta[name="description"]'
+            );
+
+            if (description) {
+                description.setAttribute(
+                    "content",
+                    siteDescription
+                );
+            }
+        }
+
+        console.log("CMS website settings loaded successfully.");
 
     } catch (error) {
-        console.error("UI settings failed:", error);
+        console.error("CMS settings loading failed:", error);
     }
 }
 
@@ -3456,17 +3535,14 @@ function escapeHtml(value){
 /* =========================================================
    START
 ========================================================= */
-
 renderFavorites();
+
+loadUISettings();
 
 loadDatabaseNames();
 
 recordVisit();
 
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    loadUISettings();
 });
 </script>
 </body>
