@@ -641,11 +641,17 @@ function readThemeForm() {
     cardRadius: Number($("cardRadius").value)
   };
 }
-
 async function loadTheme() {
+  $("themeStatus").textContent = "Loading theme settings...";
+
   try {
     const value = await getSetting("website_theme");
-    if (!value) return;
+
+    if (!value) {
+      $("themeStatus").textContent =
+        "Abhi koi saved theme nahi hai. Default settings use ho rahi hain.";
+      return;
+    }
 
     const map = {
       preset: "themePreset",
@@ -662,14 +668,22 @@ async function loadTheme() {
     };
 
     Object.entries(map).forEach(([key, id]) => {
-      if (value[key] !== undefined) $(id).value = value[key];
+      if (value[key] !== undefined && $(id)) {
+        $(id).value = value[key];
+      }
     });
-  } catch (error) {
+
     $("themeStatus").textContent =
-      "Theme settings could not load: " + error.message;
-    throw error;
+      "✅ Saved theme settings successfully loaded.";
+
+  } catch (error) {
+    console.error("Theme loading error:", error);
+
+    $("themeStatus").textContent =
+      "❌ Theme load failed: " + error.message;
   }
 }
+
 
 $("themePreset").addEventListener("change", () => {
   const presets = {
