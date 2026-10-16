@@ -500,12 +500,18 @@ async function loadAll() {
   $("connectionStatus").textContent = "Loading CMS data…";
 
   const results = await Promise.allSettled([
-    loadCategories(), loadNames(), loadVisits(), loadContent(), loadTheme()
+    loadCategories(),
+    loadNames(),
+    loadVisits(),
+    loadContent(),
+    loadTheme(),
+    loadAdvancedColors()
   ]);
 
   const failed = results.some(r => r.status === "rejected");
+
   $("connectionStatus").textContent = failed
-    ? "Connected, but some data failed to load. Check the messages below."
+    ? "Connected, but some data failed to load. Check the error messages."
     : "Connected. Admin permission verified.";
 }
 
