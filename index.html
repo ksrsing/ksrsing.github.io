@@ -1555,7 +1555,7 @@ async function loadDatabaseNames(){
             await supabaseClient
             .from("names")
             .select(
-                "id, name, style, font"
+                "id, name, style, font, category"
             )
             .order(
                 "id",
@@ -1635,7 +1635,7 @@ async function loadDatabaseNames(){
                     item.font || ""
                 ).trim(),
 
-                category:"All"
+                category: String(item.category || "").trim()
 
             };
 
@@ -1755,8 +1755,13 @@ function renderDatabasePage(){
 
     currentMode = "database";
 
-    const data =
-    allDatabaseNames;
+    const data =const data = selectedCategory === "all"
+    ? allDatabaseNames
+    : allDatabaseNames.filter(function(item) {
+        return String(item.category || "")
+            .trim()
+            .toLowerCase() === selectedCategory;
+    });
 
     const start =
     currentPage * PAGE_SIZE;
@@ -3011,35 +3016,45 @@ function createGeneratedCard(item){
 /* =========================================================
    CATEGORY
 ========================================================= */
-
-function generateCategory(category){
-
-    document.getElementById(
-        "resultTitle"
-    ).textContent =
-    category +
-    " Stylish Names";
-
+function generateCategory(category) {
+    selectedCategory = String(category || "all")
+        .trim()
+        .toLowerCase();
 
     currentPage = 0;
     currentMode = "database";
+    generatedResults = [];
+    generatedPage = 0;
 
+    const title = document.getElementById("resultTitle");
 
-    document.getElementById(
-        "nameGrid"
-    ).innerHTML = "";
+    if (title) {
+        title.textContent = selectedCategory === "all"
+            ? "All Stylish Names"
+            : selectedCategory.charAt(0).toUpperCase()
+              + selectedCategory.slice(1)
+              + " Names";
+    }
 
+    const grid = document.getElementById("nameGrid");
+
+    if (grid) {
+        grid.innerHTML = "";
+    }
 
     renderDatabasePage();
 
+    const section = document.getElementById("nameGrid");
 
-    document.getElementById(
-        "nameGrid"
-    ).scrollIntoView({
-        behavior:"smooth"
-    });
-
+    if (section) {
+        section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 }
+
+
 
 
 /* =========================================================
