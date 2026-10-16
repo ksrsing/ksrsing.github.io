@@ -668,45 +668,17 @@ Your Name
 Generate names from your database styles.
 </p>
 
-</div>
 
-<div class="categories">
 
-<div class="category-card" onclick="showAllStyles()">
-<div class="category-icon">✨</div>
-<div class="category-name">All Styles</div>
-</div>
+<div class="categories" id="categoriesContainer">
 
-<div class="category-card" onclick="generateCategory('Gaming')">
-<div class="category-icon">🎮</div>
-<div class="category-name">Gaming</div>
-</div>
+    <div class="category-card" onclick="showAllStyles()">
+        <div class="category-icon">✨</div>
+        <div class="category-name">All Styles</div>
+    </div>
 
-<div class="category-card" onclick="generateCategory('Cool')">
-<div class="category-icon">😎</div>
-<div class="category-name">Cool</div>
-</div>
 
-<div class="category-card" onclick="generateCategory('Royal')">
-<div class="category-icon">👑</div>
-<div class="category-name">Royal</div>
-</div>
-
-<div class="category-card" onclick="generateCategory('Love')">
-<div class="category-icon">❤️</div>
-<div class="category-name">Love</div>
-</div>
-
-<div class="category-card" onclick="generateCategory('Fire')">
-<div class="category-icon">🔥</div>
-<div class="category-name">Fire</div>
-</div>
-
-<div class="category-card" onclick="generateCategory('Danger')">
-<div class="category-icon">☠️</div>
-<div class="category-name">Danger</div>
-</div>
-
+    
 </div>
 </section>
 
@@ -1503,6 +1475,58 @@ function applyUnicodeFont(text,fontSample){
     .join("");
 
 }
+
+/* =========================================
+   LOAD CATEGORIES FROM SUPABASE
+========================================= */
+async function loadCategoriesFromDatabase() {
+    const container = document.getElementById("categoriesContainer");
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="category-card" onclick="showAllStyles()">
+            <div class="category-icon">✨</div>
+            <div class="category-name">All Styles</div>
+        </div>
+    `;
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("categories")
+            .select("name, slug")
+            .order("name");
+
+        if (error) {
+            console.error("Category loading error:", error);
+            return;
+        }
+
+        (data || []).forEach(function(category) {
+            const card = document.createElement("div");
+            card.className = "category-card";
+
+            const icon = document.createElement("div");
+            icon.className = "category-icon";
+            icon.textContent = "🎨";
+
+            const name = document.createElement("div");
+            name.className = "category-name";
+            name.textContent = category.name;
+
+            card.appendChild(icon);
+            card.appendChild(name);
+
+            card.addEventListener("click", function() {
+                generateCategory(category.slug);
+            });
+
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Category error:", error);
+    }
+}
+    
 
 
 /* =========================================================
@@ -3779,13 +3803,13 @@ async function loadDynamicTheme() {
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", async () => {
-    
     renderFavorites();
-
     await loadUISettings();
     await loadDynamicTheme();
 
-    loadDatabaseNames();
+    await loadCategoriesFromDatabase();
+    await loadDatabaseNames();
+
     recordVisit();
 });
 </script>
