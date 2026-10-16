@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +17,7 @@ header h1{margin:0;font-size:25px}
 h2{color:#00d9ff;margin-top:0}
 input,textarea,select{width:100%;padding:12px;margin:7px 0 13px;background:#080f27;color:white;border:1px solid #344264;border-radius:8px;font:inherit}
 input[type=color]{height:48px;padding:4px}
+input[type=range]{accent-color:#8b75ff}
 textarea{min-height:80px;resize:vertical}
 label{display:block;margin-top:8px;color:#c8d5ff}
 button{border:0;border-radius:8px;padding:11px 15px;margin:4px 4px 4px 0;background:linear-gradient(120deg,#7650ff,#00aeea);color:white;font-weight:bold;cursor:pointer}
@@ -29,477 +29,434 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .stat strong{font-size:27px;display:block;color:#00d9ff;margin-bottom:5px}
 .item{padding:14px;background:#080f27;border:1px solid #293354;border-radius:10px;margin:10px 0;overflow-wrap:anywhere}
 .item small{display:block;color:#b9c7e9;margin:7px 0}
+.item h3{color:#00eaff}
 .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 #loginScreen{position:fixed;inset:0;background:#080b22;display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}
 .loginBox{width:100%;max-width:400px;background:#121832;padding:25px;border:1px solid #344264;border-radius:15px}
 .muted{color:#aebce0;font-size:13px;line-height:1.6}
 #message{padding:12px;background:#080f27;border-radius:8px;display:none;white-space:pre-wrap;overflow-wrap:anywhere}
 [hidden]{display:none!important}
-@media(max-width:650px){.grid{grid-template-columns:1fr}header h1{font-size:20px}.card{padding:15px}}
-
-/* ADVANCED COLOR CUSTOMIZER */
-
-#colorLivePreview {
-  transition: background 0.3s ease;
-  overflow: hidden;
+#colorLivePreview{transition:background .3s ease;overflow:hidden}
+@keyframes namecraftRGB{
+0%{background-color:rgb(255,0,80)}
+25%{background-color:rgb(100,0,255)}
+50%{background-color:rgb(0,180,255)}
+75%{background-color:rgb(0,220,130)}
+100%{background-color:rgb(255,0,80)}
 }
-
-@keyframes namecraftRGB {
-  0% {
-    background-color: rgb(255, 0, 80);
-  }
-
-  25% {
-    background-color: rgb(100, 0, 255);
-  }
-
-  50% {
-    background-color: rgb(0, 180, 255);
-  }
-
-  75% {
-    background-color: rgb(0, 220, 130);
-  }
-
-  100% {
-    background-color: rgb(255, 0, 80);
-  }
+@media(max-width:650px){
+.grid{grid-template-columns:1fr}
+header h1{font-size:20px}
+.card{padding:15px}
 }
-
-.rgb-animation-preview {
-  animation: namecraftRGB 10s linear infinite;
-}
-
-#advancedColorCustomizer input[type="range"] {
-  accent-color: #8b75ff;
-}
-
-#advancedColorCustomizer .item h3 {
-  color: #00eaff;
-}
-
-#advancedColorCustomizer .grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-@media (max-width: 650px) {
-  #advancedColorCustomizer .grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
 </style>
 </head>
+
 <body>
 
 <div id="loginScreen">
- <div class="loginBox">
-  <h2>🔐 NameCraft Admin</h2>
-  <p class="muted">Sign in with your authorized admin account.</p>
-  <form id="loginForm">
-   <label for="email">Email</label>
-   <input id="email" type="email" autocomplete="username" required>
-   <label for="password">Password</label>
-   <input id="password" type="password" autocomplete="current-password" required>
-   <button id="loginButton" type="submit">Login</button>
-  </form>
-  <p id="loginMessage" role="status"></p>
- </div>
+<div class="loginBox">
+<h2>🔐 NameCraft Admin</h2>
+<p class="muted">Sign in with your authorized admin account.</p>
+
+<form id="loginForm">
+<label for="email">Email</label>
+<input id="email" type="email" autocomplete="username" required>
+
+<label for="password">Password</label>
+<input id="password" type="password" autocomplete="current-password" required>
+
+<button id="loginButton" type="submit">Login</button>
+</form>
+
+<p id="loginMessage" role="status"></p>
+</div>
 </div>
 
 <header>
- <h1>⚙️ NameCraft CMS</h1>
- <p>Manage names, categories and website content</p>
+<h1>⚙️ NameCraft CMS</h1>
+<p>Manage names, categories and website content</p>
 </header>
 
 <main class="container" id="adminPanel" hidden>
- <div class="row">
-  <p class="muted">Authorized administrator dashboard</p>
-  <button id="logoutButton" class="danger">Logout</button>
- </div>
 
- <section class="card">
-  <h2>📊 Dashboard</h2>
-  <div class="grid">
-   <div class="stat"><strong id="nameCount">—</strong>Names</div>
-   <div class="stat"><strong id="categoryCount">—</strong>Categories</div>
-   <div class="stat"><strong id="visitCount">—</strong>Visits</div>
-  </div>
-  <p id="connectionStatus" class="muted">Checking connection…</p>
- </section>
+<div class="row">
+<p class="muted">Authorized administrator dashboard</p>
+<button id="logoutButton" class="danger">Logout</button>
+</div>
 
- <section class="card">
-  <h2 id="nameFormTitle">➕ Add Stylish Name</h2>
-  <form id="nameForm">
-   <input id="editId" type="hidden">
-   <label for="nameInput">Name / Original text</label>
-   <input id="nameInput" maxlength="200" placeholder="Enter name" required>
-   <label for="styleInput">Stylish version</label>
-   <textarea id="styleInput" maxlength="2000" placeholder="Enter stylish version" required></textarea>
-   <label for="nameCategory">Category</label>
-   <select id="nameCategory" required></select>
-   <button id="saveNameButton" type="submit">Add Name</button>
-   <button id="cancelEditButton" class="secondary" type="button" hidden>Cancel edit</button>
-  </form>
-  <div id="message" role="status"></div>
- </section>
+<section class="card">
+<h2>📊 Dashboard</h2>
 
- <section class="card">
-  <h2>📋 Names Manager</h2>
-  <input id="nameSearch" type="search" placeholder="Search names or styles">
-  <div id="nameList">Loading names…</div>
-  <button id="reloadNamesButton" class="secondary">Refresh names</button>
-  <p class="muted">The manager loads the latest 1,000 records.</p>
- </section>
+<div class="grid">
+<div class="stat">
+<strong id="nameCount">—</strong>Names
+</div>
 
- <section class="card">
-  <h2>🏷️ Category Manager</h2>
-  <form id="categoryForm">
-   <label for="categoryInput">New category name</label>
-   <input id="categoryInput" maxlength="60" placeholder="Example: Anime" required>
-   <button type="submit">Add Category</button>
-  </form>
-  <div id="categoryList">Loading categories…</div>
- </section>
+<div class="stat">
+<strong id="categoryCount">—</strong>Categories
+</div>
 
- <section class="card">
-  <h2>🌐 Website Content Manager</h2>
-  <p class="muted">Saves settings in the site_settings table. Your public website must read these settings to show the changes.</p>
-  <form id="contentForm">
-   <label for="siteTitle">Website title</label>
-   <input id="siteTitle" maxlength="160" required>
-   <label for="mainHeading">Main heading</label>
-   <input id="mainHeading" maxlength="200" required>
-   <label for="subtitle">Subtitle</label>
-   <input id="subtitle" maxlength="300" required>
-   <label for="siteDescription">Description</label>
-   <textarea id="siteDescription" maxlength="1000" required></textarea>
-   <button type="submit">Save Website Content</button>
-  </form>
-  <p id="contentStatus" class="muted" role="status"></p>
- </section>
+<div class="stat">
+<strong id="visitCount">—</strong>Visits
+</div>
+</div>
 
- <section class="card">
-  <h2>🎨 Website Theme Customizer</h2>  
-  <label for="themePreset">Theme Preset</label>
-  <select id="themePreset">
-   <option value="purple">Purple / Cyan</option>
-   <option value="blue">Blue</option>
-   <option value="green">Green</option>
-  </select>
-  <label for="primaryColor">Primary Color</label>
-  <input id="primaryColor" type="color" value="#8b75ff">
-  <label for="secondaryColor">Secondary Color</label>
-  <input id="secondaryColor" type="color" value="#00eaff">
-  <label for="backgroundColor">Background Color</label>
-  <input id="backgroundColor" type="color" value="#080b22">
-  <label for="textColor">Text Color</label>
-  <input id="textColor" type="color" value="#f8f7ff">
-  <label for="cardColor">Name Card Color</label>
-  <input id="cardColor" type="color" value="#11142a">
-  <label for="defaultMode">Default Mode</label>
-  <select id="defaultMode"><option value="dark">Dark</option><option value="light">Light</option></select>
-  <label for="heroHeading">Main Heading</label>
-  <input id="heroHeading" maxlength="200" value="Create Your Perfect Name">
-  <label for="heroSubtitle">Subtitle</label>
-  <input id="heroSubtitle" maxlength="300" value="Create your perfect stylish name.">
-  <label for="buttonRadius">Button Corner Radius (px)</label>
-  <input id="buttonRadius" type="number" min="0" max="40" value="12">
-  <label for="cardRadius">Card Corner Radius (px)</label>
-  <input id="cardRadius" type="number" min="0" max="40" value="17">
-  <button id="saveThemeButton" type="button">💾 Save Theme Settings</button>
-  <p id="themeStatus" class="muted" role="status"></p>
- </section>
-
- <section class="card">
-  <h2>🚀 Website</h2>
-  <button id="openWebsiteButton">Open NameCraft</button>
- </section>
- <!-- ADVANCED RGB + HSL CUSTOMIZER -->
-<section class="card" id="advancedColorCustomizer">
-
-  <h2>🌈 Advanced RGB + HSL Customizer</h2>
-
-  <p class="muted">
-    Website background, RGB animation, gradients aur colors customize karein.
-  </p>
-
-  <label for="backgroundType">Background Type</label>
-  <select id="backgroundType">
-    <option value="solid">Solid Color</option>
-    <option value="gradient">Gradient</option>
-    <option value="animated-rgb">Animated RGB</option>
-    <option value="image">Background Image</option>
-  </select>
-
-  <div class="item">
-    <h3>🎨 RGB Color</h3>
-
-    <label for="rgbColor">Select RGB Color</label>
-    <input type="color" id="rgbColor" value="#080b22">
-
-    <div class="grid">
-      <div>
-        <label for="redValue">Red (0–255)</label>
-        <input type="number" id="redValue" min="0" max="255" value="8">
-      </div>
-
-      <div>
-        <label for="greenValue">Green (0–255)</label>
-        <input type="number" id="greenValue" min="0" max="255" value="11">
-      </div>
-
-      <div>
-        <label for="blueValue">Blue (0–255)</label>
-        <input type="number" id="blueValue" min="0" max="255" value="34">
-      </div>
-    </div>
-
-    <p id="rgbOutput" class="muted">rgb(8, 11, 34)</p>
-  </div>
-
-  <div class="item">
-    <h3>🎨 HSL Color</h3>
-
-    <label for="hueValue">Hue (0–360°)</label>
-    <input type="range" id="hueValue" min="0" max="360" value="245">
-
-    <label for="saturationValue">Saturation (0–100%)</label>
-    <input type="range" id="saturationValue" min="0" max="100" value="62">
-
-    <label for="lightnessValue">Lightness (0–100%)</label>
-    <input type="range" id="lightnessValue" min="0" max="100" value="12">
-
-    <p id="hslOutput" class="muted">
-      hsl(245, 62%, 12%)
-    </p>
-
-    <button id="applyHslButton" type="button">Apply HSL Color</button>
-  </div>
-
-  <div class="item">
-    <h3>🌅 Gradient Maker</h3>
-
-    <label for="gradientColor1">Gradient Color 1</label>
-    <input type="color" id="gradientColor1" value="#8b75ff">
-
-    <label for="gradientColor2">Gradient Color 2</label>
-    <input type="color" id="gradientColor2" value="#00eaff">
-
-    <label for="gradientColor3">Gradient Color 3</label>
-    <input type="color" id="gradientColor3" value="#080b22">
-
-    <label for="gradientAngle">Gradient Angle</label>
-    <input type="range" id="gradientAngle" min="0" max="360" value="135">
-
-    <p id="gradientOutput" class="muted">
-      Linear gradient preview
-    </p>
-
-    <button id="applyGradientButton" type="button">
-      Apply Gradient
-    </button>
-  </div>
-
-  <div class="item">
-    <h3>⚡ Animated RGB Settings</h3>
-
-    <label for="rgbAnimation">RGB Animation</label>
-    <select id="rgbAnimation">
-      <option value="true">Enable</option>
-      <option value="false">Disable</option>
-    </select>
-
-    <label for="animationSpeed">Animation Speed (seconds)</label>
-    <input
-      type="number"
-      id="animationSpeed"
-      min="2"
-      max="60"
-      value="10"
-    >
-
-    <p class="muted">
-      Lower value = faster animation. Higher value = slower animation.
-    </p>
-  </div>
-
-  <div class="item">
-    <h3>🖼️ Background Image</h3>
-
-    <label for="backgroundImageUrl">Image URL</label>
-    <input
-      type="url"
-      id="backgroundImageUrl"
-      placeholder="https://example.com/background.jpg"
-    >
-
-    <label for="imageOverlay">Dark Overlay (0–100%)</label>
-    <input
-      type="range"
-      id="imageOverlay"
-      min="0"
-      max="100"
-      value="35"
-    >
-  </div>
-
-  <div class="item">
-    <h3>👁️ Live Preview</h3>
-
-    <div
-      id="colorLivePreview"
-      style="
-        min-height:150px;
-        border-radius:12px;
-        border:1px solid #526080;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        text-align:center;
-        padding:20px;
-        color:white;
-        background:#080b22;
-      "
-    >
-      <div>
-        <h3>NameCraft</h3>
-        <p>Live Background Preview</p>
-      </div>
-    </div>
-  </div>
-
-  <button id="saveAdvancedColorButton" type="button">
-    💾 Save RGB / HSL Settings
-  </button>
-
-  <button id="resetAdvancedColorButton" type="button" class="secondary">
-    Reset Defaults
-  </button>
-
-  <p id="advancedColorStatus" class="muted" role="status"></p>
-
+<p id="connectionStatus" class="muted">Checking connection…</p>
 </section>
-</main>
 
+<section class="card">
+<h2 id="nameFormTitle">➕ Add Stylish Name</h2>
+
+<form id="nameForm">
+<input id="editId" type="hidden">
+
+<label for="nameInput">Name / Original text</label>
+<input id="nameInput" maxlength="200" placeholder="Enter name" required>
+
+<label for="styleInput">Stylish version</label>
+<textarea id="styleInput" maxlength="2000" placeholder="Enter stylish version" required></textarea>
+
+<label for="nameCategory">Category</label>
+<select id="nameCategory" required></select>
+
+<button id="saveNameButton" type="submit">Add Name</button>
+<button id="cancelEditButton" class="secondary" type="button" hidden>Cancel edit</button>
+</form>
+
+<div id="message" role="status"></div>
+</section>
+
+<section class="card">
+<h2>📋 Names Manager</h2>
+
+<input id="nameSearch" type="search" placeholder="Search names or styles">
+<div id="nameList">Loading names…</div>
+
+<button id="reloadNamesButton" class="secondary">Refresh names</button>
+<p class="muted">The manager loads the latest 1,000 records.</p>
+</section>
+
+<section class="card">
+<h2>🏷️ Category Manager</h2>
+
+<form id="categoryForm">
+<label for="categoryInput">New category name</label>
+<input id="categoryInput" maxlength="60" placeholder="Example: Anime" required>
+<button type="submit">Add Category</button>
+</form>
+
+<div id="categoryList">Loading categories…</div>
+</section>
+
+<section class="card">
+<h2>🌐 Website Content Manager</h2>
+<p class="muted">Saves settings in the site_settings table. The public website must read these settings to show changes.</p>
+
+<form id="contentForm">
+<label for="siteTitle">Website title</label>
+<input id="siteTitle" maxlength="160" required>
+
+<label for="mainHeading">Main heading</label>
+<input id="mainHeading" maxlength="200" required>
+
+<label for="subtitle">Subtitle</label>
+<input id="subtitle" maxlength="300" required>
+
+<label for="siteDescription">Description</label>
+<textarea id="siteDescription" maxlength="1000" required></textarea>
+
+<button type="submit">Save Website Content</button>
+</form>
+
+<p id="contentStatus" class="muted" role="status"></p>
+</section>
+
+<section class="card">
+<h2>🎨 Website Theme Customizer</h2>
+
+<label for="themePreset">Theme Preset</label>
+<select id="themePreset">
+<option value="purple">Purple / Cyan</option>
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+</select>
+
+<label for="primaryColor">Primary Color</label>
+<input id="primaryColor" type="color" value="#8b75ff">
+
+<label for="secondaryColor">Secondary Color</label>
+<input id="secondaryColor" type="color" value="#00eaff">
+
+<label for="backgroundColor">Background Color</label>
+<input id="backgroundColor" type="color" value="#080b22">
+
+<label for="textColor">Text Color</label>
+<input id="textColor" type="color" value="#f8f7ff">
+
+<label for="cardColor">Name Card Color</label>
+<input id="cardColor" type="color" value="#11142a">
+
+<label for="defaultMode">Default Mode</label>
+<select id="defaultMode">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+</select>
+
+<label for="heroHeading">Main Heading</label>
+<input id="heroHeading" maxlength="200" value="Create Your Perfect Name">
+
+<label for="heroSubtitle">Subtitle</label>
+<input id="heroSubtitle" maxlength="300" value="Create your perfect stylish name.">
+
+<label for="buttonRadius">Button Corner Radius (px)</label>
+<input id="buttonRadius" type="number" min="0" max="40" value="12">
+
+<label for="cardRadius">Card Corner Radius (px)</label>
+<input id="cardRadius" type="number" min="0" max="40" value="17">
+
+<button id="saveThemeButton" type="button">💾 Save Theme Settings</button>
+<p id="themeStatus" class="muted" role="status"></p>
+</section>
+
+<section class="card">
+<h2>🚀 Website</h2>
+<button id="openWebsiteButton">Open NameCraft</button>
+</section>
+
+<section class="card" id="advancedColorCustomizer">
+<h2>🌈 Advanced RGB + HSL Customizer</h2>
+<p class="muted">Website background, RGB animation, gradients aur colors customize karein.</p>
+
+<label for="backgroundType">Background Type</label>
+<select id="backgroundType">
+<option value="solid">Solid Color</option>
+<option value="gradient">Gradient</option>
+<option value="animated-rgb">Animated RGB</option>
+<option value="image">Background Image</option>
+</select>
+
+<div class="item">
+<h3>🎨 RGB Color</h3>
+
+<label for="rgbColor">Select RGB Color</label>
+<input type="color" id="rgbColor" value="#080b22">
+
+<div class="grid">
+<div>
+<label for="redValue">Red (0–255)</label>
+<input type="number" id="redValue" min="0" max="255" value="8">
+</div>
+
+<div>
+<label for="greenValue">Green (0–255)</label>
+<input type="number" id="greenValue" min="0" max="255" value="11">
+</div>
+
+<div>
+<label for="blueValue">Blue (0–255)</label>
+<input type="number" id="blueValue" min="0" max="255" value="34">
+</div>
+</div>
+
+<p id="rgbOutput" class="muted">rgb(8, 11, 34)</p>
+</div>
+
+<div class="item">
+<h3>🎨 HSL Color</h3>
+
+<label for="hueValue">Hue (0–360°)</label>
+<input type="range" id="hueValue" min="0" max="360" value="245">
+
+<label for="saturationValue">Saturation (0–100%)</label>
+<input type="range" id="saturationValue" min="0" max="100" value="62">
+
+<label for="lightnessValue">Lightness (0–100%)</label>
+<input type="range" id="lightnessValue" min="0" max="100" value="12">
+
+<p id="hslOutput" class="muted">hsl(245, 62%, 12%)</p>
+<button id="applyHslButton" type="button">Apply HSL Color</button>
+</div>
+
+<div class="item">
+<h3>🌅 Gradient Maker</h3>
+
+<label for="gradientColor1">Gradient Color 1</label>
+<input type="color" id="gradientColor1" value="#8b75ff">
+
+<label for="gradientColor2">Gradient Color 2</label>
+<input type="color" id="gradientColor2" value="#00eaff">
+
+<label for="gradientColor3">Gradient Color 3</label>
+<input type="color" id="gradientColor3" value="#080b22">
+
+<label for="gradientAngle">Gradient Angle</label>
+<input type="range" id="gradientAngle" min="0" max="360" value="135">
+
+<p id="gradientOutput" class="muted">Linear gradient preview</p>
+<button id="applyGradientButton" type="button">Apply Gradient</button>
+</div>
+
+<div class="item">
+<h3>⚡ Animated RGB Settings</h3>
+
+<label for="rgbAnimation">RGB Animation</label>
+<select id="rgbAnimation">
+<option value="true">Enable</option>
+<option value="false">Disable</option>
+</select>
+
+<label for="animationSpeed">Animation Speed (seconds)</label>
+<input type="number" id="animationSpeed" min="2" max="60" value="10">
+
+<p class="muted">Lower value = faster animation. Higher value = slower animation.</p>
+</div>
+
+<div class="item">
+<h3>🖼️ Background Image</h3>
+
+<label for="backgroundImageUrl">Image URL</label>
+<input type="url" id="backgroundImageUrl" placeholder="https://example.com/background.jpg">
+
+<label for="imageOverlay">Dark Overlay (0–100%)</label>
+<input type="range" id="imageOverlay" min="0" max="100" value="35">
+</div>
+
+<div class="item">
+<h3>👁️ Live Preview</h3>
+
+<div id="colorLivePreview" style="min-height:150px;border-radius:12px;border:1px solid #526080;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:white;background:#080b22">
+<div>
+<h3>NameCraft</h3>
+<p>Live Background Preview</p>
+</div>
+</div>
+</div>
+
+<button id="saveAdvancedColorButton" type="button">💾 Save RGB / HSL Settings</button>
+<button id="resetAdvancedColorButton" type="button" class="secondary">Reset Defaults</button>
+<p id="advancedColorStatus" class="muted" role="status"></p>
+</section>
+
+</main>
 <script>
 "use strict";
 
-/* SUPABASE CONFIG */
-const SUPABASE_URL = "https://ujpzkpeslemcuizylymi.supabase.co";
-const SUPABASE_KEY = "sb_publishable_oT5xR6-pXK9vM9jlxvhydA_CgZs1qAB";
+const SUPABASE_URL="https://ujpzkpeslemcuizylymi.supabase.co";
+const SUPABASE_KEY="sb_publishable_oT5xR6-pXK9vM9jlxvhydA_CgZs1qAB";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-let categories = [];
-let allNames = [];
+let categories=[],allNames=[];
 
-function showMessage(text) {
-  $("message").style.display = "block";
-  $("message").textContent = text;
+function showMessage(text){
+  $("message").style.display="block";
+  $("message").textContent=text;
 }
-function loginMessage(text) {
-  $("loginMessage").textContent = text;
+
+function loginMessage(text){
+  $("loginMessage").textContent=text;
 }
-function slugify(text) {
+
+function slugify(text){
   return text.toLowerCase().trim()
     .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 55);
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"")
+    .slice(0,55);
 }
-function addText(parent, tag, text, className = "") {
-  const el = document.createElement(tag);
-  el.textContent = text ?? "";
-  if (className) el.className = className;
+
+function addText(parent,tag,text,className=""){
+  const el=document.createElement(tag);
+  el.textContent=text??"";
+  if(className)el.className=className;
   parent.appendChild(el);
   return el;
 }
 
-/* ADMIN VERIFICATION */
-async function checkAdmin() {
-  const { data: sessionData, error: sessionError } =
-    await db.auth.getSession();
+/* ADMIN AUTH */
 
-  if (sessionError || !sessionData.session) return false;
+async function checkAdmin(){
+  const {data:sessionData,error:sessionError}=await db.auth.getSession();
 
-  const { data, error } = await db.rpc("is_cms_admin");
+  if(sessionError||!sessionData.session)return false;
 
-  if (error) {
+  const {data,error}=await db.rpc("is_cms_admin");
+
+  if(error){
     console.error(error);
-    loginMessage("Admin verification failed. Check the SQL setup and permissions.");
+    loginMessage("Admin verification failed. Check SQL setup and permissions.");
     return false;
   }
-  return data === true;
+
+  return data===true;
 }
 
-async function enterPanel() {
-  const allowed = await checkAdmin();
+async function enterPanel(){
+  const allowed=await checkAdmin();
 
-  if (!allowed) {
+  if(!allowed){
     await db.auth.signOut();
-    $("adminPanel").hidden = true;
-    $("loginScreen").style.display = "flex";
+    $("adminPanel").hidden=true;
+    $("loginScreen").style.display="flex";
     loginMessage("This account is not authorized as a NameCraft CMS admin.");
     return false;
   }
 
-  $("loginScreen").style.display = "none";
-  $("adminPanel").hidden = false;
-  $("connectionStatus").textContent = "Admin verified. Loading database…";
+  $("loginScreen").style.display="none";
+  $("adminPanel").hidden=false;
+  $("connectionStatus").textContent="Admin verified. Loading database…";
 
   await loadAll();
   return true;
 }
 
-/* LOGIN */
-$("loginForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  $("loginButton").disabled = true;
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  $("loginButton").disabled=true;
   loginMessage("Signing in…");
 
-  try {
-    const { error } = await db.auth.signInWithPassword({
-      email: $("email").value.trim(),
-      password: $("password").value
+  try{
+    const {error}=await db.auth.signInWithPassword({
+      email:$("email").value.trim(),
+      password:$("password").value
     });
 
-    if (error) {
-      loginMessage("Login failed: " + error.message);
+    if(error){
+      loginMessage("Login failed: "+error.message);
       return;
     }
 
-    if (await enterPanel()) $("password").value = "";
-  } catch (error) {
+    if(await enterPanel())$("password").value="";
+  }catch(err){
     loginMessage("Login failed. Check your connection.");
-    console.error(error);
-  } finally {
-    $("loginButton").disabled = false;
+    console.error(err);
+  }finally{
+    $("loginButton").disabled=false;
   }
 });
 
-/* LOGOUT */
-$("logoutButton").addEventListener("click", async () => {
-  const { error } = await db.auth.signOut();
-  if (error) {
-    showMessage("Logout failed: " + error.message);
+$("logoutButton").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+
+  if(error){
+    showMessage("Logout failed: "+error.message);
     return;
   }
 
-  $("adminPanel").hidden = true;
-  $("loginScreen").style.display = "flex";
-  $("password").value = "";
+  $("adminPanel").hidden=true;
+  $("loginScreen").style.display="flex";
+  $("password").value="";
   loginMessage("Logged out.");
 });
 
-/* LOAD DASHBOARD */
-async function loadAll() {
-  $("connectionStatus").textContent = "Loading CMS data…";
+async function loadAll(){
+  $("connectionStatus").textContent="Loading CMS data…";
 
-  const results = await Promise.allSettled([
+  const results=await Promise.allSettled([
     loadCategories(),
     loadNames(),
     loadVisits(),
@@ -508,94 +465,102 @@ async function loadAll() {
     loadAdvancedColors()
   ]);
 
-  const failed = results.some(r => r.status === "rejected");
-
-  $("connectionStatus").textContent = failed
-    ? "Connected, but some data failed to load. Check the error messages."
-    : "Connected. Admin permission verified.";
+  $("connectionStatus").textContent=
+    results.some(r=>r.status==="rejected")
+    ?"Connected, but some data failed to load. Check error messages."
+    :"Connected. Admin permission verified.";
 }
 
 /* CATEGORIES */
-async function loadCategories() {
-  const { data, error } = await db.from("categories")
-    .select("slug,name").order("name");
 
-  if (error) {
-    $("categoryList").textContent = "Category error: " + error.message;
+async function loadCategories(){
+  const {data,error}=await db
+    .from("categories")
+    .select("slug,name")
+    .order("name");
+
+  if(error){
+    $("categoryList").textContent="Category error: "+error.message;
     throw error;
   }
 
-  categories = data || [];
-  $("categoryCount").textContent = categories.length;
+  categories=data||[];
+  $("categoryCount").textContent=categories.length;
 
-  const select = $("nameCategory");
-  const previous = select.value;
+  const select=$("nameCategory");
+  const previous=select.value;
   select.replaceChildren();
 
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category.slug;
-    option.textContent = category.name;
-    select.appendChild(option);
+  categories.forEach(c=>{
+    const o=document.createElement("option");
+    o.value=c.slug;
+    o.textContent=c.name;
+    select.appendChild(o);
   });
 
-  if (categories.some(c => c.slug === previous)) select.value = previous;
+  if(categories.some(c=>c.slug===previous)){
+    select.value=previous;
+  }
 
-  const list = $("categoryList");
+  const list=$("categoryList");
   list.replaceChildren();
 
-  if (!categories.length) addText(list, "p", "No categories found.");
+  if(!categories.length){
+    addText(list,"p","No categories found.");
+  }
 
-  categories.forEach(category => {
-    const item = document.createElement("div");
-    item.className = "item";
-    const row = document.createElement("div");
-    row.className = "row";
-    addText(row, "strong", category.name);
+  categories.forEach(c=>{
+    const item=document.createElement("div");
+    item.className="item";
 
-    const del = document.createElement("button");
-    del.className = "danger";
-    del.textContent = "Delete";
-    del.addEventListener("click", () => deleteCategory(category));
+    const row=document.createElement("div");
+    row.className="row";
+
+    addText(row,"strong",c.name);
+
+    const del=document.createElement("button");
+    del.className="danger";
+    del.textContent="Delete";
+    del.addEventListener("click",()=>deleteCategory(c));
 
     row.appendChild(del);
     item.appendChild(row);
-    addText(item, "small", "Slug: " + category.slug);
+
+    addText(item,"small","Slug: "+c.slug);
     list.appendChild(item);
   });
 }
 
-$("categoryForm").addEventListener("submit", async event => {
-  event.preventDefault();
+$("categoryForm").addEventListener("submit",async e=>{
+  e.preventDefault();
 
-  const name = $("categoryInput").value.trim();
-  const slug = slugify(name);
+  const name=$("categoryInput").value.trim();
+  const slug=slugify(name);
 
-  if (!name || !slug) {
+  if(!name||!slug){
     showMessage("Enter a valid category name.");
     return;
   }
 
-  const { error } = await db.from("categories").insert({ name, slug });
+  const {error}=await db.from("categories").insert({name,slug});
 
-  if (error) {
-    showMessage("Could not add category: " + error.message);
+  if(error){
+    showMessage("Could not add category: "+error.message);
     return;
   }
 
-  $("categoryInput").value = "";
+  $("categoryInput").value="";
   showMessage("Category added.");
   await loadCategories();
 });
 
-async function deleteCategory(category) {
-  if (!confirm('Delete category "' + category.name + '"?')) return;
+async function deleteCategory(c){
+  if(!confirm('Delete category "'+c.name+'"?'))return;
 
-  const { error } = await db.from("categories")
-    .delete().eq("slug", category.slug);
+  const {error}=await db.from("categories").delete().eq("slug",c.slug);
 
-  if (error) {
-    showMessage("Could not delete category: " + error.message);
+  if(error){
+    showMessage("Could not delete category: "+error.message);
     return;
   }
 
@@ -605,155 +570,160 @@ async function deleteCategory(category) {
 }
 
 /* NAMES */
-async function loadNames() {
-  const countResult = await db.from("names")
-    .select("id", { count: "exact", head: true });
 
-  if (countResult.error) {
-    $("nameList").textContent = "Count error: " + countResult.error.message;
+async function loadNames(){
+  const countResult=await db
+    .from("names")
+    .select("id",{count:"exact",head:true});
+
+  if(countResult.error){
+    $("nameList").textContent="Count error: "+countResult.error.message;
     throw countResult.error;
   }
 
-  $("nameCount").textContent = countResult.count ?? 0;
+  $("nameCount").textContent=countResult.count??0;
 
-  const { data, error } = await db.from("names")
+  const {data,error}=await db
+    .from("names")
     .select("id,name,style,category")
-    .order("id", { ascending: false })
+    .order("id",{ascending:false})
     .limit(1000);
 
-  if (error) {
-    $("nameList").textContent = "Names error: " + error.message;
+  if(error){
+    $("nameList").textContent="Names error: "+error.message;
     throw error;
   }
 
-  allNames = data || [];
+  allNames=data||[];
   renderNames();
 }
 
-function renderNames() {
-  const list = $("nameList");
+function renderNames(){
+  const list=$("nameList");
   list.replaceChildren();
 
-  const query = $("nameSearch").value.trim().toLowerCase();
-  const filtered = allNames.filter(item =>
-    String(item.name || "").toLowerCase().includes(query) ||
-    String(item.style || "").toLowerCase().includes(query)
+  const q=$("nameSearch").value.trim().toLowerCase();
+
+  const filtered=allNames.filter(x=>
+    String(x.name||"").toLowerCase().includes(q)||
+    String(x.style||"").toLowerCase().includes(q)
   );
 
-  if (!filtered.length) {
-    addText(list, "p", "No matching names found.");
+  if(!filtered.length){
+    addText(list,"p","No matching names found.");
     return;
   }
 
-  filtered.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item";
-    addText(card, "strong", item.name || "(Unnamed)");
-    addText(card, "div", item.style || "");
+  filtered.forEach(x=>{
+    const card=document.createElement("div");
+    card.className="item";
 
-    const categoryName = categories.find(c => c.slug === item.category)?.name
-      || "Uncategorized";
-    addText(card, "small", "Category: " + categoryName);
+    addText(card,"strong",x.name||"(Unnamed)");
+    addText(card,"div",x.style||"");
 
-    const row = document.createElement("div");
-    row.className = "row";
+    addText(
+      card,
+      "small",
+      "Category: "+(categories.find(c=>c.slug===x.category)?.name||"Uncategorized")
+    );
 
-    const edit = document.createElement("button");
-    edit.textContent = "Edit";
-    edit.addEventListener("click", () => editName(item));
+    const row=document.createElement("div");
+    row.className="row";
 
-    const del = document.createElement("button");
-    del.textContent = "Delete";
-    del.className = "danger";
-    del.addEventListener("click", () => deleteName(item));
+    const edit=document.createElement("button");
+    edit.textContent="Edit";
+    edit.addEventListener("click",()=>editName(x));
 
-    row.append(edit, del);
+    const del=document.createElement("button");
+    del.textContent="Delete";
+    del.className="danger";
+    del.addEventListener("click",()=>deleteName(x));
+
+    row.append(edit,del);
     card.appendChild(row);
     list.appendChild(card);
   });
 }
 
-$("nameSearch").addEventListener("input", renderNames);
+$("nameSearch").addEventListener("input",renderNames);
 
-$("reloadNamesButton").addEventListener("click", async () => {
-  try {
+$("reloadNamesButton").addEventListener("click",async()=>{
+  try{
     await loadNames();
     showMessage("Names refreshed.");
-  } catch (error) {
-    showMessage("Refresh failed: " + error.message);
+  }catch(e){
+    showMessage("Refresh failed: "+e.message);
   }
 });
 
-/* ADD / EDIT NAME */
-$("nameForm").addEventListener("submit", async event => {
-  event.preventDefault();
+$("nameForm").addEventListener("submit",async e=>{
+  e.preventDefault();
 
-  const id = $("editId").value;
-  const name = $("nameInput").value.trim();
-  const style = $("styleInput").value.trim();
-  const category = $("nameCategory").value;
+  const id=$("editId").value;
+  const name=$("nameInput").value.trim();
+  const style=$("styleInput").value.trim();
+  const category=$("nameCategory").value;
 
-  if (!name || !style || !category) {
+  if(!name||!style||!category){
     showMessage("Fill in the name, style and category.");
     return;
   }
 
-  $("saveNameButton").disabled = true;
+  $("saveNameButton").disabled=true;
 
-  try {
-    let result;
+  try{
+    let result=id
+      ?await db.from("names").update({name,style,category}).eq("id",id)
+      :await db.from("names").insert({name,style,category});
 
-    if (id) {
-      result = await db.from("names")
-        .update({ name, style, category }).eq("id", id);
-    } else {
-      result = await db.from("names")
-        .insert({ name, style, category });
-    }
-
-    if (result.error) {
-      showMessage("Save failed: " + result.error.message);
+    if(result.error){
+      showMessage("Save failed: "+result.error.message);
       return;
     }
 
     resetNameForm();
-    showMessage(id ? "Name updated successfully." : "Name added successfully.");
+    showMessage(id?"Name updated successfully.":"Name added successfully.");
     await loadNames();
-  } catch (error) {
-    showMessage("Save failed: " + error.message);
-  } finally {
-    $("saveNameButton").disabled = false;
+
+  }catch(err){
+    showMessage("Save failed: "+err.message);
+  }finally{
+    $("saveNameButton").disabled=false;
   }
 });
 
-function editName(item) {
-  $("editId").value = item.id;
-  $("nameInput").value = item.name || "";
-  $("styleInput").value = item.style || "";
-  $("nameCategory").value = item.category || "";
-  $("nameFormTitle").textContent = "✏️ Edit Stylish Name";
-  $("saveNameButton").textContent = "Save Changes";
-  $("cancelEditButton").hidden = false;
-  $("nameFormTitle").scrollIntoView({ behavior: "smooth", block: "center" });
+function editName(x){
+  $("editId").value=x.id;
+  $("nameInput").value=x.name||"";
+  $("styleInput").value=x.style||"";
+  $("nameCategory").value=x.category||"";
+  $("nameFormTitle").textContent="✏️ Edit Stylish Name";
+  $("saveNameButton").textContent="Save Changes";
+  $("cancelEditButton").hidden=false;
+
+  $("nameFormTitle").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
 }
 
-function resetNameForm() {
+function resetNameForm(){
   $("nameForm").reset();
-  $("editId").value = "";
-  $("nameFormTitle").textContent = "➕ Add Stylish Name";
-  $("saveNameButton").textContent = "Add Name";
-  $("cancelEditButton").hidden = true;
+  $("editId").value="";
+  $("nameFormTitle").textContent="➕ Add Stylish Name";
+  $("saveNameButton").textContent="Add Name";
+  $("cancelEditButton").hidden=true;
 }
 
-$("cancelEditButton").addEventListener("click", resetNameForm);
+$("cancelEditButton").addEventListener("click",resetNameForm);
 
-async function deleteName(item) {
-  if (!confirm('Delete "' + item.name + '" permanently?')) return;
+async function deleteName(x){
+  if(!confirm('Delete "'+x.name+'" permanently?'))return;
 
-  const { error } = await db.from("names").delete().eq("id", item.id);
+  const {error}=await db.from("names").delete().eq("id",x.id);
 
-  if (error) {
-    showMessage("Delete failed: " + error.message);
+  if(error){
+    showMessage("Delete failed: "+error.message);
     return;
   }
 
@@ -761,457 +731,437 @@ async function deleteName(item) {
   await loadNames();
 }
 
-/* VISITS COUNT */
-async function loadVisits() {
-  const { count, error } = await db.from("visits")
-    .select("*", { count: "exact", head: true });
+/* VISITS + SETTINGS */
 
-  if (error) {
-    $("visitCount").textContent = "!";
-    console.error("Visits:", error.message);
+async function loadVisits(){
+  const {count,error}=await db
+    .from("visits")
+    .select("*",{count:"exact",head:true});
+
+  if(error){
+    $("visitCount").textContent="!";
+    console.error("Visits:",error.message);
     throw error;
   }
 
-  $("visitCount").textContent = count ?? 0;
+  $("visitCount").textContent=count??0;
 }
 
-/*
-  SETTINGS FORMAT:
-  site_settings table needs columns:
-  key (text, unique) and value (jsonb).
-*/
-async function getSetting(key) {
-  const { data, error } = await db.from("site_settings")
-    .select("value").eq("key", key).maybeSingle();
+async function getSetting(key){
+  const {data,error}=await db
+    .from("site_settings")
+    .select("value")
+    .eq("key",key)
+    .maybeSingle();
 
-  if (error) throw error;
-  return data ? data.value : null;
+  if(error)throw error;
+  return data?data.value:null;
 }
 
-async function saveSetting(key, value) {
-  const { data, error } = await db
+async function saveSetting(key,value){
+  const {data,error}=await db
     .from("site_settings")
     .upsert(
-      {
-        key: key,
-        value: value,
-        updated_at: new Date().toISOString()
-      },
-      {
-        onConflict: "key"
-      }
+      {key,value,updated_at:new Date().toISOString()},
+      {onConflict:"key"}
     )
     .select();
 
-  if (error) {
-    console.error("Settings save error:", error);
+  if(error){
+    console.error("Settings save error:",error);
     throw error;
   }
 
   return data;
 }
 
-/* LOAD WEBSITE CONTENT */
-async function loadContent() {
-  $("contentStatus").textContent = "Loading website content...";
+/* WEBSITE CONTENT */
 
-  try {
-    const settings = await getSetting("website_content") || {};
+async function loadContent(){
+  $("contentStatus").textContent="Loading website content...";
 
-    $("siteTitle").value =
-      settings.siteTitle || "NameCraft - Stylish Name Generator";
+  try{
+    const s=await getSetting("website_content")||{};
 
-    $("mainHeading").value =
-      settings.mainHeading || "Create Your Perfect Name";
-
-    $("subtitle").value =
-      settings.subtitle || "Create your perfect stylish name.";
-
-    $("siteDescription").value =
-      settings.siteDescription ||
+    $("siteTitle").value=s.siteTitle||"NameCraft - Stylish Name Generator";
+    $("mainHeading").value=s.mainHeading||"Create Your Perfect Name";
+    $("subtitle").value=s.subtitle||"Create your perfect stylish name.";
+    $("siteDescription").value=s.siteDescription||
       "Free stylish name generator with gaming, cool, royal, fire and danger names.";
 
-    $("contentStatus").textContent =
-      "✅ Website content loaded successfully.";
+    $("contentStatus").textContent="✅ Website content loaded successfully.";
 
-  } catch (error) {
-    console.error("Content loading error:", error);
-
-    $("contentStatus").textContent =
-      "❌ Content load failed: " + error.message;
+  }catch(e){
+    $("contentStatus").textContent="❌ Content load failed: "+e.message;
   }
 }
 
-/* SAVE WEBSITE CONTENT */
-$("contentForm").addEventListener("submit", async event => {
-  event.preventDefault();
+$("contentForm").addEventListener("submit",async e=>{
+  e.preventDefault();
 
-  const value = {
-    siteTitle: $("siteTitle").value.trim(),
-    mainHeading: $("mainHeading").value.trim(),
-    subtitle: $("subtitle").value.trim(),
-    siteDescription: $("siteDescription").value.trim()
+  const value={
+    siteTitle:$("siteTitle").value.trim(),
+    mainHeading:$("mainHeading").value.trim(),
+    subtitle:$("subtitle").value.trim(),
+    siteDescription:$("siteDescription").value.trim()
   };
 
-  if (
-    !value.siteTitle ||
-    !value.mainHeading ||
-    !value.subtitle ||
-    !value.siteDescription
-  ) {
-    $("contentStatus").textContent =
-      "❌ Please fill in all fields.";
+  if(Object.values(value).some(v=>!v)){
+    $("contentStatus").textContent="❌ Please fill in all fields.";
     return;
   }
 
-  const button = $("contentForm").querySelector(
-    'button[type="submit"]'
-  );
+  const b=$("contentForm").querySelector('button[type="submit"]');
+  b.disabled=true;
+  $("contentStatus").textContent="Saving website content...";
 
-  button.disabled = true;
-  $("contentStatus").textContent = "Saving website content...";
+  try{
+    await saveSetting("website_content",value);
 
-  try {
-    await saveSetting("website_content", value);
+    const saved=await getSetting("website_content");
 
-    const saved = await getSetting("website_content");
-
-    if (!saved || saved.siteTitle !== value.siteTitle) {
+    if(!saved||saved.siteTitle!==value.siteTitle){
       throw new Error("Saved content could not be verified.");
     }
 
-    $("contentStatus").textContent =
-      "✅ Website content saved and verified in Supabase.";
+    $("contentStatus").textContent="✅ Website content saved and verified in Supabase.";
 
-  } catch (error) {
-    console.error("Content save error:", error);
-
-    $("contentStatus").textContent =
-      "❌ Save failed: " + error.message;
-
-  } finally {
-    button.disabled = false;
+  }catch(e){
+    $("contentStatus").textContent="❌ Save failed: "+e.message;
+  }finally{
+    b.disabled=false;
   }
 });
 
-/* THEME */
-function readThemeForm() {
-  return {
-    preset: $("themePreset").value,
-    primaryColor: $("primaryColor").value,
-    secondaryColor: $("secondaryColor").value,
-    backgroundColor: $("backgroundColor").value,
-    textColor: $("textColor").value,
-    cardColor: $("cardColor").value,
-    defaultMode: $("defaultMode").value,
-    heroHeading: $("heroHeading").value.trim(),
-    heroSubtitle: $("heroSubtitle").value.trim(),
-    buttonRadius: Number($("buttonRadius").value),
-    cardRadius: Number($("cardRadius").value)
+/* THEME SETTINGS */
+
+function readThemeForm(){
+  return{
+    preset:$("themePreset").value,
+    primaryColor:$("primaryColor").value,
+    secondaryColor:$("secondaryColor").value,
+    backgroundColor:$("backgroundColor").value,
+    textColor:$("textColor").value,
+    cardColor:$("cardColor").value,
+    defaultMode:$("defaultMode").value,
+    heroHeading:$("heroHeading").value.trim(),
+    heroSubtitle:$("heroSubtitle").value.trim(),
+    buttonRadius:Number($("buttonRadius").value),
+    cardRadius:Number($("cardRadius").value)
   };
 }
-async function loadTheme() {
-  $("themeStatus").textContent = "Loading theme settings...";
 
-  try {
-    const value = await getSetting("website_theme");
+async function loadTheme(){
+  $("themeStatus").textContent="Loading theme settings...";
 
-    if (!value) {
-      $("themeStatus").textContent =
-        "Abhi koi saved theme nahi hai. Default settings use ho rahi hain.";
+  try{
+    const v=await getSetting("website_theme");
+
+    if(!v){
+      $("themeStatus").textContent="No saved theme yet. Default settings are being used.";
       return;
     }
 
-    const map = {
-      preset: "themePreset",
-      primaryColor: "primaryColor",
-      secondaryColor: "secondaryColor",
-      backgroundColor: "backgroundColor",
-      textColor: "textColor",
-      cardColor: "cardColor",
-      defaultMode: "defaultMode",
-      heroHeading: "heroHeading",
-      heroSubtitle: "heroSubtitle",
-      buttonRadius: "buttonRadius",
-      cardRadius: "cardRadius"
+    const map={
+      preset:"themePreset",
+      primaryColor:"primaryColor",
+      secondaryColor:"secondaryColor",
+      backgroundColor:"backgroundColor",
+      textColor:"textColor",
+      cardColor:"cardColor",
+      defaultMode:"defaultMode",
+      heroHeading:"heroHeading",
+      heroSubtitle:"heroSubtitle",
+      buttonRadius:"buttonRadius",
+      cardRadius:"cardRadius"
     };
 
-    Object.entries(map).forEach(([key, id]) => {
-      if (value[key] !== undefined && $(id)) {
-        $(id).value = value[key];
+    Object.entries(map).forEach(([k,id])=>{
+      if(v[k]!==undefined&&$(id)){
+        $(id).value=v[k];
       }
     });
 
-    $("themeStatus").textContent =
-      "✅ Saved theme settings successfully loaded.";
+    $("themeStatus").textContent="✅ Saved theme settings loaded.";
 
-  } catch (error) {
-    console.error("Theme loading error:", error);
-
-    $("themeStatus").textContent =
-      "❌ Theme load failed: " + error.message;
+  }catch(e){
+    $("themeStatus").textContent="❌ Theme load failed: "+e.message;
   }
 }
 
-
-$("themePreset").addEventListener("change", () => {
-  const presets = {
-    purple: ["#8b75ff", "#00eaff", "#080b22"],
-    blue: ["#3987ff", "#00d9ff", "#071426"],
-    green: ["#26c281", "#a4ff70", "#071b17"]
+$("themePreset").addEventListener("change",()=>{
+  const presets={
+    purple:["#8b75ff","#00eaff","#080b22"],
+    blue:["#3987ff","#00d9ff","#071426"],
+    green:["#26c281","#a4ff70","#071b17"]
   };
 
-  const colors = presets[$("themePreset").value];
-  $("primaryColor").value = colors[0];
-  $("secondaryColor").value = colors[1];
-  $("backgroundColor").value = colors[2];
+  const p=presets[$("themePreset").value];
+
+  $("primaryColor").value=p[0];
+  $("secondaryColor").value=p[1];
+  $("backgroundColor").value=p[2];
 });
 
-$("saveThemeButton").addEventListener("click", async () => {
-  const theme = readThemeForm();
+/* THEME SOLID BACKGROUND SYNC */
 
-  if (!Number.isFinite(theme.buttonRadius) ||
-      !Number.isFinite(theme.cardRadius) ||
-      theme.buttonRadius < 0 || theme.buttonRadius > 40 ||
-      theme.cardRadius < 0 || theme.cardRadius > 40) {
-    $("themeStatus").textContent = "Radius must be between 0 and 40.";
+$("saveThemeButton").addEventListener("click",async()=>{
+  const theme=readThemeForm();
+
+  if(
+    !Number.isFinite(theme.buttonRadius)||
+    !Number.isFinite(theme.cardRadius)||
+    theme.buttonRadius<0||
+    theme.buttonRadius>40||
+    theme.cardRadius<0||
+    theme.cardRadius>40
+  ){
+    $("themeStatus").textContent="Radius must be between 0 and 40.";
     return;
   }
 
-  $("themeStatus").textContent = "Saving theme…";
+  $("saveThemeButton").disabled=true;
+  $("themeStatus").textContent="Saving theme...";
 
-  try {
-    await saveSetting("website_theme", theme);
-    $("themeStatus").textContent =
-      "Theme saved in Supabase. Connect the public website to apply these settings.";
-  } catch (error) {
-    $("themeStatus").textContent = "Theme save failed: " + error.message;
+  try{
+    await saveSetting("website_theme",theme);
+
+    const colors=await getSetting("website_colors")||{};
+
+    if(!colors.backgroundType||colors.backgroundType==="solid"){
+      const rgb=hexToRgb(theme.backgroundColor);
+
+      colors.backgroundType="solid";
+      colors.rgbColor=theme.backgroundColor;
+      colors.redValue=String(rgb.r);
+      colors.greenValue=String(rgb.g);
+      colors.blueValue=String(rgb.b);
+
+      await saveSetting("website_colors",colors);
+    }
+
+    $("themeStatus").textContent="✅ Theme saved. Solid background synchronized.";
+
+  }catch(e){
+    console.error(e);
+    $("themeStatus").textContent="❌ Theme save failed: "+e.message;
+  }finally{
+    $("saveThemeButton").disabled=false;
   }
 });
 
-/* ADVANCED RGB + HSL CUSTOMIZER */
+/* ADVANCED RGB + HSL */
 
-const colorDefaults = {
-  backgroundType: "solid",
-  rgbColor: "#080b22",
-  redValue: 8,
-  greenValue: 11,
-  blueValue: 34,
-  hueValue: 245,
-  saturationValue: 62,
-  lightnessValue: 12,
-  gradientColor1: "#8b75ff",
-  gradientColor2: "#00eaff",
-  gradientColor3: "#080b22",
-  gradientAngle: 135,
-  rgbAnimation: "true",
-  animationSpeed: 10,
-  backgroundImageUrl: "",
-  imageOverlay: 35
+const colorDefaults={
+  backgroundType:"solid",
+  rgbColor:"#080b22",
+  redValue:8,
+  greenValue:11,
+  blueValue:34,
+  hueValue:245,
+  saturationValue:62,
+  lightnessValue:12,
+  gradientColor1:"#8b75ff",
+  gradientColor2:"#00eaff",
+  gradientColor3:"#080b22",
+  gradientAngle:135,
+  rgbAnimation:"true",
+  animationSpeed:10,
+  backgroundImageUrl:"",
+  imageOverlay:35
 };
 
-function getColorSettings() {
-  const settings = {};
+function getColorSettings(){
+  const s={};
 
-  Object.keys(colorDefaults).forEach(key => {
-    settings[key] = $(key).value;
+  Object.keys(colorDefaults).forEach(k=>{
+    s[k]=$(k).value;
   });
 
-  return settings;
+  return s;
 }
 
-function setColorSettings(settings) {
-  Object.keys(colorDefaults).forEach(key => {
-    if (settings[key] !== undefined && $(key)) {
-      $(key).value = settings[key];
+function setColorSettings(s){
+  Object.keys(colorDefaults).forEach(k=>{
+    if(s[k]!==undefined&&$(k)){
+      $(k).value=s[k];
     }
   });
+
+  if(s.rgbColor){
+    const c=hexToRgb(s.rgbColor);
+    $("redValue").value=c.r;
+    $("greenValue").value=c.g;
+    $("blueValue").value=c.b;
+  }
 
   updateColorPreview();
 }
 
-function hexToRgb(hex) {
-  const value = hex.replace("#", "");
+function hexToRgb(hex){
+  const v=String(hex||"#000000").replace("#","");
 
-  return {
-    r: parseInt(value.substring(0, 2), 16),
-    g: parseInt(value.substring(2, 4), 16),
-    b: parseInt(value.substring(4, 6), 16)
+  return{
+    r:parseInt(v.substring(0,2),16)||0,
+    g:parseInt(v.substring(2,4),16)||0,
+    b:parseInt(v.substring(4,6),16)||0
   };
 }
 
-function rgbToHex(r, g, b) {
-  return "#" + [r, g, b]
-    .map(value => Number(value).toString(16).padStart(2, "0"))
+function rgbToHex(r,g,b){
+  return "#"+[r,g,b]
+    .map(v=>Math.max(0,Math.min(255,Number(v)||0))
+    .toString(16).padStart(2,"0"))
     .join("");
 }
 
-function getGradient() {
-  const c1 = $("gradientColor1").value;
-  const c2 = $("gradientColor2").value;
-  const c3 = $("gradientColor3").value;
-  const angle = Number($("gradientAngle").value);
-
-  return `linear-gradient(${angle}deg, ${c1}, ${c2}, ${c3})`;
+function getGradient(){
+  return `linear-gradient(
+    ${Number($("gradientAngle").value)}deg,
+    ${$("gradientColor1").value},
+    ${$("gradientColor2").value},
+    ${$("gradientColor3").value}
+  )`;
 }
 
-function updateColorPreview() {
-  const preview = $("colorLivePreview");
+function updateColorPreview(){
+  const p=$("colorLivePreview");
+  const r=Number($("redValue").value)||0;
+  const g=Number($("greenValue").value)||0;
+  const b=Number($("blueValue").value)||0;
+  const h=Number($("hueValue").value);
+  const s=Number($("saturationValue").value);
+  const l=Number($("lightnessValue").value);
 
-  const r = Number($("redValue").value);
-  const g = Number($("greenValue").value);
-  const b = Number($("blueValue").value);
+  $("rgbOutput").textContent=`rgb(${r}, ${g}, ${b})`;
+  $("hslOutput").textContent=`hsl(${h}, ${s}%, ${l}%)`;
+  $("gradientOutput").textContent=getGradient();
 
-  const h = Number($("hueValue").value);
-  const s = Number($("saturationValue").value);
-  const l = Number($("lightnessValue").value);
+  p.style.animation="none";
+  p.style.backgroundImage="none";
+  p.style.backgroundSize="cover";
+  p.style.backgroundPosition="center";
+  p.style.backgroundColor="transparent";
 
-  $("rgbOutput").textContent = `rgb(${r}, ${g}, ${b})`;
-  $("hslOutput").textContent = `hsl(${h}, ${s}%, ${l}%)`;
+  const type=$("backgroundType").value;
 
-  $("gradientOutput").textContent =
-    `linear-gradient(${$("gradientAngle").value}deg, ` +
-    `${$("gradientColor1").value}, ` +
-    `${$("gradientColor2").value}, ` +
-    `${$("gradientColor3").value})`;
+  if(type==="solid"){
+    p.style.backgroundColor=rgbToHex(r,g,b);
 
-  preview.style.animation = "none";
-  preview.style.backgroundImage = "none";
-  preview.style.backgroundColor = "transparent";
+  }else if(type==="gradient"){
+    p.style.backgroundImage=getGradient();
 
-  const type = $("backgroundType").value;
-
-  if (type === "solid") {
-    preview.style.backgroundColor = rgbToHex(r, g, b);
-
-  } else if (type === "gradient") {
-    preview.style.backgroundImage = getGradient();
-
-  } else if (type === "animated-rgb") {
-    if ($("rgbAnimation").value === "true") {
-      const speed = Math.max(
+  }else if(type==="animated-rgb"){
+    if($("rgbAnimation").value==="true"){
+      const speed=Math.max(
         2,
-        Math.min(60, Number($("animationSpeed").value) || 10)
+        Math.min(60,Number($("animationSpeed").value)||10)
       );
 
-      preview.style.animation =
-        `namecraftRGB ${speed}s linear infinite`;
-    } else {
-      preview.style.backgroundColor = rgbToHex(r, g, b);
+      p.style.animation=`namecraftRGB ${speed}s linear infinite`;
+    }else{
+      p.style.backgroundColor=rgbToHex(r,g,b);
     }
 
-  } else if (type === "image") {
-    const url = $("backgroundImageUrl").value.trim();
+  }else if(type==="image"){
+    const url=$("backgroundImageUrl").value.trim();
 
-    if (url) {
-      const overlay = Math.max(
+    if(url){
+      const overlay=Math.max(
         0,
-        Math.min(100, Number($("imageOverlay").value))
-      ) / 100;
+        Math.min(100,Number($("imageOverlay").value)||0)
+      )/100;
 
-      preview.style.backgroundImage =
-        `linear-gradient(rgba(0,0,0,${overlay}),` +
-        `rgba(0,0,0,${overlay})),url("${url.replace(/["\\\n\r]/g, "")}")`;
+      const safeUrl=url.replace(/["\\\n\r]/g,"");
 
-      preview.style.backgroundSize = "cover";
-      preview.style.backgroundPosition = "center";
-    } else {
-      preview.style.backgroundColor = rgbToHex(r, g, b);
+      p.style.backgroundImage=
+        `linear-gradient(rgba(0,0,0,${overlay}),rgba(0,0,0,${overlay})),url("${safeUrl}")`;
+    }else{
+      p.style.backgroundColor=rgbToHex(r,g,b);
     }
   }
 }
 
-/* RGB PICKER -> RGB INPUTS */
+/* RGB INPUT */
 
-$("rgbColor").addEventListener("input", () => {
-  const rgb = hexToRgb($("rgbColor").value);
+$("rgbColor").addEventListener("input",()=>{
+  const c=hexToRgb($("rgbColor").value);
 
-  $("redValue").value = rgb.r;
-  $("greenValue").value = rgb.g;
-  $("blueValue").value = rgb.b;
+  $("redValue").value=c.r;
+  $("greenValue").value=c.g;
+  $("blueValue").value=c.b;
 
   updateColorPreview();
 });
 
-/* RGB INPUTS -> RGB PICKER */
+["redValue","greenValue","blueValue"].forEach(id=>{
+  $(id).addEventListener("input",()=>{
+    const v=["redValue","greenValue","blueValue"]
+      .map(k=>Number($(k).value));
 
-["redValue", "greenValue", "blueValue"].forEach(id => {
-  $(id).addEventListener("input", () => {
-    const values = [
-      Number($("redValue").value),
-      Number($("greenValue").value),
-      Number($("blueValue").value)
-    ];
-
-    if (values.some(v => !Number.isFinite(v) || v < 0 || v > 255)) {
+    if(v.some(n=>!Number.isFinite(n)||n<0||n>255)){
       return;
     }
 
-    $("rgbColor").value = rgbToHex(...values);
+    $("rgbColor").value=rgbToHex(...v);
     updateColorPreview();
   });
 });
 
-/* HSL -> RGB */
+/* HSL */
 
-function hslToRgb(h, s, l) {
-  s /= 100;
-  l /= 100;
+function hslToRgb(h,s,l){
+  s/=100;
+  l/=100;
 
-  const k = n => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
+  const k=n=>(n+h/30)%12;
+  const a=s*Math.min(l,1-l);
 
-  const f = n =>
-    l - a * Math.max(
-      -1,
-      Math.min(k(n) - 3, 9 - k(n), 1)
-    );
+  const f=n=>l-a*Math.max(
+    -1,
+    Math.min(k(n)-3,9-k(n),1)
+  );
 
-  return {
-    r: Math.round(255 * f(0)),
-    g: Math.round(255 * f(8)),
-    b: Math.round(255 * f(4))
+  return{
+    r:Math.round(255*f(0)),
+    g:Math.round(255*f(8)),
+    b:Math.round(255*f(4))
   };
 }
 
-["hueValue", "saturationValue", "lightnessValue"].forEach(id => {
-  $(id).addEventListener("input", updateColorPreview);
+["hueValue","saturationValue","lightnessValue"].forEach(id=>{
+  $(id).addEventListener("input",updateColorPreview);
 });
 
-$("applyHslButton").addEventListener("click", () => {
-  const rgb = hslToRgb(
+$("applyHslButton").addEventListener("click",()=>{
+  const c=hslToRgb(
     Number($("hueValue").value),
     Number($("saturationValue").value),
     Number($("lightnessValue").value)
   );
 
-  $("redValue").value = rgb.r;
-  $("greenValue").value = rgb.g;
-  $("blueValue").value = rgb.b;
+  $("redValue").value=c.r;
+  $("greenValue").value=c.g;
+  $("blueValue").value=c.b;
 
-  $("rgbColor").value = rgbToHex(rgb.r, rgb.g, rgb.b);
-  $("backgroundType").value = "solid";
+  $("rgbColor").value=rgbToHex(c.r,c.g,c.b);
+  $("backgroundType").value="solid";
 
   updateColorPreview();
 });
 
 /* GRADIENT */
 
-[
-  "gradientColor1",
-  "gradientColor2",
-  "gradientColor3",
-  "gradientAngle"
-].forEach(id => {
-  $(id).addEventListener("input", updateColorPreview);
+["gradientColor1","gradientColor2","gradientColor3","gradientAngle"].forEach(id=>{
+  $(id).addEventListener("input",updateColorPreview);
 });
 
-$("applyGradientButton").addEventListener("click", () => {
-  $("backgroundType").value = "gradient";
+$("applyGradientButton").addEventListener("click",()=>{
+  $("backgroundType").value="gradient";
   updateColorPreview();
 });
 
-/* OTHER SETTINGS */
+/* OTHER PREVIEW CONTROLS */
 
 [
   "backgroundType",
@@ -1219,139 +1169,172 @@ $("applyGradientButton").addEventListener("click", () => {
   "animationSpeed",
   "backgroundImageUrl",
   "imageOverlay"
-].forEach(id => {
-  $(id).addEventListener("input", updateColorPreview);
-  $(id).addEventListener("change", updateColorPreview);
+].forEach(id=>{
+  $(id).addEventListener("input",updateColorPreview);
+  $(id).addEventListener("change",updateColorPreview);
 });
 
-/* LOAD SETTINGS */
+/* LOAD ADVANCED COLORS */
 
-async function loadAdvancedColors() {
-  try {
-    const saved = await getSetting("website_colors");
+async function loadAdvancedColors(){
+  try{
+    const saved=await getSetting("website_colors");
 
-    if (saved) {
+    if(saved){
       setColorSettings(saved);
-    } else {
+    }else{
       setColorSettings(colorDefaults);
     }
 
-    $("advancedColorStatus").textContent =
-      "Color settings loaded.";
-  } catch (error) {
-    $("advancedColorStatus").textContent =
-      "Load failed: " + error.message;
+    $("advancedColorStatus").textContent="Color settings loaded.";
+
+  }catch(e){
+    $("advancedColorStatus").textContent="Load failed: "+e.message;
   }
 }
 
-/* SAVE SETTINGS */
+/* SAVE ADVANCED COLORS AND SYNC SOLID COLOR */
 
-$("saveAdvancedColorButton").addEventListener("click", async () => {
-  const settings = getColorSettings();
+$("saveAdvancedColorButton").addEventListener("click",async()=>{
+  const s=getColorSettings();
+  const speed=Number(s.animationSpeed);
+  const angle=Number(s.gradientAngle);
+  const overlay=Number(s.imageOverlay);
 
-  const speed = Number(settings.animationSpeed);
-  const angle = Number(settings.gradientAngle);
-  const overlay = Number(settings.imageOverlay);
-
-  if (
-    !Number.isFinite(speed) || speed < 2 || speed > 60 ||
-    !Number.isFinite(angle) || angle < 0 || angle > 360 ||
-    !Number.isFinite(overlay) || overlay < 0 || overlay > 100
-  ) {
-    $("advancedColorStatus").textContent =
+  if(
+    !Number.isFinite(speed)||speed<2||speed>60||
+    !Number.isFinite(angle)||angle<0||angle>360||
+    !Number.isFinite(overlay)||overlay<0||overlay>100
+  ){
+    $("advancedColorStatus").textContent=
       "Invalid animation speed, gradient angle or image overlay.";
     return;
   }
 
-  for (const id of [
-    "redValue", "greenValue", "blueValue",
-    "hueValue", "saturationValue", "lightnessValue"
-  ]) {
-    const value = Number(settings[id]);
-    const max = {
-      redValue: 255,
-      greenValue: 255,
-      blueValue: 255,
-      hueValue: 360,
-      saturationValue: 100,
-      lightnessValue: 100
+  for(const id of [
+    "redValue",
+    "greenValue",
+    "blueValue",
+    "hueValue",
+    "saturationValue",
+    "lightnessValue"
+  ]){
+    const n=Number(s[id]);
+
+    const max={
+      redValue:255,
+      greenValue:255,
+      blueValue:255,
+      hueValue:360,
+      saturationValue:100,
+      lightnessValue:100
     }[id];
 
-    if (!Number.isFinite(value) || value < 0 || value > max) {
-      $("advancedColorStatus").textContent =
-        "Invalid RGB/HSL value: " + id;
+    if(!Number.isFinite(n)||n<0||n>max){
+      $("advancedColorStatus").textContent="Invalid RGB/HSL value: "+id;
       return;
     }
   }
 
-  $("saveAdvancedColorButton").disabled = true;
-  $("advancedColorStatus").textContent = "Saving settings...";
+  if(s.backgroundType==="image"&&s.backgroundImageUrl){
+    try{
+      const u=new URL(s.backgroundImageUrl);
 
-  try {
-    await saveSetting("website_colors", settings);
+      if(!["https:","http:"].includes(u.protocol)){
+        throw new Error();
+      }
 
-    const verified = await getSetting("website_colors");
+    }catch{
+      $("advancedColorStatus").textContent=
+        "Please enter a valid http/https image URL.";
+      return;
+    }
+  }
 
-    if (!verified || verified.backgroundType !== settings.backgroundType) {
+  $("saveAdvancedColorButton").disabled=true;
+  $("advancedColorStatus").textContent="Saving settings...";
+
+  try{
+    await saveSetting("website_colors",s);
+
+    if(s.backgroundType==="solid"){
+      const theme=await getSetting("website_theme")||readThemeForm();
+
+      theme.backgroundColor=s.rgbColor;
+
+      await saveSetting("website_theme",theme);
+      $("backgroundColor").value=s.rgbColor;
+    }
+
+    const v=await getSetting("website_colors");
+
+    if(!v||v.backgroundType!==s.backgroundType){
       throw new Error("Saved settings could not be verified.");
     }
 
-    $("advancedColorStatus").textContent =
-      "✅ RGB/HSL settings saved successfully in Supabase.";
+    $("advancedColorStatus").textContent=
+      "✅ RGB/HSL settings saved successfully.";
 
-  } catch (error) {
-    $("advancedColorStatus").textContent =
-      "❌ Save failed: " + error.message;
-  } finally {
-    $("saveAdvancedColorButton").disabled = false;
+  }catch(e){
+    console.error(e);
+    $("advancedColorStatus").textContent="❌ Save failed: "+e.message;
+  }finally{
+    $("saveAdvancedColorButton").disabled=false;
   }
 });
 
-/* RESET */
+/* RESET COLORS */
 
-$("resetAdvancedColorButton").addEventListener("click", () => {
-  if (!confirm("Reset the color customizer to default settings?")) {
+$("resetAdvancedColorButton").addEventListener("click",()=>{
+  if(!confirm("Reset the color customizer to default settings?")){
     return;
   }
 
   setColorSettings(colorDefaults);
 
-  $("advancedColorStatus").textContent =
+  $("advancedColorStatus").textContent=
     "Default preview restored. Click Save RGB / HSL Settings to save it.";
 });
 
-/* INITIAL PREVIEW */
-
 setColorSettings(colorDefaults);
- 
 
-/* WEBSITE LINK */
-$("openWebsiteButton").addEventListener("click", () => {
-  window.open("https://ksrsing.github.io/", "_blank", "noopener,noreferrer");
+/* OPEN WEBSITE */
+
+$("openWebsiteButton").addEventListener("click",()=>{
+  window.open(
+    "https://ksrsing.github.io/stylish-name/",
+    "_blank",
+    "noopener,noreferrer"
+  );
 });
 
-/* RESTORE EXISTING SESSION */
-(async function init() {
-  try {
-    const { data, error } = await db.auth.getSession();
-    if (error) throw error;
+/* RESTORE SESSION */
 
-    if (data.session) {
+(async function init(){
+  try{
+    const {data,error}=await db.auth.getSession();
+
+    if(error)throw error;
+
+    if(data.session){
       await enterPanel();
     }
-  } catch (error) {
+
+  }catch(e){
     loginMessage("Could not check session. Check your internet connection.");
-    console.error(error);
+    console.error(e);
   }
 })();
 
-/* AUTH SESSION CHANGES */
-db.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_OUT" || !session) {
-    $("adminPanel").hidden = true;
-    $("loginScreen").style.display = "flex";
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_OUT"||!session){
+    $("adminPanel").hidden=true;
+    $("loginScreen").style.display="flex";
   }
 });
+
 </script>
 </body>
 </html>
+  
+  
